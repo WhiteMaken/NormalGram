@@ -61,12 +61,26 @@ Open the `server` and `client` in separate VSCode workspaces or open the combine
 
 ### Purpose
 
-2-5 sentences describing what the system does
+Normalgram is a social network which exhibits the opposite feature to Instagram. The problem with instagram is that it showcases only models and unreachable standards of beauty, which messes with one’s psyches and makes one feel bad about themselves. The stories that last longer and pictures with fewer likes are the center of the Normalgram community. The purpose of Normalgram is to put normal users at the center of attention instead of influencers, encouraging them to showcase their real life regardless of popularity, contributing to a more diverse and equal society.
 
 ### Pages
 
-* Home: 1-3 sentences describing what the page displays and what a user can do
-* Shopping cart: ...
+* Signup page: this page is a simple signup page. The user can create a new account here by entering a username and a password. The username needs to not be used previously.
+
+* Login page: this page is a simple login page. The user can enter his username and password to log into his account.
+
+*   Normal highlights page: this page showcases the most normal pictures and posts(chosen by the algorithm) and the longest surviving stories on the platform. Users can view stories by clicking on them, and access the profile of the people that have posted these stories/posts or pictures.
+
+*   Follower page: very similarly to instagram or facebook, shows the latest visible posts/pictures and stories of the people you follow. The user can click on the stories icon to see them in full screen.
+
+*   Personal settings page: the page where the user can change their personal settings. Here the user can modify his avatar, change his password, delete his account, make his account public or private or modify his personal information.
+
+*   Personal page: Similar to the wall on facebook, this is the personal page of the user where he can see all his latest posts, pictures and surviving stories. The user can delete any pictures or posts that has not been previously deleted.
+
+*   Upload: Page where user can upload new pictures, posts or stories by clicking on the corresponding buttons.
+
+All pages except for the login and signup page can be accessed via the menu on top of every page.
+
 
 ### Entity-Relationship (ER) Diagram
 
