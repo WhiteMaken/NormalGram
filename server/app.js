@@ -5,18 +5,12 @@ var morgan = require('morgan');
 var path = require('path');
 var cors = require('cors');
 var history = require('connect-history-api-fallback');
-//var UserModel = require('./User.model');
-var Schema = mongoose.Schema;
-
-
 
 // Variables
-var mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/normalgramDB';
-
-//'mongodb://localhost:27017/normalgramDB';
+var mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/animalDevelopmentDB';
 var port = process.env.PORT || 3000;
 
-// Connect to MongoDB 
+// Connect to MongoDB
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true }, function(err) {
     if (err) {
         console.error(`Failed to connect to MongoDB with URI: ${mongoURI}`);
@@ -36,96 +30,10 @@ app.use(morgan('dev'));
 app.options('*', cors());
 app.use(cors());
 
-
-var UserModel = new Schema({
-    username:{
-        type: String, 
-        unique: true,
-        required: true,
-        maxlength: 20,
-        index:true
-    },
-    password:{
-        type:String,
-        required:true,
-    },
-    name: { type: String },
-     
-    email:{
-        type: String,
-        unique:true,
-        required: true,
-        maxlength: 50} });
-
-var User = mongoose.model('users', UserModel);
-
-
-//creating users
-app.post('/users', function(req, res, next) {
-    var user = new User(req.body);
-    user.save(function(err) {
-        if (err) { return next(err); }
-        res.status(201).json(user);
-    });
-});
-
-// Return a list of all users
-app.get('/users', function(req, res, next) {
-    User.find(function(err, users) {
-        if (err) { return next(err); }
-        res.json({'users': users});
-    });
-});
-
-// Return the user with the given ID
-app.get('/users/:id', function(req, res, next) {
-    var id = req.params.id;
-    User.findById(id, function(err, user) {
-        if (err) { return next(err); }
-        if (user == null) {
-            return res.status(404).json({'message': 'User not found'});
-        }
-        res.json(user);
-    });
-});
-
-app.patch('/users/:id', function(req, res, next) {
-    var id = req.params.id;
-    User.findById(id, function(err, user) {
-        if (err) { return next(err); }
-        if (user == null) {
-            return res.status(404).json({'message': 'User not found'});
-        }
-        user.password = (req.body.password || user.password);
-        user.name = (req.body.name || user.name);
-        user.email = (req.body.email || user.email);
-        user.save();
-        res.json(user);
-    });
-});
-
-// Delete the user with the given ID
-app.delete('/users/:id', function(req, res, next) {
-    var id = req.params.id;
-    User.findOneAndDelete({_id: id}, function(err, user) {
-        if (err) { return next(err); }
-        if (user == null) {
-            return res.status(404).json({'message': 'Camel not found'});
-        }
-        res.json(user);
-    });
-});
-
-
-
 // Import routes
 app.get('/api', function(req, res) {
     res.json({'message': 'Welcome to your DIT341 backend ExpressJS project!'});
 });
-
-
-
-
 
 // Catch all non-error handler for api (i.e., 404 Not Found)
 app.use('/api/*', function (req, res) {
@@ -164,4 +72,3 @@ app.listen(port, function(err) {
 });
 
 module.exports = app;
-
