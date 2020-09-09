@@ -56,12 +56,7 @@ var UserModel = new Schema({
         unique:true,
         required: true,
         maxlength: 50},
-    user_story:{
-        type: Schema.Types.ObjectID, 
-        ref: 'Story',
-        unique:true} });
-
-var User = mongoose.model('users', UserModel);
+     });
 
 var StoryModel = new Schema({
     unique_views:{
@@ -74,13 +69,19 @@ var StoryModel = new Schema({
         required:true,
     },
 
-    upload_date: { type: Date,
-    required:true },
+    upload_date: { 
+        type: Date,
+        default: Date.now,
+     },
      
     likes:{
         type: Number,
         required: true,
-    } 
+    }, 
+    story_owner:{
+        type: Schema.Types.ObjectID, 
+        ref: 'User',
+        unique:true}
 });
 
 var PostModel = new Schema({
@@ -131,6 +132,15 @@ app.post('/users', function(req, res, next) {
     user.save(function(err) {
         if (err) { return next(err); }
         res.status(201).json(user);
+    });
+});
+
+//creating stories
+app.post('/stories', function(req, res, next) {
+    var story = new Story(req.body);
+    story.save(function(err) {
+        if (err) { return next(err); }
+        res.status(201).json(story);
     });
 });
 
