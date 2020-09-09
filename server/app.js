@@ -56,7 +56,7 @@ var UserModel = new Schema({
         unique:true,
         required: true,
         maxlength: 50},
-     });
+});
 
 var StoryModel = new Schema({
     unique_views:{
@@ -72,7 +72,7 @@ var StoryModel = new Schema({
     upload_date: { 
         type: Date,
         default: Date.now,
-     },
+    },
      
     likes:{
         type: Number,
@@ -104,21 +104,21 @@ var PostModel = new Schema({
     owner:{
         type: Schema.Types.ObjectID, 
         ref: 'User',
-        } 
+    } 
 });
 
 var PictureModel = new Schema({
     upload_date: { type: Date },
      
     picture_id:{
-        type: Number,
+        type: String,
         required: true,},
 
     owner:{
         type: Schema.Types.ObjectID, 
         ref: 'Post' || 'Story',
-        } 
-    });
+    } 
+});
 
 var User = mongoose.model('users', UserModel);
 var Story = mongoose.model('stories', StoryModel);
@@ -144,6 +144,25 @@ app.post('/stories', function(req, res, next) {
     });
 });
 
+//creating posts
+app.post('/posts', function(req, res, next) {
+    var post = new Post(req.body);
+    post.save(function(err) {
+        if (err) { return next(err); }
+        res.status(201).json(post);
+    });
+});
+    
+//creating pictures
+app.post('/pictures',function(req, res,next) {
+    var picture = new Picture(req.body);
+    picture.save(function(err) {
+        if (err) {return next(err);}
+        res.status(201).json(picture);
+    });
+});
+
+
 // Return a list of all users
 app.get('/users', function(req, res, next) {
     User.find(function(err, users) {
@@ -151,6 +170,20 @@ app.get('/users', function(req, res, next) {
         res.json({'users': users});
     });
 });
+
+// Return a list of every picture a user have
+app.get('/pictures/:username', function(req, res, next) {
+    var id = req.params.id;
+    Picture.findById(id, function(err, picture) {
+        if (err) { return next(err); }
+        if (picture == null) {
+            return res.status(404).json({'message': 'User does not have any pictures'});
+        }
+        res.json(picture);
+    });
+});
+
+
 
 // Return the user with the given ID
 app.get('/users/:id', function(req, res, next) {
