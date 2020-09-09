@@ -55,9 +55,74 @@ var UserModel = new Schema({
         type: String,
         unique:true,
         required: true,
-        maxlength: 50} });
+        maxlength: 50},
+    user_story:{
+        type: Schema.Types.ObjectID, 
+        ref: 'Story',
+        unique:true} });
 
 var User = mongoose.model('users', UserModel);
+
+var StoryModel = new Schema({
+    unique_views:{
+        type: Number, 
+        required: true,
+    },
+
+    lifespan:{
+        type:Date,
+        required:true,
+    },
+
+    upload_date: { type: Date,
+    required:true },
+     
+    likes:{
+        type: Number,
+        required: true,
+    } 
+});
+
+var PostModel = new Schema({
+    unique_views:{
+        type: Number, 
+        required: true,
+    },
+    text:{
+        type:String,
+        maxlength: 350,
+    },
+    upload_date: { 
+        type: Date,
+        required: true, },
+     
+    likes:{
+        type: Number,
+        required: true,},
+
+    owner:{
+        type: Schema.Types.ObjectID, 
+        ref: 'User',
+        } 
+});
+
+var PictureModel = new Schema({
+    upload_date: { type: Date },
+     
+    picture_id:{
+        type: Number,
+        required: true,},
+
+    owner:{
+        type: Schema.Types.ObjectID, 
+        ref: 'Post' || 'Story',
+        } 
+    });
+
+var User = mongoose.model('users', UserModel);
+var Story = mongoose.model('stories', StoryModel);
+var Post = mongoose.model('posts', PostModel);
+var Picture = mongoose.model('pictures', PictureModel);
 
 
 //creating users
