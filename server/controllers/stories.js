@@ -1,7 +1,7 @@
 const Story = require('../models/Story');
 
 //create a story by the user
-const createStories = (req, res, next) => {
+const createStory = (req, res, next) => {
     var story = new Story(req.body);
     Story.save.then(result=> {
         if (err) { return next(err); }
@@ -12,7 +12,7 @@ const createStories = (req, res, next) => {
 };
 
 //get stories of a user with his ID
-const getStoriesById = (req, res) => {
+const getStoryById = (req, res) => {
     const id = req.params.id;
     Story.findById(id)
     .select('-__v')//version key
@@ -78,7 +78,7 @@ const putStoryWithId = (req, res) => {
           });
       };
 //to delete all stories 
-      const deleteStories = (req, res) => {
+      const deleteStory = (req, res) => {
         const id = req.params.id;
         Story.deleteMany()
           .exec()
@@ -123,10 +123,10 @@ const putStoryWithId = (req, res) => {
     }
 
 module.exports = {
-  createStories,
-  getStoriesById, 
+  createStory,
+  getStoryById, 
   putStoryWithId,
   updateStoryById,
-  deleteStories,
+  deleteStory,
   deleteStoryWithId,
 }
