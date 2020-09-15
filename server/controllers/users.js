@@ -54,7 +54,7 @@ const deleteSpecificUser = (req, res, next) =>{
     User.findOneAndDelete({_id: id}, function(err, user) {
         if (err) { return next(err); }
         if (user == null) {
-            return res.status(404).json({'message': 'Camel not found'});
+            return res.status(404).json({'message': 'User not found'});
         }
         res.json(user);
     });
@@ -62,7 +62,7 @@ const deleteSpecificUser = (req, res, next) =>{
 
 //Delete all users
 const deleteAllUsers = (req, res, next) => {
-    Category.deleteMany()
+    User.deleteMany()
       .exec()
       .then(result => {
         if (result.deletedCount === 0) throw 404;
