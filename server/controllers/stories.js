@@ -56,6 +56,26 @@ const putStoryWithId = (req, res) => {
       });
     }
 
+ const updateStoryById = (req, res) => {
+        const id = req.params.id;
+        Story.findOneAndUpdate({ _id: id }, req.body, { new: true })
+          .exec()
+          .then(result => {
+            res.status(200).json({
+              message: 'story updated.',
+              id: result.id,
+              unique_views:result.unique_views,
+              lifespan_views:result.lifespan,
+              upload_date: result.upload_date,
+              likes: result.likes,
+            });
+          })
+          .catch(error => {
+            if (error === 404)
+              res.status(404).json({ error: `story with ID: ${id} not found.` });
+            else res.status(500).json({ error: error });
+          });
+      };
 
 module.exports = {
   createStories,
