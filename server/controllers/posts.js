@@ -29,6 +29,15 @@ const getAllPosts = (req, res, next) => {
     });
 };
 
+const deletePostById = (req, res, next) => {
+    var id = req.params.id;
+    Post.findOneAndDelete({_id: id}, function(err, post) {
+        if (err) { return next(err); }
+        if (post == null) {
+            return res.status(404).json({'message': 'Post not found'});
+        }
+        res.json({'message':'Post with ID' + id+ ' has been deleted'});
+    });
+};
 
-
-module.exports = {createPost, getPostById, getAllPosts};
+module.exports = {createPost, getPostById, getAllPosts, deletePostById};
