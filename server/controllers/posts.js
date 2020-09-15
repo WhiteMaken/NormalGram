@@ -21,4 +21,23 @@ const getPostById = (req, res, next) => {
     });
 };
 
-module.exports = {createPost, getPostById};
+//get all posts
+const getAllPosts = (req, res, next) => {
+    Post.find(function(err, posts) {
+        if (err) {return next(err); }
+        res.json({'posts': posts});
+    });
+};
+
+const deletePostById = (req, res, next) => {
+    var id = req.params.id;
+    Post.findOneAndDelete({_id: id}, function(err, post) {
+        if (err) { return next(err); }
+        if (post == null) {
+            return res.status(404).json({'message': 'Post not found'});
+        }
+        res.json({'message':'Post with ID' + id+ ' has been deleted'});
+    });
+};
+
+module.exports = {createPost, getPostById, getAllPosts, deletePostById};

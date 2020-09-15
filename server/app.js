@@ -7,13 +7,11 @@ var cors = require('cors');
 var history = require('connect-history-api-fallback');
 
 const postsController = require('./routes/posts');
+const usersController = require('./routes/users');
 
 // Variables
 var mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/normalgramDB';
 var port = process.env.PORT || 3000;
-
-const usersController = require('./routes/users');
-
 
 
 // Connect to MongoDB
@@ -45,10 +43,11 @@ app.get('/api', function(req, res) {
 
 
 app.use('/api/users', usersController);
+app.use('/api/posts', postsController);
 
 
 app.use('/api/*', function(req, res) {
-  res.status(404).json({ message: 'Not Found!!!' });
+    res.status(404).json({ message: 'Not Found!!!' });
 });
 
 // Catch all non-error handler for api (i.e., 404 Not Found)
