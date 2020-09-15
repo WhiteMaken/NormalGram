@@ -6,8 +6,10 @@ const createStories = (req, res, next) => {
     Story.save(function(err) {
         if (err) { return next(err); }
         res.status(201).json(story);
-    }).carch(error => {
-        res.status(500).json({ error: error });
+    }).catch(error => {
+        if (error === 404)
+          res.status(404).json({ error: `Story not found.` });
+        else res.status(500).json({ error: error });
       });
 };
 
@@ -41,7 +43,6 @@ const getStoriesById = (req, res) => {
 });
     })
 }
-
 //to replace earlier story with new story
 const putStoryWithId = (req, res) => {
     const id = req.params.id;
@@ -51,12 +52,14 @@ const putStoryWithId = (req, res) => {
             message: 'Story replaced.',
             ...result._doc
           });
-    }).carch(error => {
-        res.status(500).json({ error: error });
+    }).catch(error => {
+        if (error === 404)
+          res.status(404).json({ error: `Story with Id: ${id} not found.` });
+        else res.status(500).json({ error: error });
       });
     }
 
- const updateStoryById = (req, res) => {
+    const updateStoryById = (req, res) => {
         const id = req.params.id;
         Story.findOneAndUpdate({ _id: id }, req.body, { new: true })
           .exec()
@@ -77,6 +80,10 @@ const putStoryWithId = (req, res) => {
           });
       };
 
+    
+
+
+
 module.exports = {
   createStories,
   getStoriesById, 
@@ -84,5 +91,4 @@ module.exports = {
   updateStoryById,
   deleteStories,
   deleteStoryWithId,
-};
-
+}
