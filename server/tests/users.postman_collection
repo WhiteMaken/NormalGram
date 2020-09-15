@@ -1,0 +1,513 @@
+{
+	"info": {
+		"_postman_id": "50930cd0-a594-4f74-a760-a095f389dd73",
+		"name": "Users",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create new user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "191ceb90-2d27-45f8-b45f-a652b46889b9",
+						"exec": [
+							"pm.test(\"response is CREATED\", function () {\r",
+							"pm.expect(pm.response.code).to.be.oneOf([201,500]);\r",
+							"});\r",
+							"\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"postman.setEnvironmentVariable( \"user_id\", jsonData._id );"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"username\" : \"Kami\",\r\n\r\n   \"password\" : \"pp123\",\r\n\r\n   \"name\" : \"max\",\r\n\r\n   \"email\" : \"sanji.se\"\r\n\r\n }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/users",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0e5d165a-58db-4d0b-a6da-2aaf9e104eff",
+						"exec": [
+							"pm.test(\"response should have valid JSON data\", function () {\r",
+							"var jsonData = pm.response.json();\r",
+							"});\r",
+							"\r",
+							"pm.test(\"response is CREATED\", function () {\r",
+							"pm.expect(pm.response.code).to.be.oneOf([200,500]);\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/users",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check a specific user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "017f47dc-3409-471c-a03e-63e4209ce803",
+						"exec": [
+							"pm.test(\"response is CREATED\", function () {\r",
+							"pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"response should have valid JSON data\", function () {\r",
+							"var jsonData = pm.response.json();\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response should have expected username\", function () {\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.expect(jsonData.username).to.eql('Kami');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/users/{{user_id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"{{user_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Request invalid user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c80b9839-5e16-45fa-b4af-ff0daa6a1d75",
+						"exec": [
+							"pm.test(\"response should have valid JSON data\", function () {\r",
+							"var jsonData = pm.response.json();\r",
+							"});\r",
+							"\r",
+							"pm.test(\"response is CREATED\", function () {\r",
+							"pm.expect(pm.response.code).to.be.oneOf([404]);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/users/5f609d72dabd6957b4022d82",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"5f609d72dabd6957b4022d82"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Patch user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "342f85ed-917c-4f23-aeda-f66e9dde24ae",
+						"exec": [
+							"pm.test(\"response is CREATED\", function () {\r",
+							"pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"response should have valid JSON data\", function () {\r",
+							"var jsonData = pm.response.json();\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response should have expected data\", function () {\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.expect(jsonData.password).to.eql('iamgod123');\r",
+							"pm.expect(jsonData.name).to.eql('Elohim');\r",
+							"pm.expect(jsonData.email).to.eql('thelastjudgment@gmail.com');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"password\" : \"iamgod123\",\r\n\r\n   \"name\" : \"Elohim\",\r\n\r\n   \"email\" : \"thelastjudgment@gmail.com\"\r\n\r\n }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/users/{{user_id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"{{user_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Patch user in an invalid way",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "69cc26f1-4e95-418e-9b1b-3f4bd297d600",
+						"exec": [
+							"pm.test(\"response is CREATED\", function () {\r",
+							"pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response should have expected data\", function () {\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.expect(jsonData.password).to.eql('iamgod123');\r",
+							"pm.expect(jsonData.name).to.eql('Elohim');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"password\" : \"iamgod1234\",\r\n\r\n   \"name\" : \"Elohime\",\r\n\r\n   \"email\" : \"thelastjudgment@gmail.commmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmxd\"\r\n\r\n }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/users/{{user_id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"{{user_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete specific user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1c619f02-bc8e-41da-b0c5-b0df08269671",
+						"exec": [
+							"pm.test(\"response is CREATED\", function () {\r",
+							"pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/users/{{user_id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"{{user_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete invalid user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9208251a-03dc-4192-81f6-114c6f7647ee",
+						"exec": [
+							"pm.test(\"response should have valid JSON data\", function () {\r",
+							"var jsonData = pm.response.json();\r",
+							"});\r",
+							"\r",
+							"pm.test(\"response is CREATED\", function () {\r",
+							"pm.expect(pm.response.code).to.be.oneOf([404]);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/users/5f609d72dabd6957b4022d82",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"5f609d72dabd6957b4022d82"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a bunch of useless users",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"username\" : \"makenshi\",\r\n\r\n   \"password\" : \"pp123\",\r\n\r\n   \"name\" : \"max\",\r\n\r\n   \"email\" : \"mudg.se\"\r\n\r\n }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/users",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a bunch of useless users",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"username\" : \"God\",\r\n\r\n   \"password\" : \"pp123\",\r\n\r\n   \"name\" : \"max\",\r\n\r\n   \"email\" : \"thelastjudgment.se\"\r\n\r\n }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/users",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a bunch of useless users",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": " {\r\n   \"username\" : \"madoushi\",\r\n\r\n   \"password\" : \"pp1234\",\r\n\r\n   \"name\" : \"max\",\r\n\r\n   \"email\" : \"redmist.se\"\r\n\r\n }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/users",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete all users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0c479934-06d3-40e9-a2a3-8244de0addd7",
+						"exec": [
+							"pm.test(\"response should have valid JSON data\", function () {\r",
+							"var jsonData = pm.response.json();\r",
+							"});\r",
+							"\r",
+							"pm.test(\"response is CREATED\", function () {\r",
+							"pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response should have expected data\", function () {\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.expect(jsonData.message).to.eql('All Users deleted.');\r",
+							"pm.expect(jsonData.deletedCount).to.eql(3);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/users",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete empty collection",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a698469d-fd5b-480d-b717-7ef26b51b7a6",
+						"exec": [
+							"pm.test(\"response should have valid JSON data\", function () {\r",
+							"var jsonData = pm.response.json();\r",
+							"});\r",
+							"\r",
+							"pm.test(\"response is CREATED\", function () {\r",
+							"pm.expect(pm.response.code).to.be.oneOf([404]);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response should have expected message\", function () {\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.expect(jsonData.error).to.eql('No Users found.');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/users",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
