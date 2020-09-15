@@ -9,4 +9,6 @@ router.post('/', PostsController.createPost);
 
 router.get('/', PostsController.getAllPosts);
 
+router.delete('/:id', PostsController.deletePostById);
+
 module.exports = router;

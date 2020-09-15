@@ -47,7 +47,7 @@ app.use('/api/posts', postsController);
 
 
 app.use('/api/*', function(req, res) {
-  res.status(404).json({ message: 'Not Found!!!' });
+    res.status(404).json({ message: 'Not Found!!!' });
 });
 
 // Catch all non-error handler for api (i.e., 404 Not Found)
