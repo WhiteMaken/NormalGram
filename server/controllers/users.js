@@ -2,7 +2,7 @@ const User = require('../models/User');
 
 
 //Create a new user
-const createUser = (req, res) =>{
+const createUser = (req, res, next) =>{
     var user = new User(req.body);
     user.save(function(err) {
         if (err) { return next(err); }
@@ -11,7 +11,7 @@ const createUser = (req, res) =>{
 };
 
 //Return a list of all users
-const getAllUsers = (req, res) => {
+const getAllUsers = (req, res, next) => {
     User.find(function(err, users) {
         if (err) { return next(err); }
         res.json({'users': users});
@@ -20,7 +20,7 @@ const getAllUsers = (req, res) => {
 
 
 //Return the user with a given id
-const getSpecificUser = (req, res) =>{
+const getSpecificUser = (req, res, next) =>{
     var id = req.params.id;
     User.findById(req.params.id, function(err, user) {
     if (err) { return next(err); }
@@ -28,12 +28,12 @@ const getSpecificUser = (req, res) =>{
     return res.status(404).json(
     {"message": "User not found"});
     }
-    res.json(User);
+    res.json(user);
     });
 };
 
 // Patch a specific user
-const patchSpecificUser = (req, res) =>{
+const patchSpecificUser = (req, res, next) =>{
     var id = req.params.id;
     User.findById(id, function(err, user) {
         if (err) { return next(err); }
@@ -49,7 +49,7 @@ const patchSpecificUser = (req, res) =>{
 };
 
 //Delete a specific user
-const deleteSpecificUser = (req, res) =>{
+const deleteSpecificUser = (req, res, next) =>{
     var id = req.params.id;
     User.findOneAndDelete({_id: id}, function(err, user) {
         if (err) { return next(err); }
@@ -61,7 +61,7 @@ const deleteSpecificUser = (req, res) =>{
 };
 
 //Delete all users
-const deleteAllUsers = (req, res) => {
+const deleteAllUsers = (req, res, next) => {
     Category.deleteMany()
       .exec()
       .then(result => {
