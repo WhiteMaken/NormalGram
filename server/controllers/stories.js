@@ -3,13 +3,11 @@ const Story = require('../models/Story');
 //create a story by the user
 const createStories = (req, res, next) => {
     var story = new Story(req.body);
-    Story.save(function(err) {
+    Story.save.then(result=> {
         if (err) { return next(err); }
         res.status(201).json(story);
     }).catch(error => {
-        if (error === 404)
-          res.status(404).json({ error: `Story not found.` });
-        else res.status(500).json({ error: error });
+        res.status(500).json({ error: error });
       });
 };
 
@@ -19,7 +17,7 @@ const getStoriesById = (req, res) => {
     Story.findById(id)
     .select('-__v')//version key
     .populate('user').exec().then(doc =>{ 
-        if (!doc) throw 404;
+        if (!doc) ;
     res.status(200).json({
         id: doc.id,
         unique_views:doc.unique_views,
@@ -58,7 +56,7 @@ const putStoryWithId = (req, res) => {
         else res.status(500).json({ error: error });
       });
     }
-
+    //to update stories by id
     const updateStoryById = (req, res) => {
         const id = req.params.id;
         Story.findOneAndUpdate({ _id: id }, req.body, { new: true })
@@ -79,8 +77,9 @@ const putStoryWithId = (req, res) => {
             else res.status(500).json({ error: error });
           });
       };
-
-const deleteStories = (res) => {
+//to delete all stories 
+      const deleteStories = (req, res) => {
+        const id = req.params.id;
         Story.deleteMany()
           .exec()
           .then(result => {
@@ -100,10 +99,28 @@ const deleteStories = (res) => {
           });
       });
     }
-
-    
-
-
+//to delete story with an ID
+    const deleteStoryWithId = (req, res) => {
+        const id = req.params.id;
+        Story.findOneAndDelete({ _id: id })
+        .exec.then(result=> {
+            if (!result) throw 404;
+            res.status(200).json({
+                message: 'story deleted.',
+                ...result._doc,
+                request: {
+                  type: 'STORY',
+                  url: 'http://localhost:3000/api/stories',
+                  data: {}
+                }
+          })
+          .catch(error => {
+            if (error === 404)
+              res.status(404).json({ error: `Story with Id: ${id} not found.` });
+            else res.status(500).json({ error: error });
+          });
+      });
+    }
 
 module.exports = {
   createStories,
