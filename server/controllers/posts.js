@@ -21,4 +21,14 @@ const getPostById = (req, res, next) => {
     });
 };
 
-module.exports = {createPost, getPostById};
+//get all posts
+const getAllPosts = (req, res, next) => {
+    Post.find(function(err, posts) {
+        if (err) {return next(err); }
+        res.json({'posts': posts});
+    });
+};
+
+
+
+module.exports = {createPost, getPostById, getAllPosts};
