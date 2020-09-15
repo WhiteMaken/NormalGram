@@ -42,6 +42,19 @@ const getStoriesById = (req, res) => {
     })
 }
 
+//to replace earlier story with new story
+const putStoryWithId = (req, res) => {
+    const id = req.params.id;
+    Story.findOneAndReplace({ _id: doc.id }, req.body, { new: true }).exec.then(result=>{
+        if (err) { return next(err); }
+        res.status(200).json({
+            message: 'Story replaced.',
+            ...result._doc
+          });
+    }).carch(error => {
+        res.status(500).json({ error: error });
+      });
+    }
 
 
 module.exports = {
