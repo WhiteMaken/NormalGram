@@ -1,45 +1,15 @@
-var express = require('express');
-var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-var morgan = require('morgan');
-var path = require('path');
-var cors = require('cors');
-var history = require('connect-history-api-fallback');
-//for pagination purposes
 const mongoosePaginate = require('mongoose-paginate-v2');
+const Schema = mongoose.Schema;
 
-var Schema = mongoose.Schema;
-
-//likes and unique_views set to zero 
-var storyModel = new Schema({
-    unique_views:{
-        type: Number, 
-        required: true,
-        default:0
-    },
-
-    lifespan:{
-        type:Date,
-        required:true,
-    },
-
-    upload_date: { 
-        type: Date,
-        default: Date.now,
-    },
-     
-    likes:{
-        type: Number,
-        required: true,
-        default:0,
-    }, 
-    
-    story_owner:{
-        type: Schema.Types.ObjectID, 
-        ref: 'User',
-        unique:true}
+const storySchema = new Schema({
+    unique_views:{type: Number, required: true, default:0},
+    lifespan:{type:Date, required:true},
+    upload_date: {type: Date, default: Date.now},
+    likes:{type: Number,required: true, default:0}, 
+    story_owner:{type: Schema.Types.ObjectID, ref: 'User', unique:true}
 });
 
-storyModel.plugin(mongoosePaginate);
+storySchema.plugin(mongoosePaginate);
 
-module.exports = mongoose.model('Story', storyModel);
+module.exports = mongoose.model('Story', storySchema);
