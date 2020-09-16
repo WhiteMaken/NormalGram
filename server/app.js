@@ -8,6 +8,7 @@ var history = require('connect-history-api-fallback');
 
 const postsController = require('./routes/posts');
 const usersController = require('./routes/users');
+const picturesController = require('./routes/pictures');
 
 // Variables
 var mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/normalgramDB';
@@ -36,15 +37,13 @@ app.use(morgan('dev'));
 app.options('*', cors());
 app.use(cors());
 
-// Import routes
 app.get('/api', function(req, res) {
     res.json({'message': 'Welcome to your DIT341 backend ExpressJS project!'});
 });
 
-
 app.use('/api/users', usersController);
 app.use('/api/posts', postsController);
-
+app.use('/api/pictures',picturesController)
 
 app.use('/api/*', function(req, res) {
     res.status(404).json({ message: 'Not Found!!!' });
