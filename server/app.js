@@ -43,7 +43,7 @@ app.get('/api', function(req, res) {
 
 app.use('/api/users', usersController);
 app.use('/api/posts', postsController);
-app.use('/api/pictures',picturesController)
+app.use('/api/pictures', picturesController);
 
 app.use('/api/*', function(req, res) {
     res.status(404).json({ message: 'Not Found!!!' });

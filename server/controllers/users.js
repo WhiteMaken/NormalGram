@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const Post = require('../models/Post');
 
 
 //Create a new user
@@ -29,6 +30,37 @@ const getSpecificUser = (req, res, next) =>{
     {"message": "User not found"});
     }
     res.json(user);
+    });
+};
+
+//add a post to a specific user
+//need to add some error handling
+const addPostToUser = (req, res, next) =>{
+    var id = req.params.id;
+    User.findById(req.params.id, function(err, user) {
+    if (err) { return next(err); }
+    if (user == null) {
+    return res.status(404).json(
+    {"message": "User not found"});
+    }
+    var post = new Post(req.body);
+    user.posts.push(post);
+    user.save();
+    res.json(user);
+    });
+};
+
+//return all posts of a user
+//need to add error handling
+const getPostsOfUser = (req, res, next) =>{
+    var id = req.params.id;
+    User.findById(req.params.id, function(err, user) {
+    if (err) { return next(err); }
+    if (user == null) {
+    return res.status(404).json(
+    {"message": "User not found"});
+    }
+    res.json(user.posts);
     });
 };
 
@@ -83,6 +115,8 @@ const deleteAllUsers = (req, res, next) => {
     createUser,
     getAllUsers,
     getSpecificUser,
+    addPostToUser,
+    getPostsOfUser,
     patchSpecificUser,
     deleteSpecificUser,
     deleteAllUsers
