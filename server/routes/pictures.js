@@ -3,8 +3,10 @@ var router = express.Router();
 
 var PicturesController = require('../controllers/pictures');
 
-router.get('/:id', PicturesController.getPostById);
-router.post('/', PicturesController.getPostById);
-router.delete('/:id', PicturesController.getPostById);
+router.get('/:id', PicturesController.getPictureById);
+
+router.post('/', PicturesController.creatingPicture);
+
+router.delete('/:id', PicturesController.deletePictureById);
 
 module.exports = router;
