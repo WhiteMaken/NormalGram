@@ -23,7 +23,7 @@ const getAllUsers = (req, res, next) => {
 //Return the user with a given id
 const getSpecificUser = (req, res, next) =>{
     var id = req.params.id;
-    User.findById(req.params.id, function(err, user) {
+    User.findById(id).populate('posts').exec (function(err, user) {
     if (err) { return next(err); }
     if (user == null) {
     return res.status(404).json(
@@ -37,16 +37,17 @@ const getSpecificUser = (req, res, next) =>{
 //need to add some error handling
 const addPostToUser = (req, res, next) =>{
     var id = req.params.id;
-    User.findById(req.params.id, function(err, user) {
+    User.findById(id, function(err, user) {
     if (err) { return next(err); }
     if (user == null) {
     return res.status(404).json(
     {"message": "User not found"});
     }
     var post = new Post(req.body);
+    post.save();
     user.posts.push(post);
     user.save();
-    res.json(user);
+    res.json(post);
     });
 };
 
@@ -54,13 +55,58 @@ const addPostToUser = (req, res, next) =>{
 //need to add error handling
 const getPostsOfUser = (req, res, next) =>{
     var id = req.params.id;
-    User.findById(req.params.id, function(err, user) {
+    User.findById(id).populate('posts').exec(function(err, user) {
     if (err) { return next(err); }
     if (user == null) {
     return res.status(404).json(
     {"message": "User not found"});
     }
     res.json(user.posts);
+    });
+};
+
+const getSpecificPostOfUser = (req, res, next) =>{
+    var user_id = req.params.user_id;
+    var post_id = req.params.post_id;
+    User.findById(user_id, function(err, user){
+        if(err){
+            return next(err);
+        }
+        if(user === null){
+            return res.status(404).json({'Message':'User not found'});
+        }
+        Post.findById(post_id, function(err, post){
+            if(err){
+                return next(err);
+            }
+            if(!post){
+                return res.status(404).json({'message': 'Post not found'});
+            }
+            res.json(post);
+        });
+    });
+};
+
+const deleteSpecificPostOfUser = (req, res, next) =>{
+    var user_id = req.params.user_id;
+    var post_id = req.params.post_id;
+    
+    User.findById(user_id, function(err, user){
+        if(err){
+            return next(err);
+        }
+        if(user === null){
+            return res.status(404).json({'Message':'User not found'});
+        }
+        Post.findOneAndDelete(post_id, function(err, post){
+            if(err){
+                return next(err);
+            }
+            if(!post){
+                return res.status(404).json({'message': 'Post not found'});
+            }
+            res.json(post);
+        });
     });
 };
 
@@ -117,6 +163,8 @@ const deleteAllUsers = (req, res, next) => {
     getSpecificUser,
     addPostToUser,
     getPostsOfUser,
+    getSpecificPostOfUser,
+    deleteSpecificPostOfUser,
     patchSpecificUser,
     deleteSpecificUser,
     deleteAllUsers

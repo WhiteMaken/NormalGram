@@ -11,6 +11,10 @@ router.post('/:id/posts', UserController.addPostToUser);
 
 router.get('/:id/posts', UserController.getPostsOfUser);
 
+router.get('/:user_id/posts/:post_id', UserController.getSpecificPostOfUser);
+
+router.delete('/:user_id/posts/:post_id', UserController.deleteSpecificPostOfUser);
+
 router.post('/',UserController.createUser);
 
 router.patch('/:id',UserController.patchSpecificUser);
