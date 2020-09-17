@@ -2,13 +2,11 @@ const Story = require('../models/Story');
 
 //create a story by the user
 const createStory = (req, res, next) => {
-    var story = new Story(req.body);
-    Story.save.then(result=> {
-        if (err) { return next(err); }
-        res.status(201).json(story);
-    }).catch(error => {
-        res.status(500).json({ error: error });
-      });
+  var story = new Story(req.body);
+  story.save(function(err) {
+      if (err) { return next(err); }
+      res.status(201).json(story);
+  });
 };
 
 //get stories of a user with his ID
@@ -21,7 +19,7 @@ const getStoryById = (req, res) => {
     res.status(200).json({
         id: doc.id,
         unique_views:doc.unique_views,
-        lifespan_views:doc.lifespan,
+        lifespan:doc.lifespan,
         upload_date: doc.upload_date,
         likes: doc.likes,
         request: [
@@ -44,11 +42,11 @@ const getStoryById = (req, res) => {
 //to replace earlier story with new story
 const putStoryWithId = (req, res) => {
     const id = req.params.id;
-    Story.findOneAndReplace({ _id: doc.id }, req.body, { new: true }).exec.then(result=>{
+   /* This didn't work
+    Story.findOneAndReplace(id).exec().then(result=>{
         if (err) { return next(err); }
         res.status(200).json({
-            message: 'Story replaced.',
-            ...result._doc
+            message: 'Story replaced.'
           });
     }).catch(error => {
         if (error === 404)
@@ -56,6 +54,24 @@ const putStoryWithId = (req, res) => {
         else res.status(500).json({ error: error });
       });
     }
+    */
+    Story.findById(id, function(err, story){
+        if(err){
+            return next(err);
+        }
+        if(story == null){
+            return res.status(404).json({'message': 'Story not found'});
+        }
+        story.unique_views = req.body.unique_views || story.unique_views;
+        story.lifespan = req.body.lifespan|| story.lifepsan;
+        story.upload_date = req.body.upload_date || story.upload_date;
+        story.likes = req.body.likes || story.likes;
+        story.story_owner = req.body.story_owner|| story.story_owner;
+        story.save();
+        res.json(story);
+    });
+  };
+
     //to update stories by id
     const updateStoryById = (req, res) => {
         const id = req.params.id;
@@ -66,7 +82,7 @@ const putStoryWithId = (req, res) => {
               message: 'story updated.',
               id: result.id,
               unique_views:result.unique_views,
-              lifespan_views:result.lifespan,
+              lifespan:result.lifespan,
               upload_date: result.upload_date,
               likes: result.likes,
             });
@@ -83,7 +99,7 @@ const putStoryWithId = (req, res) => {
         Story.deleteMany()
           .exec()
           .then(result => {
-            if (result.data === empty ) ;
+            if (!result ) ;
             res.status(200).json({
               message: 'all stories deleted',
               request: {
@@ -103,7 +119,7 @@ const putStoryWithId = (req, res) => {
     const deleteStoryWithId = (req, res) => {
         const id = req.params.id;
         Story.findOneAndDelete({ _id: id })
-        .exec.then(result=> {
+        .exec().then(result=> {
             if (!result) throw 404;
             res.status(200).json({
                 message: 'story deleted.',
