@@ -24,47 +24,46 @@ const getAllUsers = (req, res, next) => {
 const getSpecificUser = (req, res, next) =>{
     var id = req.params.id;
     User.findById(id).populate('posts').exec (function(err, user) {
-    if (err) { return next(err); }
-    if (user == null) {
-    return res.status(404).json(
-    {"message": "User not found"});
-    }
-    res.json(user);
+        if (err) { return next(err); }
+        if (user == null) {
+            return res.status(404).json(
+                {'message': 'User not found'});
+        }
+        res.json(user);
     });
 };
 
 //add a post to a specific user
-//need to add some error handling
 const addPostToUser = (req, res, next) =>{
     var id = req.params.id;
     User.findById(id, function(err, user) {
-    if (err) { return next(err); }
-    if (user == null) {
-    return res.status(404).json(
-    {"message": "User not found"});
-    }
-    var post = new Post(req.body);
-    post.save();
-    user.posts.push(post);
-    user.save();
-    res.json(post);
+        if (err) { return next(err); }
+        if (user == null) {
+            return res.status(404).json(
+                {'message': 'User not found'});
+        }
+        var post = new Post(req.body);
+        post.save();
+        user.posts.push(post);
+        user.save();
+        res.json(post);
     });
 };
 
 //return all posts of a user
-//need to add error handling
 const getPostsOfUser = (req, res, next) =>{
     var id = req.params.id;
     User.findById(id).populate('posts').exec(function(err, user) {
-    if (err) { return next(err); }
-    if (user == null) {
-    return res.status(404).json(
-    {"message": "User not found"});
-    }
-    res.json(user.posts);
+        if (err) { return next(err); }
+        if (user == null) {
+            return res.status(404).json(
+                {'message': 'User not found'});
+        } else if (!user.post_id) {return res.status(404).json({'message':'User has no posts'});}
+        res.json(user.posts);
     });
 };
 
+// Get a specific post
 const getSpecificPostOfUser = (req, res, next) =>{
     var user_id = req.params.user_id;
     var post_id = req.params.post_id;
@@ -139,25 +138,25 @@ const deleteSpecificUser = (req, res, next) =>{
 };
 
 //Delete all users
-const deleteAllUsers = (req, res, next) => {
+const deleteAllUsers = (req, res) => {
     User.deleteMany()
-      .exec()
-      .then(result => {
-        if (result.deletedCount === 0) throw 404;
+        .exec()
+        .then(result => {
+            if (result.deletedCount === 0) throw 404;
   
-        res.status(200).json({
-          message: 'All Users deleted.',
-          deletedCount: result.deletedCount
+            res.status(200).json({
+                message: 'All Users deleted.',
+                deletedCount: result.deletedCount
+            });
+        })
+        .catch(error => {
+            if (error === 404)
+                res.status(404).json({ error: 'No Users found.' });
+            else res.status(500).json({ error: error });
         });
-      })
-      .catch(error => {
-        if (error === 404)
-          res.status(404).json({ error: 'No Users found.' });
-        else res.status(500).json({ error: error });
-      });
-  };
+};
 
-  module.exports = {
+module.exports = {
     createUser,
     getAllUsers,
     getSpecificUser,
@@ -168,4 +167,4 @@ const deleteAllUsers = (req, res, next) => {
     patchSpecificUser,
     deleteSpecificUser,
     deleteAllUsers
-  };
+};
