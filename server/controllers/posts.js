@@ -72,10 +72,10 @@ const putPost = (req, res, next) => {
         if(post == null){
             return res.status(404).json({'message': 'Post not found'});
         }
-        post.unique_views = req.body.unique_views;
-        post.text = req.body.text;
-        post.upload_date = req.body.upload_date;
-        post.likes = req.body.likes;
+        post.unique_views = req.body.unique_views || post.unique_views;
+        post.text = req.body.text|| post.text;
+        post.upload_date = req.body.upload_date || post.upload_date;
+        post.likes = req.body.likes || post.likes;
         post.save();
         res.json(post);
     });
