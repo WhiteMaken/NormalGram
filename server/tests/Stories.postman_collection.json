@@ -1,0 +1,367 @@
+{
+	"info": {
+		"_postman_id": "a31ed9cd-86b1-4fff-8a95-3654ff016ef5",
+		"name": "Stories",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "create a story ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "83ed72b2-fb3c-4c0d-8ee9-f5e61b760b17",
+						"exec": [
+							"let jsonData = pm.response.json();",
+							"let storyId = jsonData._id;",
+							"pm.environment.set(\"story_id\", storyId);",
+							"",
+							"let getStoryId = pm.variables.get(\"story_id\")",
+							"let getUserId = pm.variables.get(\"user_id\")",
+							" ",
+							"pm.test(\"Story has correct ID\", () => {",
+							"    pm.expect(jsonData._id).to.eql(getStoryId);",
+							"})",
+							"",
+							"pm.test(\"Status code is 201\", () => {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"story has correct data\", () => {",
+							"    pm.expect(jsonData.likes).to.eql(0);",
+							"    pm.expect(jsonData.dislikes).to.eql(0);",
+							"    pm.expect(jsonData.title).to.eql(\"darkness is here\");",
+							"    pm.expect(jsonData.content).to.eql(\"I guess it is night\");",
+							"    pm.expect(jsonData.user).to.eql(getUserId);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"title\":\"darkness is here\",\n\t\"content\":\"I guess it is night\",\n\t\"user\":\"{{user_id}}\"\n}"
+				},
+				"url": {
+					"raw": "{{host}}/api/stories/",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"stories",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check story of a user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f87fab58-ad24-43fc-95d1-3bfb5f6bf587",
+						"exec": [
+							"pm.test(\"response is CREATED\", function () {\r",
+							"pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"response should have valid JSON data\", function () {\r",
+							"var jsonData = pm.response.json();\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response should have expected username\", function () {\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.expect(jsonData.username).to.eql('Kami');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/users/{{user_id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"{{user_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check story by Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cf832c91-072d-4143-b037-75e4835d2ba7",
+						"exec": [
+							"pm.test(\"response should have valid JSON data\", function () {\r",
+							"var jsonData = pm.response.json();\r",
+							"});\r",
+							"\r",
+							"pm.test(\"response is CREATED\", function () {\r",
+							"pm.expect(pm.response.code).to.be.oneOf([200,500]);\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/users",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Request invalid story",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bfaa23b3-f4ec-400e-831e-df3c1d7eecb8",
+						"exec": [
+							"pm.test(\"response should have valid JSON data\", function () {\r",
+							"var jsonData = pm.response.json();\r",
+							"});\r",
+							"\r",
+							"pm.test(\"response is CREATED\", function () {\r",
+							"pm.expect(pm.response.code).to.be.oneOf([404]);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/users/5f609d72dabd6957b4022d82",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"5f609d72dabd6957b4022d82"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update story",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7054349e-20b0-4b12-9572-1ca3532a1fb2",
+						"exec": [
+							"pm.test(\"response is CREATED\", function () {\r",
+							"pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"response should have valid JSON data\", function () {\r",
+							"var jsonData = pm.response.json();\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response should have expected data\", function () {\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.expect(jsonData.password).to.eql('iamgod123');\r",
+							"pm.expect(jsonData.name).to.eql('Elohim');\r",
+							"pm.expect(jsonData.email).to.eql('thelastjudgment@gmail.com');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"password\" : \"iamgod123\",\r\n\r\n   \"name\" : \"Elohim\",\r\n\r\n   \"email\" : \"thelastjudgment@gmail.com\"\r\n\r\n }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/users/{{user_id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"{{user_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete specific story",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "811b4dbb-0737-45cd-a6d9-82145e4dca2b",
+						"exec": [
+							"pm.test(\"response is CREATED\", function () {\r",
+							"pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/users/{{user_id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"{{user_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete invalid story",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "45425e21-5119-42ee-9693-64ad246dbbd4",
+						"exec": [
+							"pm.test(\"response should have valid JSON data\", function () {\r",
+							"var jsonData = pm.response.json();\r",
+							"});\r",
+							"\r",
+							"pm.test(\"response is CREATED\", function () {\r",
+							"pm.expect(pm.response.code).to.be.oneOf([404]);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/users/5f609d72dabd6957b4022d82",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"5f609d72dabd6957b4022d82"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete all stories",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "85c12c8f-cda7-49f1-aafb-9160ffee0353",
+						"exec": [
+							"pm.test(\"response should have valid JSON data\", function () {\r",
+							"var jsonData = pm.response.json();\r",
+							"});\r",
+							"\r",
+							"pm.test(\"response is CREATED\", function () {\r",
+							"pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response should have expected data\", function () {\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.expect(jsonData.message).to.eql('All Users deleted.');\r",
+							"pm.expect(jsonData.deletedCount).to.eql(3);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/users",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"id": "baseUrl",
+			"key": "baseUrl",
+			"value": "http://petstore.swagger.io/v1",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
