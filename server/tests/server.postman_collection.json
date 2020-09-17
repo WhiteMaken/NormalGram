@@ -342,7 +342,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\r\n    \"picture_id\" : \"imguristrash\"\r\n    \r\n}",
+					"raw": "{\r\n    \"picture_url\" : \"imguristrash\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -357,6 +357,50 @@
 					"path": [
 						"api",
 						"pictures"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create story",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "be0bae07-caf2-4be8-8742-d60b88ed9a80",
+						"exec": [
+							"pm.test(\"response is CREATED\", function () {\r",
+							"pm.expect(pm.response.code).to.be.oneOf([201]);\r",
+							"});\r",
+							"\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"postman.setEnvironmentVariable( \"story_id\", jsonData._id );"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"lifespan\": \"2021-09-10T18:25:43.511Z\",\r\n\r\n    \"story_owner\":  \"{{user_id}}\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/stories",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"stories"
 					]
 				}
 			},
@@ -662,7 +706,7 @@
 							"\r",
 							"pm.test(\"Response should have expected picture_id\", function () {\r",
 							"var jsonData = pm.response.json();\r",
-							"pm.expect(jsonData.picture_id).to.eql('imguristrash');\r",
+							"pm.expect(jsonData.picture_url).to.eql('imguristrash');\r",
 							"});\r",
 							"\r",
 							""
@@ -683,6 +727,48 @@
 						"api",
 						"pictures",
 						"{{picture_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get specific story",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a81fc82d-b3be-451e-8396-56ce61319e19",
+						"exec": [
+							"pm.test(\"response is CREATED\", function () {\r",
+							"pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"response should have valid JSON data\", function () {\r",
+							"var jsonData = pm.response.json();\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response should have expected lifespan\", function () {\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.expect(jsonData.lifespan).to.eql('2021-09-10T18:25:43.511Z');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/stories/{{story_id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"stories",
+						"{{story_id}}"
 					]
 				}
 			},
@@ -734,6 +820,59 @@
 						"api",
 						"posts",
 						"{{singlepost_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Put story",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d7058d17-7507-4a35-97f7-b49a7e89c356",
+						"exec": [
+							"pm.test(\"response is CREATED\", function () {\r",
+							"pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"response should have valid JSON data\", function () {\r",
+							"var jsonData = pm.response.json();\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response should have expected data\", function () {\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.expect(jsonData.lifespan).to.eql('2023-09-10T18:25:43.511Z');\r",
+							"pm.expect(jsonData.likes).to.eql(5);\r",
+							"pm.expect(jsonData.unique_views).to.eql(5);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"unique_views\": \"5\",\r\n\r\n    \"lifespan\": \"2023-09-10T18:25:43.511Z\",\r\n\r\n    \"likes\": \"5\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/stories/{{story_id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"stories",
+						"{{story_id}}"
 					]
 				}
 			},
@@ -835,6 +974,111 @@
 						"api",
 						"users",
 						"{{user_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Patch story",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b406b63f-8674-4523-89a4-f252721f054d",
+						"exec": [
+							"pm.test(\"response is CREATED\", function () {\r",
+							"pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"response should have valid JSON data\", function () {\r",
+							"var jsonData = pm.response.json();\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response should have expected data\", function () {\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.expect(jsonData.lifespan).to.eql('2023-09-10T18:25:43.511Z');\r",
+							"pm.expect(jsonData.likes).to.eql(4);\r",
+							"pm.expect(jsonData.unique_views).to.eql(4);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"unique_views\": \"4\",\r\n\r\n    \"lifespan\": \"2023-09-10T18:25:43.511Z\",\r\n\r\n    \"likes\": \"4\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/stories/{{story_id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"stories",
+						"{{story_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Patch picture",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2e76eb25-bd4b-47db-b38e-1aa810cede46",
+						"exec": [
+							"pm.test(\"response is CREATED\", function () {\r",
+							"pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"response should have valid JSON data\", function () {\r",
+							"var jsonData = pm.response.json();\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response should have expected data\", function () {\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.expect(jsonData.picture_url).to.eql('imguristhebest');\r",
+							";\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"picture_url\": \"imguristhebest\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/pictures/{{picture_id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"pictures",
+						"{{picture_id}}"
 					]
 				}
 			},
@@ -1151,6 +1395,90 @@
 						"api",
 						"pictures",
 						"{{picture_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete specific story",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e1e1e426-d2e2-418d-90f7-20b76af9699c",
+						"exec": [
+							"pm.test(\"response is CREATED\", function () {\r",
+							"pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"response should have valid JSON data\", function () {\r",
+							"var jsonData = pm.response.json();\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response should have expected data\", function () {\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.expect(jsonData.message).to.eql('story deleted.');\r",
+							"pm.expect(jsonData.lifespan).to.eql('2023-09-10T18:25:43.511Z');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/stories/{{story_id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"stories",
+						"{{story_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete all stories",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0ceba961-3f78-47cb-b4ef-26effcdb98b9",
+						"exec": [
+							"pm.test(\"response is CREATED\", function () {\r",
+							"pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"response should have valid JSON data\", function () {\r",
+							"var jsonData = pm.response.json();\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response should have expected data\", function () {\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.expect(jsonData.message).to.eql('all stories deleted');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/stories",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"stories"
 					]
 				}
 			},
