@@ -31,4 +31,23 @@ const deletePictureById = (req, res, next) => {
     });
 };
 
-module.exports = {creatingPicture, getPictureById,deletePictureById };
+// Patch a specific picture (PATCH)
+const patchSpecificPicture = (req, res, next) =>{
+    var id = req.params.id;
+    Picture.findById(id, function(err, picture) {
+        if (err) { return next(err); }
+        if (picture == null) {
+            return res.status(404).json({'message': 'User not found'});
+        }
+        picture.upload_date = (req.body.upload_date || picture.upload_date);
+        picture.picture_url = (req.body.picture_url || picture.picture_url);
+        picture.save();
+        res.json(picture);
+    });
+};
+
+
+
+
+
+module.exports = {creatingPicture, getPictureById,deletePictureById, patchSpecificPicture };

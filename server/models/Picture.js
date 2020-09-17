@@ -5,9 +5,9 @@ var Schema = mongoose.Schema;
 var PictureModel = new Schema({
 
     upload_date: { type: Date,
-    default: Date.now },
+        default: Date.now },
      
-    picture_id:{
+    picture_url:{
         type: String,
         required: true,},
 

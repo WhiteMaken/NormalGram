@@ -9,4 +9,6 @@ router.post('/', PicturesController.creatingPicture);
 
 router.delete('/:id', PicturesController.deletePictureById);
 
+router.patch('/:id', PicturesController.patchSpecificPicture);
+
 module.exports = router;
