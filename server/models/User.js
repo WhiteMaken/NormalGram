@@ -20,6 +20,8 @@ const UserModel = new Schema({
         unique:true,
         required: true,
         maxlength: 50},
+
+    posts:[{type: Schema.Types.ObjectId, ref:'Post'}]
 });
 
 module.exports = mongoose.model('users', UserModel);
