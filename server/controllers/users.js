@@ -58,7 +58,7 @@ const getPostsOfUser = (req, res, next) =>{
         if (user == null) {
             return res.status(404).json(
                 {'message': 'User not found'});
-        } else if (!user.post_id) {return res.status(404).json({'message':'User has no posts'});}
+        } else if (!user.posts) {return res.status(404).json({'message':'User has no posts'});}
         res.json(user.posts);
     });
 };
