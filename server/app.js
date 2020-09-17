@@ -6,9 +6,14 @@ var path = require('path');
 var cors = require('cors');
 var history = require('connect-history-api-fallback');
 
+const postsController = require('./routes/posts');
+const usersController = require('./routes/users');
+const picturesController = require('./routes/pictures');
+
 // Variables
-var mongoURI = process.env.MONGODB_URI;
-var port = process.env.PORT;
+var mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/normalgramDB';
+var port = process.env.PORT || 3000;
+
 
 // Connect to MongoDB
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true }, function(err) {
@@ -19,6 +24,8 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true }, 
     }
     console.log(`Connected to MongoDB with URI: ${mongoURI}`);
 });
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
 
 // Create Express app
 var app = express();
@@ -30,9 +37,16 @@ app.use(morgan('dev'));
 app.options('*', cors());
 app.use(cors());
 
-// Import routes
 app.get('/api', function(req, res) {
     res.json({'message': 'Welcome to your DIT341 backend ExpressJS project!'});
+});
+
+app.use('/api/users', usersController);
+app.use('/api/posts', postsController);
+app.use('/api/pictures', picturesController);
+
+app.use('/api/*', function(req, res) {
+    res.status(404).json({ message: 'Not Found!!!' });
 });
 
 // Catch all non-error handler for api (i.e., 404 Not Found)
