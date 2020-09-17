@@ -20,7 +20,7 @@ var PostModel = new Schema({
         type: Date,
         required: true,
         default: Date.now,
-     },
+    },
      
     likes:{
         type: Number,
