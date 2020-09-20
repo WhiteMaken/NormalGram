@@ -12,9 +12,8 @@ const picturesController = require('./routes/pictures');
 const storiesController = require('./routes/stories');
 
 // Variables
-var mongoURI = process.env.MONGODB_URI;
-var port = process.env.PORT;
-
+var mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/normalgramDB';
+var port = process.env.PORT || 3000;
 
 
 // Connect to MongoDB
@@ -39,14 +38,13 @@ app.use(morgan('dev'));
 app.options('*', cors());
 app.use(cors());
 
-
 app.get('/api', function(req, res) {
     res.json({'message': 'Welcome to your DIT341 backend ExpressJS project!'});
 });
 
-app.use('/api/pictures', picturesController);
 app.use('/api/users', usersController);
 app.use('/api/posts', postsController);
+app.use('/api/pictures', picturesController);
 app.use('/api/stories', storiesController);
 
 app.use('/api/*', function(req, res) {
@@ -57,7 +55,6 @@ app.use('/api/*', function(req, res) {
 app.use('/api/*', function (req, res) {
     res.status(404).json({ 'message': 'Not Found' });
 });
-
 
 // Configuration for serving frontend in production mode
 // Support Vuejs HTML 5 history mode
@@ -91,3 +88,4 @@ app.listen(port, function(err) {
 });
 
 module.exports = app;
+
