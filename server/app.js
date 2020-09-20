@@ -48,10 +48,6 @@ app.use('/api/posts', postsController);
 app.use('/api/pictures', picturesController);
 app.use('/api/stories', storiesController);
 
-app.use('/api/*', function(req, res) {
-    res.status(404).json({ message: 'Not Found!!!' });
-});
-
 // Catch all non-error handler for api (i.e., 404 Not Found)
 app.use('/api/*', function (req, res) {
     res.status(404).json({ 'message': 'Not Found' });
