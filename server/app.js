@@ -12,11 +12,10 @@ const picturesController = require('./routes/pictures');
 const storiesController = require('./routes/stories');
 
 // Variables
-var mongoURI = process.env.MONGODB_URI;
-var port = process.env.PORT;
+var mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/normalgramDB';
+var port = process.env.PORT || 3000;
 
-//|| 'mongodb://localhost:27017/normalgramDB';
-// || 3000;
+
 
 // Connect to MongoDB
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true }, function(err) {
