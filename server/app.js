@@ -12,8 +12,8 @@ const picturesController = require('./routes/pictures');
 const storiesController = require('./routes/stories');
 
 // Variables
-var mongoURI = process.env.MONGODB_URI
-var port = process.env.PORT
+var mongoURI = process.env.MONGODB_URI;
+var port = process.env.PORT;
 
 //|| 'mongodb://localhost:27017/normalgramDB';
 // || 3000;
