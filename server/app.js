@@ -39,19 +39,25 @@ app.use(morgan('dev'));
 app.options('*', cors());
 app.use(cors());
 
+
 app.get('/api', function(req, res) {
     res.json({'message': 'Welcome to your DIT341 backend ExpressJS project!'});
 });
 
+app.use('/api/pictures', picturesController);
 app.use('/api/users', usersController);
 app.use('/api/posts', postsController);
-app.use('/api/pictures', picturesController);
 app.use('/api/stories', storiesController);
+
+app.use('/api/*', function(req, res) {
+    res.status(404).json({ message: 'Not Found!!!' });
+});
 
 // Catch all non-error handler for api (i.e., 404 Not Found)
 app.use('/api/*', function (req, res) {
     res.status(404).json({ 'message': 'Not Found' });
 });
+
 
 // Configuration for serving frontend in production mode
 // Support Vuejs HTML 5 history mode
