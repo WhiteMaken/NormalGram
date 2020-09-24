@@ -3,6 +3,8 @@ const router = express.Router();
 
 const StoriesController = require('../controllers/stories');
 
+router.get('/', StoriesController.getAllStories);//
+
 router.get('/:id', StoriesController.getStoryById);//
 
 router.post('/', StoriesController.createStory);//
