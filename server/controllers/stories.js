@@ -1,5 +1,20 @@
 const Story = require('../models/Story');
 
+//get all stories 
+const getAllStories = (req, res) => {
+  Story.paginate({}, options)
+    .then(result => {
+      if (!result.totalDocs) throw 404;
+      res.status(200).json({
+        ...result
+      });
+    })
+    .catch(error => {
+      if (error === 404) res.status(404).json({ error: 'No stories found.' });
+      else res.status(500).json({ error: error });
+    });
+};
+
 //create a story by the user
 const createStory = (req, res, next) => {
   var story = new Story(req.body);
@@ -139,6 +154,7 @@ const putStoryWithId = (req, res) => {
     }
 
 module.exports = {
+  getAllStories,
   createStory,
   getStoryById, 
   putStoryWithId,
