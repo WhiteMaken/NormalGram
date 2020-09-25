@@ -2,6 +2,14 @@ const Story = require('../models/Story');
 
 //get all stories 
 const getAllStories = (req, res) => {
+  const options = {
+    sort: { published: -1 },
+    page: req.query.page === 'undefined' ? 1 : req.query.page,
+    limit:
+      typeof req.query.limit === 'undefined' || req.query.limit === 'undefined'
+        ? 9
+        : req.query.limit
+  };
   Story.paginate({}, options)
     .then(result => {
       if (!result.totalDocs) throw 404;
@@ -14,6 +22,7 @@ const getAllStories = (req, res) => {
       else res.status(500).json({ error: error });
     });
 };
+
 
 //create a story by the user
 const createStory = (req, res, next) => {
