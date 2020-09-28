@@ -158,14 +158,19 @@ const deleteAllUsers = (req, res) => {
         });
 };
 
-  const registerNewUser = async (req, res) => {
+const registerNewUser = async (req, res) => {
     try {
+        let users_with_same_email = await User.find({ email: req.body.email })
+        if (users_with_same_email.length >= 1) {
+        return res.status(409).json({
+        message: "email already in use"
+        });
+    }
       const user = new User({
         username: req.body.username,
         password: req.body.password,
         name: req.body.name,
         email: req.body.email,
-        posts: null
       });
       let data = await user.save();
       const token = await user.generateAuthToken(); 
@@ -206,6 +211,5 @@ module.exports = {
     deleteAllUsers,
     loginUser,
     getUserDetails,
-    registerNewUser
-    
+    registerNewUser  
 };
