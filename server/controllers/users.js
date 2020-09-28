@@ -195,7 +195,9 @@ const loginUser = async (req, res) => {
     }
 };
 
-// const getUserDetails = async (req, res) => {};
+const getUserDetails = async (req, res) => {
+    await res.json(req.userData);
+};
 
 
 module.exports = {
@@ -210,5 +212,6 @@ module.exports = {
     deleteSpecificUser,
     deleteAllUsers,
     loginUser,
-    registerNewUser  
+    registerNewUser,
+    getUserDetails  
 };
