@@ -3,10 +3,11 @@
     <div id="nav">
       <router-link to="/">Home</router-link>
     </div>
-    <!-- Render the content of the current page view -->
+    <router-link to="/">Signup</router-link>
     <router-view/>
   </div>
 </template>
+
 
 <style>
 #app {
