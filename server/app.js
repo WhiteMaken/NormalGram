@@ -32,6 +32,7 @@ mongoose.set('useCreateIndex', true);
 var app = express();
 // Parse requests of content-type 'application/json'
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false}));
 // HTTP request logger
 app.use(morgan('dev'));
 // Enable cross-origin resource sharing for frontend must be registered before api
