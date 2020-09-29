@@ -4,14 +4,43 @@ import Home from './views/Home.vue'
 
 Vue.use(Router)
 
-export default new Router({
+const routes = [
+  {
+    path: '/home',
+    name: 'home',
+    component: Home,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/',
+    name: 'login',
+    component: () => import('../src/views/login.vue')
+  },
+  {
+    path: '/register',
+    name: 'register',
+    component: () => import('../src/views/register.vue')
+  }
+]
+const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes: [
-    {
-      path: '/',
-      name: 'home',
-      component: Home
-    }
-  ]
+  routes
 })
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (localStorage.getItem('jwt') == null) {
+      next({
+        path: '/'
+      })
+    } else {
+      next()
+    }
+  } else {
+    next()
+  }
+})
+
+export default router
