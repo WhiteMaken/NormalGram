@@ -31,7 +31,7 @@
         <div class="row">
           <div class="col-md-12">
             <ul class="list-group">
-              <li class="list-group-item">Name : {{ user.name }}</li>
+              <li class="list-group-item">Username : {{ user.username }}</li>
               <li class="list-group-item">Email : {{ user.email }}</li>
             </ul>
           </div>
