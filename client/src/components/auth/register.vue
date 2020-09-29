@@ -49,6 +49,7 @@
 </template>
 
 <script>
+import { Api } from '@/Api'
 import swal from 'sweetalert'
 export default {
   data() {
@@ -63,7 +64,7 @@ export default {
   methods: {
     async registerUser() {
       try {
-        const response = await this.$Api.post('/users/register', this.register)
+        const response = await Api.post('/users/register', this.register)
         console.log(response)
         const token = response.data.token
         if (token) {

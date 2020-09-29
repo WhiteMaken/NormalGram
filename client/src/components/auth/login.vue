@@ -47,6 +47,7 @@
 
 <script>
 import swal from 'sweetalert'
+import { Api } from '@/Api'
 export default {
   data() {
     return {
@@ -59,7 +60,7 @@ export default {
   methods: {
     async loginUser() {
       try {
-        const response = await this.$Api.post('/users/login', this.login)
+        const response = await Api.post('/users/login', this.login)
         const token = response.data.token
         localStorage.setItem('jwt', token)
         if (token) {
