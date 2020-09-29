@@ -474,13 +474,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{host}}/api/users/{{user_id}}",
+					"raw": "{{host}}/api/users/my/{{user_id}}",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
 						"api",
 						"users",
+						"my",
 						"{{user_id}}"
 					]
 				}

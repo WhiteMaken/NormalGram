@@ -22,6 +22,8 @@ const UserModel = new Schema({
         required: true,
         maxlength: 50},
     
+    posts:[{type: Schema.Types.ObjectId, ref:'Post'}],
+    
     tokens: [
         {
             token: {
