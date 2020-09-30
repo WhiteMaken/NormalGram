@@ -1,11 +1,35 @@
 <template>
     <div id="app">
+        <input
+            type="newPicture"
+            id="newPicture"
+            class="form-control mb-5"
+            placeholder="newPicture"
+            v-model="picture.picture_url"
+            required
+          />
+        <div>
+        <b-button to @click="postPicture(); reloadPage()" variant=success>Post Picture</b-button>
+        </div>
         <ul id="example-1">
   <li v-for="picture in images.pictures" :key="picture._id">
       {{picture.picture_url}}
-      <img :src="picture.picture_url"/>
       <div>
-        <b-button to @click="deletePicture(picture._id)" variant=danger>Delete Picture</b-button>
+      <img :src="picture.picture_url"/>
+      </div>
+      <input
+            type="newPicture"
+            id="newPicture"
+            class="form-control mb-5"
+            placeholder="newPicture"
+            v-model="picturemodifier.picture_url"
+            required
+          />
+          <div>
+        <b-button to @click="patchPicture(picture._id); reloadPage()" variant=warning>Patch Picture</b-button>
+        </div>
+      <div>
+        <b-button to @click="deletePicture(picture._id); reloadPage()" variant=danger>Delete Picture</b-button>
         </div>
   </li>
 </ul>
@@ -17,7 +41,13 @@ import { Api } from '@/Api'
 export default {
   data() {
     return {
-      images: []
+      images: [],
+      picture: {
+        picture_url: ''
+      },
+      picturemodifier: {
+        picture_url: ''
+      }
     }
   },
   methods: {
@@ -33,6 +63,20 @@ export default {
     async deletePicture(id) {
       const path = '/pictures/' + id
       Api.delete(path)
+    },
+
+    async postPicture() {
+      const path = '/pictures/'
+      Api.post(path, this.picture)
+    },
+
+    async patchPicture(id) {
+      const path = '/pictures/' + id
+      Api.patch(path, this.picturemodifier)
+    },
+
+    reloadPage() {
+      window.location.reload()
     }
   },
 
@@ -43,5 +87,18 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style>
+body {
+  background-color: lightblue;
+}
+
+h1 {
+  color: white;
+  text-align: center;
+}
+
+p {
+  font-family: verdana;
+  font-size: 20px;
+}
 </style>
