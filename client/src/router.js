@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
+import UserProfileSettings from './components/auth/UserProfileSettings.vue'
 
 Vue.use(Router)
 
@@ -22,7 +23,12 @@ const routes = [
     path: '/register',
     name: 'register',
     component: () => import('../src/views/register.vue')
-  }
+  },
+  {
+    path: '/settings/profile',
+    name: 'profile',
+    component: UserProfileSettings
+}
 ]
 const router = new Router({
   mode: 'history',
