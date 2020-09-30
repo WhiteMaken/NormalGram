@@ -2,9 +2,9 @@
     <div id="app">
         <input
             type="newPicture"
-            id="newPicture"
+            id="input1"
             class="form-control mb-5"
-            placeholder="newPicture"
+            placeholder="Enter url of a picture to add a new picture"
             v-model="picture.picture_url"
             required
           />
@@ -13,7 +13,6 @@
         </div>
         <ul id="example-1">
   <li v-for="picture in images.pictures" :key="picture._id">
-      {{picture.picture_url}}
       <div>
       <img :src="picture.picture_url"/>
       </div>
@@ -21,16 +20,12 @@
             type="newPicture"
             id="newPicture"
             class="form-control mb-5"
-            placeholder="newPicture"
+            placeholder="Enter url of a picture to replace the picture above"
             v-model="picturemodifier.picture_url"
             required
           />
-          <div>
         <b-button to @click="patchPicture(picture._id); reloadPage()" variant=warning>Patch Picture</b-button>
-        </div>
-      <div>
         <b-button to @click="deletePicture(picture._id); reloadPage()" variant=danger>Delete Picture</b-button>
-        </div>
   </li>
 </ul>
     </div>
@@ -88,17 +83,25 @@ export default {
 </script>
 
 <style>
+
 body {
   background-color: lightblue;
 }
 
-h1 {
-  color: white;
-  text-align: center;
+input[class="form-control mb-5"] {
+  width: 50%;
+  margin-top: 1em;
+margin-bottom: 1em;
+background-color: aliceblue;
 }
 
-p {
-  font-family: verdana;
-  font-size: 20px;
+button{
+margin-top: 1em;
+margin-bottom: 1em;
+margin-right: 3em;
+}
+
+img {
+border: 3px groove rgb(26, 0, 143);
 }
 </style>
