@@ -14,7 +14,9 @@ const UserModel = new Schema({
         type:String,
         required:true,
     },
-    name: { type: String },
+    name: { type: String,
+        required:true,
+    },
      
     email:{
         type: String,
@@ -48,7 +50,7 @@ UserModel.pre('save', async function(next) {
 //this method generates an auth token for the user
 UserModel.methods.generateAuthToken = async function() {
     const user = this;
-    const token = jwt.sign({ _id: user._id, username: user.username, email: user.email },
+    const token = jwt.sign({ _id: user._id, username: user.username, email: user.email, name: user.name },
         'secret');
     user.tokens = user.tokens.concat({ token });
     await user.save();
