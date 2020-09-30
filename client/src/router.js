@@ -22,11 +22,7 @@ const routes = [
     path: '/register',
     name: 'register',
     component: () => import('../src/views/register.vue')
-  },
-   {
-    path: '/settings/profile',
-    component: UserProfileSettings
-}
+  }
 ]
 const router = new Router({
   mode: 'history',
