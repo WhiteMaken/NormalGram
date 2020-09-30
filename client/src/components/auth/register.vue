@@ -23,6 +23,15 @@
             v-model="register.email"
             required
           />
+          <input
+            type="text"
+            id="name"
+            class="form-control mb-5"
+            placeholder="Name"
+            v-model="register.name"
+            required
+          />
+
           <!-- Password -->
           <input
             type="password"
@@ -57,6 +66,7 @@ export default {
       register: {
         username: '',
         email: '',
+        name: '',
         password: ''
       }
     }
