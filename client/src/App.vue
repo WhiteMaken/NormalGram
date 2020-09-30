@@ -8,7 +8,7 @@
     <router-link to="/">Signup</router-link>
     </div>
     <div>
-    <router-link to="/test">Pictures</router-link>
+    <router-link to="/pictures">Pictures</router-link>
     </div>
     <router-view/>
     </div>

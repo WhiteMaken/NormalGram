@@ -1,70 +1,107 @@
 <template>
-    <div>
-        <div class="container">
-
-            <header>
-                <h1>v-lightbox</h1>
-                <h4>Lightbox Photo Grid and Slideshow component for Vue.Js</h4>
-            </header>
-
-            <div class="row my-30">
-                <div class="col-12 col-lg-8">
-                    <lightbox :items="images"></lightbox>
-                    <div class="form-group">
-                        Photo of Chloe Ting
-                    </div>
-
-                </div>
-                <div class="col-12 col-lg-4">
-                    <div class="viralroll" data-id="5e8d2bb73364491e2a946eec"></div>
-                </div>
-            </div>
-
+    <div id="app">
+        <input
+            type="newPicture"
+            id="input1"
+            class="form-control mb-5"
+            placeholder="Enter url of a picture to add a new picture"
+            v-model="picture.picture_url"
+            required
+          />
+        <div>
+        <b-button to @click="postPicture(); reloadPage()" variant=success>Post Picture</b-button>
         </div>
-
-        <footer>
-
-            <p>
-                <a class="social-icon" href="https://github.com/Morioh-Lab/v-lightbox" target="_blank">
-                    <i class="fa-3x fab fa-github-square"></i>
-                </a>
-
-            </p>
-
-            <p>Themed by <a href="http://on.morioh.net/96d5d36367" target="_blank">Morioh Theme</a><br>
-                <a href="https://morioh.com">Social Network for Developers</a>
-            </p>
-
-        </footer>
-
+        <ul id="example-1">
+  <li v-for="picture in images.pictures" :key="picture._id">
+      <div>
+      <img :src="picture.picture_url"/>
+      </div>
+      <input
+            type="newPicture"
+            id="newPicture"
+            class="form-control mb-5"
+            placeholder="Enter url of a picture to replace the picture above"
+            v-model="picturemodifier.picture_url"
+            required
+          />
+        <b-button to @click="patchPicture(picture._id); reloadPage()" variant=warning>Patch Picture</b-button>
+        <b-button to @click="deletePicture(picture._id); reloadPage()" variant=danger>Delete Picture</b-button>
+  </li>
+</ul>
     </div>
 </template>
 
 <script>
+import { Api } from '@/Api'
 export default {
   data() {
     return {
-      images: [
-        './nice.jpg',
-        './nice.jpg',
-        './nice.jpg',
-        './nice.jpg',
-        './nice.jpg',
-        './nice.jpg',
-        './nice.jpg',
-        './nice.jpg',
-        './nice.jpg',
-        './nice.jpg',
-        './nice.jpg',
-        './nice.jpg',
-        './nice.jpg',
-        './nice.jpg',
-        './nice.jpg',
-        './nice.jpg',
-        './nice.jpg',
-        './nice.jpg'
-      ]
+      images: [],
+      picture: {
+        picture_url: ''
+      },
+      picturemodifier: {
+        picture_url: ''
+      }
     }
+  },
+  methods: {
+
+    read() {
+      Api.get('/pictures').then(({ data }) => {
+        console.log(data)
+        this.images = data
+      })
+        .catch((err) => console.error(err))
+    },
+
+    async deletePicture(id) {
+      const path = '/pictures/' + id
+      Api.delete(path)
+    },
+
+    async postPicture() {
+      const path = '/pictures/'
+      Api.post(path, this.picture)
+    },
+
+    async patchPicture(id) {
+      const path = '/pictures/' + id
+      Api.patch(path, this.picturemodifier)
+    },
+
+    reloadPage() {
+      window.location.reload()
+    }
+  },
+
+  mounted() {
+    this.read()
   }
+
 }
 </script>
+
+<style>
+
+body {
+  background-color: lightblue;
+}
+
+input[class="form-control mb-5"] {
+  width: 50%;
+  margin-top: 1em;
+margin-bottom: 1em;
+background-color: aliceblue;
+}
+
+button{
+margin-top: 1em;
+margin-bottom: 1em;
+margin-right: 3em;
+}
+
+img {
+border: 3px groove rgb(26, 0, 143);
+}
+</style>

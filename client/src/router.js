@@ -27,11 +27,6 @@ const routes = [
     path: '/pictures',
     name: 'pictures',
     component: () => import('../src/views/Pictures.vue')
-  },
-  {
-    path: '/test',
-    name: 'test',
-    component: () => import('../src/views/Test.vue')
   }
 ]
 const router = new Router({
