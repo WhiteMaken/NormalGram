@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
-import UserProfileSettings from './components/auth/UserProfileSettings.vue'
+import UserProfileSettings from 'client/src/components/Settings/UserProfileSettings.vue'
 
 Vue.use(Router)
 
