@@ -36,21 +36,16 @@
             <textarea v-model="bio" rows="5" placeholder="A breif bio of you"></textarea>
           </div>
 
-
-          <div class="field">
-            <label>Website URL</label>
-            <input type="url" v-model="websiteUrl" placeholder="Website URL">
-          </div>
-
           <button class="ui button primary">Update profile</button>
         </form>
       </div>
     </div>
   </div>
 </template>
+
 <script>
-    import Notification from '@/components/Notification'
-    import UserSettingsMenu from '@/components/User/Settings/UserSettingsMenu'
+    import Notification from 'client/src/components/Notification.vue'
+    import UserSettingsMenu from 'client/src/components/Settings/UserSettingsMenu.vue'
 
     export default {
         name: 'UserProfileSettings',
@@ -64,8 +59,6 @@
                 username: '',
                 email: '',
                 bio: '',
-                location: '',
-                websiteUrl: '',
                 notification: {
                     message: '',
                     type: ''
@@ -94,9 +87,7 @@
                         this.name = response.data.data.name
                         this.username = response.data.data.username
                         this.email = response.data.data.email
-                        this.location = response.data.data.location
                         this.bio = response.data.data.bio
-                        this.websiteUrl = response.data.data.website_url
                     })
             },
             updateProfile () {
@@ -109,9 +100,7 @@
                             name: this.name,
                             username: this.username,
                             email: this.email,
-                            location: this.location,
                             bio: this.bio,
-                            website_url: this.websiteUrl
                         },
                         {
                             headers: {
@@ -130,3 +119,5 @@
         }
     }
 </script>
+
+
