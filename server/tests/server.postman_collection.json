@@ -621,11 +621,7 @@
 							"pm.test(\"response should have valid JSON data\", function () {\r",
 							"var jsonData = pm.response.json();\r",
 							"});\r",
-							"\r",
-							"pm.test(\"Response should have expected text\", function () {\r",
-							"var jsonData = pm.response.json();\r",
-							"pm.expect(jsonData.text).to.eql('I love you');\r",
-							"});"
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -635,16 +631,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{host}}/api/users/{{user_id}}/posts/{{post_id}}",
+					"raw": "{{host}}/api/stories",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
 						"api",
-						"users",
-						"{{user_id}}",
-						"posts",
-						"{{post_id}}"
+						"stories"
 					]
 				}
 			},
