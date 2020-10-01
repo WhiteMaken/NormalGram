@@ -4,7 +4,11 @@ import router from './router'
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import '@morioh/v-lightbox/dist/lightbox.css'
+import Lightbox from '@morioh/v-lightbox'
 
+// global register
+Vue.use(Lightbox)
 Vue.use(BootstrapVue)
 
 Vue.config.productionTip = false
