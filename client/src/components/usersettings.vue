@@ -15,7 +15,6 @@
           required
           placeholder="Enter password"
         ></b-form-input>
-        {{user}}
       <b-button type="submit" variant="primary">Submit</b-button>
       <b-button type="reset" variant="danger">Reset</b-button>
       <b-button href ='/home' type="home" variant="secondary">Home</b-button>
