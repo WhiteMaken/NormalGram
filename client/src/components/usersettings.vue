@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+    <b-form @submit="onSubmit">
       <b-form-group
         id="input-group-1"
         label="Password:"
@@ -16,15 +16,15 @@
           placeholder="Enter password"
         ></b-form-input>
       <b-button type="submit" variant="primary">Submit</b-button>
-      <b-button type="reset" variant="danger">Reset</b-button>
       <b-button href ='/home' type="home" variant="secondary">Home</b-button>
+      <b-button v-on:click= "deleteUser"  variant="danger" >Delete Account</b-button>
     </b-form>
     <b-card class="mt-3" header="Form Data Result">
-      <pre class="m-0">{{ form }}</pre>
+      <pre class="m-0">{{form}}</pre>
     </b-card>
+  <div></div>
   </div>
 </template>
-
 <script>
 import VueJwtDecode from 'vue-jwt-decode'
 import { Api } from '@/Api'
@@ -49,25 +49,18 @@ export default {
         swal('Error', 'Something Went Wrong', 'error')
       }
     },
+    deleteUser() {
+      Api.delete('/users/' + this.user._id)
+      this.$router.push('/')
+    },
 
     read() {
       const token = localStorage.getItem('jwt')
       const decoded = VueJwtDecode.decode(token)
       this.user = decoded
     },
-    onSubmit(evt) {
+    onSubmit() {
       this.changePassword()
-      evt.preventDefault()
-    },
-    onReset(evt) {
-      evt.preventDefault()
-      // Reset our form values
-      this.form.password = ''
-      // Trick to reset/clear native browser form validation state
-      this.show = false
-      this.$nextTick(() => {
-        this.show = true
-      })
     }
   },
   mounted() {
