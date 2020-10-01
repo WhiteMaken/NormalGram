@@ -13,6 +13,9 @@
         <div>
         <b-button to @click="addPost(); reloadPage()" variant=success>Add Post</b-button>
         </div>
+    <div>
+    <b-button href ='/home' type="home" variant="secondary">Home</b-button>
+    </div>
         <ul id="example-1">
   <li v-for="post in posts" :key="post._id">
       {{post.text}}

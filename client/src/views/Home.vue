@@ -16,6 +16,9 @@
         </button>
         <a href='/pictures'>Pictures</a>
         <a href='/users/settings'>Settings</a>
+        <a href='/myposts'>Posts</a>
+        <a href='/stories'>Story</a>
+
         <div
           class="collapse navbar-collapse justify-content-end"
           id="navbarNav"
