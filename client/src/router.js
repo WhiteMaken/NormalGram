@@ -37,6 +37,11 @@ const routes = [
     path: '/myposts',
     name: 'myposts',
     component: () => import('../src/views/UserPosts.vue')
+  },
+  {
+    path: '/stories',
+    name: 'stories',
+    component: () => import('../src/views/Stories.vue')
   }
 ]
 const router = new Router({
