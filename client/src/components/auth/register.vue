@@ -57,7 +57,8 @@ export default {
       register: {
         username: '',
         email: '',
-        password: ''
+        password: '',
+        name: ''
       }
     }
   },

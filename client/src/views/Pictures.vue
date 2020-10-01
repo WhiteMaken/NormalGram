@@ -11,6 +11,9 @@
         <div>
         <b-button to @click="postPicture(); reloadPage()" variant=success>Post Picture</b-button>
         </div>
+        <div>
+        <b-button href ='/home' type="home" variant="secondary">Home</b-button>
+        </div>
         <ul id="example-1">
   <li v-for="picture in images.pictures" :key="picture._id">
       <div>

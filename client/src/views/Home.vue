@@ -14,6 +14,8 @@
         >
           <span class="navbar-toggler-icon"></span>
         </button>
+        <a href='/pictures'>Pictures</a>
+        <a href='/users/settings'>Settings</a>
         <div
           class="collapse navbar-collapse justify-content-end"
           id="navbarNav"
@@ -33,6 +35,7 @@
             <ul class="list-group">
               <li class="list-group-item">Name : {{ user.name }}</li>
               <li class="list-group-item">Email : {{ user.email }}</li>
+              <li class="list-group-item">Username : {{ user.username }}</li>
             </ul>
           </div>
         </div>
