@@ -16,10 +16,11 @@
             v-model="storymodifier.likes"
             required
           />
+          <b-button to @click="putStory(story._id); reloadPage()" variant=warning>Put Story</b-button>
   </li>
 </ul>
 <b-button to @click="deleteStories(); reloadPage()" variant=danger>Delete All Stories</b-button>
-<b-button to @click="putStory(story._id); reloadPage()" variant=warning>Put Story</b-button>
+
     <b-button href ='/home' type="home" variant="secondary">Home</b-button>
     </div>
 </template>
