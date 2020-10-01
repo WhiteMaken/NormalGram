@@ -28,10 +28,8 @@ var PostModel = new Schema({
         default: 0,
     },
 
-    picture:{
-        type: Schema.Types.ObjectID, 
-        ref: 'Picture',
-    } 
+    picture:{ type: Schema.Types.ObjectId, ref: 'Picture'}
 });
 
 module.exports = mongoose.model('Post', PostModel);
+
