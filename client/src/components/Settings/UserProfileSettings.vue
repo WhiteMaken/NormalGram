@@ -36,7 +36,6 @@
             <textarea v-model="bio" rows="5" placeholder="A breif bio of you"></textarea>
           </div>
 
-
           <div class="field">
             <label>Website URL</label>
             <input type="url" v-model="websiteUrl" placeholder="Website URL">
@@ -49,72 +48,72 @@
   </div>
 </template>
 <script>
-    import UserSettingsMenu from 'UserSettingsMenu'
-
-    export default {
-        name: 'UserProfileSettings',
-        components: {
-            UserSettingsMenu
-        },
-        data () {
-            return {
-                name: '',
-                username: '',
-                email: '',
-                bio: ''
-            }
-        },
-        beforeRouteEnter (to, from, next) {
-            const token = localStorage.getItem('tweetr-token')
-
-            return token ? next() : next('/login')
-        },
-        created () {
-            this.fetchAuthenticatedUser()
-        },
-        methods: {
-            fetchAuthenticatedUser () {
-                const token = localStorage.getItem('tweetr-token')
-
-                axios
-                    .get('account/me', {
-                        headers: {
-                            Authorization: `Bearer ${token}`
-                        }
-                    })
-                    .then(response => {
-                        this.name = response.data.data.name
-                        this.username = response.data.data.username
-                        this.email = response.data.data.email
-                        this.bio = response.data.data.bio
-                    })
-            },
-            updateProfile () {
-                const token = localStorage.getItem('tweetr-token')
-
-                axios
-                    .put(
-                        '/account/update_profile',
-                        {
-                            name: this.name,
-                            username: this.username,
-                            email: this.email,
-                            bio: this.bio,
-                        },
-                        {
-                            headers: {
-                                Authorization: `Bearer ${token}`
-                            }
-                        }
-                    )
-                    .then(response => {
-                        // display success notification
-                        this.notification = Object.assign({}, this.notification, {
-                          message: response.data.message,
-                          type: 'success'
-                        })
-                    })
-            }
-        }
+import UserSettingsMenu from '../Settings/UserSettingMenu'
+import axios from 'axios'
+export default {
+  name: 'UserProfileSettings',
+  components: {
+    UserSettingsMenu
+  },
+  data() {
+    return {
+      name: '',
+      username: '',
+      email: '',
+      bio: ''
     }
+  },
+  beforeRouteEnter(to, from, next) {
+    const token = localStorage.getItem('tweetr-token')
+
+    return token ? next() : next('/login')
+  },
+  created() {
+    this.fetchAuthenticatedUser()
+  },
+  methods: {
+    fetchAuthenticatedUser() {
+      const token = localStorage.getItem('tweetr-token')
+
+      axios
+        .get('account/me', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+        .then(response => {
+          this.name = response.data.data.name
+          this.username = response.data.data.username
+          this.email = response.data.data.email
+          this.bio = response.data.data.bio
+        })
+    },
+    updateProfile() {
+      const token = localStorage.getItem('tweetr-token')
+
+      axios
+        .put(
+          '/account/update_profile',
+          {
+            name: this.name,
+            username: this.username,
+            email: this.email,
+            bio: this.bio
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          }
+        )
+        .then(response => {
+          // display success notification
+          this.notification = Object.assign({}, this.notification, {
+            message: response.data.message,
+            type: 'success'
+          })
+        })
+    }
+  }
+}
 </script>
