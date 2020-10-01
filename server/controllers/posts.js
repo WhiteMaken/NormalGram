@@ -12,7 +12,7 @@ const createPost = (req, res, next) => {
 //get post by id
 const getPostById = (req, res, next) => {
     var id = req.params.id;
-    Post.findById(id, function(err, post) {
+    Post.findById(id).populate('picture').exec (function(err, post) {
         if(post){res.json(post);
         }   else {
             return res.status(404).json({Message:'Post not found'});}
