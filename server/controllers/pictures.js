@@ -46,8 +46,32 @@ const patchSpecificPicture = (req, res, next) =>{
     });
 };
 
+const getAllPictures = (req, res, next) => {
+    Picture.find(function(err, pictures) {
+        if (err) {return next(err); }
+        res.json({pictures});
+    });
+};
+
+const deleteAllPictures = (req, res) => {
+    Picture.deleteMany()
+        .exec()
+        .then(result => {
+            if (result.deletedCount <= 0) {throw 404;}
+
+            res.status(200).json({
+                message: 'All ictures has been deleted.',
+                deletedCount: result.deletedCount,  
+            });
+        })
+        .catch(error => {
+            if (error === 404) res.status(404).json({ error: 'No Pictures found.' });
+            else res.status(500).json({ error: error });
+        });
+};
 
 
 
 
-module.exports = {creatingPicture, getPictureById,deletePictureById, patchSpecificPicture };
+
+module.exports = {creatingPicture, getPictureById,deletePictureById, patchSpecificPicture, getAllPictures, deleteAllPictures };
