@@ -1,5 +1,15 @@
 <template>
     <div id="app">
+<div>
+            <input
+            type="newText"
+            id="input"
+            class="form-control mb-5"
+            placeholder="Enter a valid picture URL"
+            v-model="post.picture"
+            required
+          />
+        </div>
         <div>
             <input
             type="newText"
@@ -18,7 +28,15 @@
     </div>
         <ul id="example-1">
   <li v-for="post in posts" :key="post._id">
-      {{post.text}}
+      <div class="blue_box">
+    <span>{{post.upload_date}}</span>
+</div>
+<div>
+        <img :src="post.picture"/>
+</div>
+      <div class="blue_box">
+    <span>{{post.text}}</span>
+</div>
   </li>
 </ul>
     </div>
@@ -33,7 +51,10 @@ export default {
       posts: [],
       user: {},
       post: {
-        text: ''
+        text: '',
+        picture: '',
+        owner: ''
+
       }
     }
   },
@@ -54,6 +75,10 @@ export default {
       this.user = decoded
     },
 
+    seedPost() {
+      this.post.owner = this.user._id
+    },
+
     async addPost() {
       const path = '/users/' + this.user._id + '/posts'
       Api.post(path, this.post)
@@ -67,6 +92,7 @@ export default {
   mounted() {
     this.getUserId()
     this.read()
+    this.seedPost()
   }
 
 }
@@ -93,5 +119,18 @@ margin-right: 3em;
 
 img {
 border: 3px groove rgb(26, 0, 143);
+}
+
+.blue_box, .green_box {
+    display: block;
+    clear:both;
+}
+.blue_box span {
+    background-color:lightskyblue;
+    color: white;
+    padding: 10px 5px;
+    display: block;
+    border: 3px groove rgb(26, 0, 143);
+    float: left;
 }
 </style>
