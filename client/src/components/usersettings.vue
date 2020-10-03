@@ -2,7 +2,7 @@
   <div>
     <b-button href ='/home' type="home" variant="secondary">Return Home</b-button>
     <b-form @submit="onSubmit">
-      <span>Set name (Input current name if not changed)</span>
+      <span>New user name (Input current name if not changed)</span>
        <b-form-input
           id="input-1"
           v-model="form.name"
@@ -53,34 +53,16 @@ export default {
     }
   },
   methods: {
-    changePassword() {
+    updateProfile() {
       try {
         Api.patch('/users/' + this.user._id, this.form)
-        swal('Success', 'Password changed', 'Error')
+        swal('Success', 'Profile has been changed', 'Error')
       } catch (err) {
         console.log(err.response)
         swal('Error', 'Something Went Wrong', 'error')
       }
     },
-    changeName() {
-      try {
-        Api.patch('/users/' + this.user._id, this.name)
-        swal('Success', 'Password changed', 'Error')
-      } catch (err) {
-        console.log(err.response)
-        swal('Error', 'Something Went Wrong', 'error')
-      }
-    },
-    changeEmail() {
-      try {
-        Api.patch('/users/' + this.user._id, this.email)
-        swal('Success', 'Password changed', 'Error')
-      } catch (err) {
-        console.log(err.response)
-        swal('Error', 'Something Went Wrong', 'error')
-      }
-    },
-    deleteSpecificUser() {
+    deleteUser() {
       Api.delete('/users/' + this.user._id)
       this.$router.push('/')
     },
@@ -89,11 +71,9 @@ export default {
       const decoded = VueJwtDecode.decode(token)
       this.user = decoded
     },
-     onSubmit() {
-      this.changePassword()
-      this.changeEmail()
-      this.changeName()
-    },
+    onSubmit() {
+      this.updateProfile()
+    }
   },
   mounted() {
     this.read()
