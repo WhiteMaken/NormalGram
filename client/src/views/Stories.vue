@@ -27,6 +27,7 @@
 
 <script>
 import { Api } from '@/Api'
+import VueJwtDecode from 'vue-jwt-decode'
 export default {
   data() {
     return {
@@ -51,6 +52,34 @@ export default {
       const path = '/stories/'
       Api.delete(path)
     },
+
+    getUserId() {
+      const token = localStorage.getItem('jwt')
+      const decoded = VueJwtDecode.decode(token)
+      this.user = decoded
+    },
+
+       async registerUser() {
+      try {
+        const response = await Api.post('/users/register', this.register)
+        console.log(response)
+        const token = response.data.token
+        if (token) {
+          localStorage.setItem('jwt', token)
+          this.$router.push('/')
+          swal('Success', 'Registration Was successful', 'success')
+        } else {
+          swal('Error', 'Something Went Wrong', 'Error')
+        }
+      } catch (err) {
+        const error = err.response
+        if (error.status === 409) {
+          swal('Error', error.data.message, 'error')
+        } else {
+          swal('Error', error.data.err.message, 'error')
+        }
+      }
+    }
 
     async putStory(id) {
       const path = '/stories/' + id

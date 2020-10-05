@@ -3,7 +3,6 @@ const Post = require('../models/Post');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-
 //Create a new user
 const createUser = (req, res, next) =>{
     var user = new User(req.body);
@@ -160,10 +159,10 @@ const deleteAllUsers = (req, res) => {
 
 const registerNewUser = async (req, res) => {
     try {
-        let users_with_same_email = await User.find({ email: req.body.email });
-        if (users_with_same_email.length >= 1) {
+        let users_with_same_username = await User.find({ username: req.body.username });
+        if (users_with_same_username != null) {
             return res.status(409).json({
-                message: 'email already in use'
+                message: 'that username is already in use'
             });
         }
         const user = new User({
