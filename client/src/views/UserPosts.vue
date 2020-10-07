@@ -36,20 +36,22 @@
 </div>
       <div class="blue_box">
     <span>{{post.text}}</span>
-      <div>
-            <input
+    </div>
+    <div>
+        <input
             type="newText"
             id="inputText"
-            class="form-control mb-5"
+            class="form-control mb-6"
             placeholder="Enter new text"
             v-model="postmodifier.text"
             required
           />
-        </div>
-        <div>
-        <b-button to @click="patchPost(post._id); reloadPage()" variant=warning>Edit Text</b-button>
-        </div>
-        <b-button to @click="deletePost(post._id); reloadPage()" variant=danger>Delete Post</b-button>
+          </div>
+    <div>
+    <b-button to @click="patchPost(post._id); reloadPage()" variant=warning>Edit Text</b-button>
+    </div>
+    <div>
+    <b-button to @click="deletePost(post._id); reloadPage()" variant=danger>Delete Post</b-button>
 </div>
   </li>
 </ul>
@@ -140,6 +142,23 @@ margin-bottom: 1em;
 background-color: aliceblue;
 }
 
+input[class="form-control mb-6"] {
+    width: 50%;
+background-color: rgb(255, 200, 209);
+}
+
+ul {
+    color: white;
+   list-style-type: circle;
+   padding: 11px 21px;
+   list-style-type: none;
+}
+
+ul li {
+  background: #cce5ff;
+  margin: 5px;
+}
+
 button{
 margin-top: 1em;
 margin-bottom: 1em;
@@ -150,16 +169,19 @@ img {
 border: 3px groove rgb(26, 0, 143);
 }
 
-.blue_box, .green_box {
+.blue_box{
     display: block;
     clear:both;
+    margin-bottom: 5em;
+    margin-top: 1em;
 }
 .blue_box span {
     background-color:lightskyblue;
-    color: white;
+    color: black;
     padding: 10px 5px;
     display: block;
     border: 3px groove rgb(26, 0, 143);
     float: left;
+    margin-right: 50px;
 }
 </style>
