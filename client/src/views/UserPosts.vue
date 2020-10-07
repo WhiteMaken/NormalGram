@@ -29,7 +29,7 @@
         <ul id="example-1">
   <li v-for="post in posts" :key="post._id">
       <div class="blue_box">
-    <span>{{post.upload_date}}</span>
+    <span>{{post.upload_date}} Likes: {{post.likes}}</span>
 </div>
 <div>
         <img :src="post.picture"/>
