@@ -15,4 +15,6 @@ router.delete('/', PostsController.deleteAllPosts);
 
 router.put('/:id', PostsController.putPost);
 
+router.patch('/:id', PostsController.patchSpecificPostText);
+
 module.exports = router;

@@ -36,6 +36,20 @@
 </div>
       <div class="blue_box">
     <span>{{post.text}}</span>
+      <div>
+            <input
+            type="newText"
+            id="inputText"
+            class="form-control mb-5"
+            placeholder="Enter new text"
+            v-model="postmodifier.text"
+            required
+          />
+        </div>
+        <div>
+        <b-button to @click="patchPost(post._id); reloadPage()" variant=warning>Edit Text</b-button>
+        </div>
+        <b-button to @click="deletePost(post._id); reloadPage()" variant=danger>Delete Post</b-button>
 </div>
   </li>
 </ul>
@@ -55,6 +69,9 @@ export default {
         picture: '',
         owner: ''
 
+      },
+      postmodifier: {
+        text: ''
       }
     }
   },
@@ -82,6 +99,18 @@ export default {
     async addPost() {
       const path = '/users/' + this.user._id + '/posts'
       Api.post(path, this.post)
+    },
+
+    async deletePost(id) {
+      const path = '/users/' + this.user._id + '/posts/' + id
+      Api.delete(path)
+      const path2 = '/posts/' + id
+      Api.delete(path2)
+    },
+
+    async patchPost(id) {
+      const path = '/posts/' + id
+      Api.patch(path, this.postmodifier)
     },
 
     reloadPage() {
