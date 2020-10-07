@@ -165,7 +165,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n   \"text\" : \"I love you\"\r\n }",
+					"raw": "{\r\n   \"text\" : \"I love you\",\r\n\r\n   \"picture\" : \"https://i.imgur.com/4I0NJxd.jpg\",\r\n\r\n   \"owner\" : \"{{user_id}}\"\r\n }",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -211,7 +211,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"text\": \"I hate you\"\r\n}",
+					"raw": "{\r\n    \"text\": \"I hate you\",\r\n\r\n    \"picture\" : \"https://i.imgur.com/4I0NJxd.jpg\",\r\n\r\n   \"owner\" : \"{{user_id}}\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -254,7 +254,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"text\": \"I'm a dummy\"\r\n}",
+					"raw": "{\r\n    \"text\": \"I'm a dummy\",\r\n\r\n    \"picture\" : \"https://i.imgur.com/4I0NJxd.jpg\",\r\n\r\n   \"owner\" : \"{{user_id}}\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -296,7 +296,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"text\": \"I hate you\"\r\n}",
+					"raw": "{\r\n    \"text\": \"I hate you\",\r\n\r\n    \"picture\" : \"https://i.imgur.com/4I0NJxd.jpg\",\r\n\r\n   \"owner\" : \"{{user_id}}\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
