@@ -28,7 +28,11 @@ var PostModel = new Schema({
         default: 0,
     },
 
-    picture:{ type: Schema.Types.ObjectId, ref: 'Picture'}
+    picture:{
+        type: String},
+
+    owner: {type:Schema.Types.ObjectId, ref: 'User', required:true}
+
 });
 
 module.exports = mongoose.model('Post', PostModel);

@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 var Post = require('../models/Post');
 
 //creating posts
@@ -12,7 +13,7 @@ const createPost = (req, res, next) => {
 //get post by id
 const getPostById = (req, res, next) => {
     var id = req.params.id;
-    Post.findById(id).populate('picture').exec (function(err, post) {
+    Post.findById(id,function(err, post) {
         if(post){res.json(post);
         }   else {
             return res.status(404).json({Message:'Post not found'});}
@@ -81,7 +82,19 @@ const putPost = (req, res, next) => {
     });
 };
 
+//Patch the text of a speicific post(editing)
+const patchSpecificPostText = (req, res, next) =>{
+    var id = req.params.id;
+    Post.findById(id, function(err, post) {
+        if (err) { return next(err); }
+        if (post == null) {
+            return res.status(404).json({'message': 'Post not found'});
+        }
+        post.text = (req.body.text || post.text);
+        post.save();
+        res.json(post);
+    });
+};
 
 
-
-module.exports = {createPost, getPostById, getAllPosts, deletePostById, putPost, deleteAllPosts};
+module.exports = {createPost, getPostById, getAllPosts, deletePostById, putPost, deleteAllPosts, patchSpecificPostText};

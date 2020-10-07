@@ -11,6 +11,8 @@ var PictureModel = new Schema({
         type: String,
         required: true,},
 
+    owner: {type: Schema.Types.ObjectId, ref: 'Post'}
+
 });
 
 module.exports = mongoose.model('Picture', PictureModel);
