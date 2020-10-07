@@ -1,5 +1,6 @@
 const Story = require('../models/Story');
 const User = require('../models/User');
+const Picture = require('../models/Picture');
 
 //get all stories 
 const getAllStories = (req, res) => {
@@ -27,6 +28,7 @@ const getAllStories = (req, res) => {
 
 //create a story by the user
 const createStory = async (req, res) => {
+    
     try {
         let users_with_story = await Story.find({ story_owner: req.body.id });
         if (users_with_story!=null) {
@@ -35,44 +37,36 @@ const createStory = async (req, res) => {
             });
         }
         const story = new Story({
-            story_owner: req.body._id
+            pictures: req.body.pictures,
+            story_owner:req.body.id
         });
         let data = await story.save();
-        const token = await user.generateAuthToken(); 
-        res.status(201).json({ data, token });
+        res.status(201).json({data});
     } catch (err) {
         res.status(400).json({ err: err });
     }};
 
-//get stories of a user with his ID
-const getStoryById = (req, res) => {
-    const id = req.params.id;
-    Story.findById(id)
-        .select('-__v')//version key
-        .populate('user').exec().then(doc =>{ 
-            if (!doc) ;
-            res.status(200).json({
-                id: doc.id,
-                unique_views:doc.unique_views,
-                lifespan:doc.lifespan,
-                upload_date: doc.upload_date,
-                likes: doc.likes,
-                request: [
-                    {
-                        type: 'GET',
-                        url: 'http://localhost:3000/api/stories'
-                    },
-                    {
-                        type: 'GET',
-                        url: `http://localhost:3000/api/users/${doc.user}`
-                    }
-                ]
-            }).catch(error=>{
-                if (error === 404)
-                    res.status(404).json({error:'Story of the user not found.' });
-                else res.status(500).json({ error: error });
-            });
+// Get a specific users story
+const getStoryByUser = (req, res, next) =>{
+    var user_id = req.params.user_id;
+    var story_id = req.params.story_id;
+    User.findById(user_id, function(err, user){
+        if(err){
+            return next(err);
+        }
+        if(user === null){
+            return res.status(404).json({'Message':'User not found'});
+        }
+        Story.findById(story_id, function(err, story){
+            if(err){
+                return next(err);
+            }
+            if(!story){
+                return res.status(404).json({'message': 'Story not found'});
+            }
+            res.json(story);
         });
+    });
 };
 //to replace earlier story with new story
 const putStoryWithId = (req, res) => {
@@ -176,7 +170,7 @@ const deleteStoryWithId = (req, res) => {
 module.exports = {
     getAllStories,
     createStory,
-    getStoryById, 
+    getStoryByUser, 
     putStoryWithId,
     updateStoryById,
     deleteStory,

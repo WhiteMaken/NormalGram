@@ -5,7 +5,7 @@ const StoriesController = require('../controllers/stories');
 
 router.get('/', StoriesController.getAllStories);//
 
-router.get('/:id', StoriesController.getStoryById);//
+router.get('/:id', StoriesController.getStoryByUser);//
 
 router.post('/', StoriesController.createStory);//
 

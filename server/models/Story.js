@@ -4,10 +4,10 @@ const Schema = mongoose.Schema;
 
 const storySchema = new Schema({
     unique_views:{type: Number, required: true, default:0},
-    lifespan:{type:Date, required:true},
-    upload_date: {type: Date, default: Date.now},
-    likes:{type: Number,required: true, default:0}, 
-    story_owner:{type: Schema.Types.ObjectID, ref: 'User', unique:true}
+    createdAt: {type: Date, default: Date.now, expires:'1440m'},
+    likes:{type: Number,required: true, default:0, max:10}, 
+    story_owner:{type: Schema.Types.ObjectID, ref: 'User', unique:true, required:true},
+    pictures: [{ type: Schema.Types.ObjectID, ref: 'Picture'}]
 });
 
 storySchema.plugin(mongoosePaginate);
