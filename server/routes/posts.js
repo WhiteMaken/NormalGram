@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 var express = require('express');
 var router = express.Router();
 
@@ -16,5 +17,7 @@ router.delete('/', PostsController.deleteAllPosts);
 router.put('/:id', PostsController.putPost);
 
 router.patch('/:id', PostsController.patchSpecificPostText);
+
+router.patch('/:id/pluslikes', PostsController.addLikes);
 
 module.exports = router;

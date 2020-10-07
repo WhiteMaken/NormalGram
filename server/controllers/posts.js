@@ -25,9 +25,9 @@ const getPostById = (req, res, next) => {
 
 //get all posts
 const getAllPosts = (req, res, next) => {
-    Post.find(function(err, posts) {
+    Post.find().sort({likes: 1}).exec(function(err, posts) {
         if (err) {return next(err); }
-        res.json({'posts': posts});
+        res.json(posts);
     });
 };
 
@@ -96,5 +96,19 @@ const patchSpecificPostText = (req, res, next) =>{
     });
 };
 
+//Add a like to a post
+const addLikes = (req, res, next) =>{
+    var id = req.params.id;
+    Post.findById(id, function(err, post) {
+        if (err) { return next(err); }
+        if (post == null) {
+            return res.status(404).json({'message': 'Post not found'});
+        }
+        post.likes = post.likes+1;
+        post.save();
+        res.json(post);
+    });
+};
 
-module.exports = {createPost, getPostById, getAllPosts, deletePostById, putPost, deleteAllPosts, patchSpecificPostText};
+
+module.exports = {createPost, getPostById, getAllPosts, deletePostById, putPost, deleteAllPosts, patchSpecificPostText, addLikes};

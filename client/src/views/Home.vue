@@ -16,8 +16,9 @@
         </button>
         <a href='/pictures'>Pictures</a>
         <a href='/users/settings'>Settings</a>
-        <a href='/myposts'>Posts</a>
+        <a href='/myposts'>My Posts</a>
         <a href='/stories'>Story</a>
+        <a href='/posts'>All Posts</a>
 
         <div
           class="collapse navbar-collapse justify-content-end"
@@ -70,4 +71,8 @@ export default {
   }
 }
 </script>
-<style scoped></style>
+<style scoped>
+a {
+  margin: 5px;
+}
+</style>
