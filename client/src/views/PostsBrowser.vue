@@ -4,6 +4,7 @@
     <b-button href ='/home' type="home" variant="secondary">Home</b-button>
     </div>
         <ul id="example-1">
+
   <li v-for="post in posts" :key="post._id">
       <div class="blue_box">
     <span>{{post.upload_date}} Likes: {{post.likes}}</span>
@@ -14,8 +15,11 @@
       <div class="blue_box">
     <span>{{post.text}}</span>
     </div>
-    <div>
-    <b-button to @click="patchPost(post._id);reloadPage()" variant=warning>Like</b-button>
+    <div id=likeButton>
+    <b-button to @click="patchPost(post._id);hideLikes()" variant=success>Like</b-button>
+    </div>
+    <div id=dislikeButton>
+    <b-button class="dislike" to @click="patchPost(post._id);hideDislikes()" variant=danger>Dislike</b-button>
     </div>
   </li>
 </ul>
@@ -54,6 +58,16 @@ export default {
       Api.patch(path)
     },
 
+    hideLikes() {
+      document.getElementById('likeButton').style.display = 'hidden'
+      document.getElementById('dislikeButton').style.visibility = 'visible'
+    },
+
+    hideDislikes() {
+      document.getElementById('likeButton').style.visibility = 'visible'
+      document.getElementById('dislikeButton').style.visibility = 'hidden'
+    },
+
     reloadPage() {
       window.location.reload()
     }
@@ -73,18 +87,6 @@ body {
   background-color: lightblue;
 }
 
-input[class="form-control mb-5"] {
-  width: 50%;
-  margin-top: 1em;
-margin-bottom: 1em;
-background-color: aliceblue;
-}
-
-input[class="form-control mb-6"] {
-    width: 50%;
-background-color: rgb(255, 200, 209);
-}
-
 ul {
     color: white;
    list-style-type: circle;
@@ -98,6 +100,7 @@ ul li {
 }
 
 button{
+    display: block;
 margin-top: 1em;
 margin-bottom: 1em;
 margin-right: 3em;
