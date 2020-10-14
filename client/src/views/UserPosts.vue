@@ -32,7 +32,7 @@
     <span>{{post.upload_date}} Likes: {{post.likes}}</span>
 </div>
 <div>
-        <img :src="post.picture"/>
+        <b-img :src="post.picture" fluid alt="Responsive image"></b-img>/>
 </div>
       <div class="blue_box">
     <span>{{post.text}}</span>
