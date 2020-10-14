@@ -20,6 +20,21 @@
   </li>
 </ul>
 <b-button to @click="deleteStories(); reloadPage()" variant=danger>Delete All Stories</b-button>
+        <form @submit.prevent="sendFile"  enctype="multipart/form-data">
+
+    <div class="field">
+        <label for="file" class="label">Upload File</label>
+        <input
+            type="file"
+            ref="file"
+            @change="selectFile"
+            />
+    </div>
+
+    <div class="field">
+      <button class="button is-info">Send</button>
+    </div>
+       </form>
 
     <b-button href ='/home' type="home" variant="secondary">Home</b-button>
     </div>
@@ -34,7 +49,8 @@ export default {
       storymodifier: {
         likes: '',
         lifespan: '2023-09-10T18:25:43.511Z'
-      }
+      },
+      file: ''
     }
   },
   methods: {
@@ -50,6 +66,18 @@ export default {
     async deleteStories() {
       const path = '/stories/'
       Api.delete(path)
+    },
+    selectFile() {
+      this.file = this.$refs.file.files[0]
+    },
+    async sendFile() {
+      const formData = new FormData()
+      formData.append('file', this.file)
+      try {
+        await Api.post('/stories', formData)
+      } catch (err) {
+        console.log(err)
+      }
     },
 
     async putStory(id) {

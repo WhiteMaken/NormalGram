@@ -12,6 +12,7 @@
     "axios": "^0.20.0",
     "bootstrap": "^4.5.2",
     "bootstrap-vue": "^2.16.0",
+    "bulma": "^0.9.1",
     "lightbox": "^0.5.0",
     "lint": "^0.7.0",
     "sweetalert": "^2.1.2",
