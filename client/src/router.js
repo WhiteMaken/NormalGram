@@ -42,7 +42,14 @@ const routes = [
     path: '/stories',
     name: 'stories',
     component: () => import('../src/views/Stories.vue')
+  },
+
+  {
+    path: '/posts',
+    name: 'posts',
+    component: () => import('../src/views/Posts.vue')
   }
+
 ]
 const router = new Router({
   mode: 'history',

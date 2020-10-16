@@ -2,14 +2,34 @@
   <div>
     <nav class="navbar navbar-expand-lg navbar-light bg-lightblue">
       <div class="container">
-<div class="topnav">
-        <a href="/pictures">Pictures</a>
-        <a href="/users/settings">Settings</a>
-        <a href="/myposts">Posts</a>
-        <a href="/stories">Story</a>
-        <a class="nav-link" @click="getUserDetails"> Normalgram</a>
-        <c class="nav-link" @click="logUserOut"> Logout</c>
-</div>
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <a href='/pictures'>Pictures</a>
+        <a href='/users/settings'>Settings</a>
+        <a href='/myposts'>My Posts</a>
+        <a href='/stories'>Story</a>
+        <a href='/posts'>All Posts</a>
+
+        <div
+          class="collapse navbar-collapse justify-content-end"
+          id="navbarNav"
+        >
+          <ul class="navbar-nav">
+            <li class="nav-item active">
+              <a class="nav-link" @click="logUserOut"> Logout</a>
+            </li>
+          </ul>
+        </div>
       </div>
       <div>
       </div>
@@ -53,61 +73,8 @@ export default {
   }
 }
 </script>
-<style>
-.p-1 {
-  padding-right: 10rem;
-  background-color: lightblue;
+<style scoped>
+a {
+  margin: 5px;
 }
-
-/* Add a black background color to the top navigation */
-.topnav {
-  background-color: lightblue;
-  overflow: hidden;
-}
-.container{
- background-color: lightblue
-}
-
-.topnav a {
-  float: left;
-  color: #042b75;
-  text-align: center;
-  padding: 14px 20px;
-  text-decoration: none;
-  font-size: 17px;
-}
-
-/* Change the color of links on hover */
-.topnav a:hover {
-  background-color: rgb(108, 235, 235);
-  color: black;
-}
-
-/* Add a color to the active/current link */
-.topnav a.active {
-  background-color: #4CAF50;
-  color: white;
-}
-
-.topnav c{ background-color: rgb(22, 60, 61);
-  overflow: hidden;
-}
-.topnav c {
-  float: right;
-  color: #f2f2f2;
-  text-align: right;
-  padding: 14px 20px;
-  text-decoration: none;
-  font-size: 17px;
-}
-
-.topnav c:hover {
-  background-color: brown;
-  color: black;
-}
-
-img {
-  border: 3px groove rgb(26, 0, 143);
-}
-
 </style>
