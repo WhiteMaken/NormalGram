@@ -1,156 +1,77 @@
 <template>
-    <div id="app">
-<div class="page">
-  <label class="field field_v1">
-    <input class="field__input" placeholder="Just copy the image url" required
-    v-model="post.picture">
-    <span class="field__label-wrap">
-      <span class="field__label">Enter a valid image url</span>
-    </span>
-  </label>
-  </div>
- <div class="page">
-  <label class="field field_v1">
-    <input class="field__input" placeholder="e.g. I'm so good looking " required
-    v-model="post.text">
-    <span class="field__label-wrap">
-      <span class="field__label">Enter  a description</span>
-    </span>
-  </label>
-  </div>
-         <div class="button_cont"><a class="example_c"  target="_blank"
-         to @click="addPost()">Add post</a>
-    </div>
-
-  <AddPostItem v-on:add-new="reupdateByAdd"/>
-
-  <ul id="example-1">
-    <li v-for="post in posts" :key="post._id">
-      <PostItem v-bind:post={post} v-on:patch-new="reupdateByPatch" v-on:delete-new="reupdateByDelete" />
-    </li>
-  </ul>
+<div class="gallery">
+        <a target="_blank" :href="post.post.picture">
+          <date v-if="post.post" :date="post.post.upload_date"/> Likes: {{post.post.likes}}
+          <img :src="post.post.picture"  width="1200" height="800"/>
+        </a>
+        <div class="desc">{{post.post.text}}</div>
+        <div class="page">
+          <label class="field field_v1">
+            <input class="field__input" placeholder="e.g. I'm happy" required
+                v-model="postmodifier.text" :key="postmodifier._id">
+            <span class="field__label-wrap">
+              <span class="field__label">Enter new text</span>
+            </span>
+          </label>
+        </div>
+        <div>
+        <div class="button_cont"><a class="example_c"  target="_blank"
+          to @click="patchPost(post.post._id)">Edit Text</a></div>
+        </div>
+      <div>
+        <div class="button_cont"><a class="example_c"  target="_blank"
+          to @click="deletePost(post.post._id)">Delete Post</a>
+        </div>
+      </div>
     </div>
 </template>
 
 <script>
+import Date from '../../components/shared/Date'
 import { Api } from '@/Api'
 import VueJwtDecode from 'vue-jwt-decode'
-import PostItem from '../components/Post/PostItem'
-import AddPostItem from '../components/Post/AddPostItem'
 
 export default {
   data() {
     return {
-      posts: [],
-      user: {},
-      post: {
-        text: '',
-        picture: '',
-        owner: ''
-
-      },
       postmodifier: {
         text: ''
       }
     }
   },
+  props: ['post'],
   components: {
-    PostItem,
-    AddPostItem
+    Date
+  },
+  mounted() {
+    console.log(this.post.post)
+    this.getUserId()
   },
   methods: {
-
-    reupdateByAdd(obj) {
-      console.log(obj)
-      this.posts.splice(0, 0, obj)
-    },
-    reupdateByDelete(id) {
-      const index = this.posts.findIndex(post => post._id === id)
-      console.log('Index is :', index)
-      this.posts.splice(index, 1)
-    },
-    reupdateByPatch(obj) {
-      const index = this.posts.findIndex(post => post._id === obj.id)
-      this.posts[index].text = obj.text
-    },
-    read() {
-      const path = '/users/' + this.user._id + '/posts'
-      Api.get(path).then(({ data }) => {
-        this.posts = data
-        console.log(this.posts)
-      })
-        .catch((err) => console.error(err))
-    },
 
     getUserId() {
       const token = localStorage.getItem('jwt')
       const decoded = VueJwtDecode.decode(token)
       this.user = decoded
     },
-
-    seedPost() {
-      this.post.owner = this.user._id
-    },
-
-    async addPost() {
-      const path = '/users/' + this.user._id + '/posts'
-      Api.post(path, this.post)
-    },
-
     async deletePost(id) {
+      this.$emit('delete-new', id)
       const path2 = '/posts/' + id
       Api.delete(path2)
     },
 
     async patchPost(id) {
+      this.$emit('patch-new', { id: this.post.post._id, text: this.postmodifier.text })
       const path = '/posts/' + id
       Api.patch(path, this.postmodifier)
-    },
-
-    async refreshDescription(resource) {
-      const response = await this.$http.get('/description')
-      this.posts = response.data
-    },
-
-    reloadPage() {
-      window.location.reload()
+      this.postmodifier.text = ''
     }
-  },
-
-  mounted() {
-    this.getUserId()
-    this.read()
-    this.seedPost()
   }
 
 }
 </script>
 
 <style>
-
-body {
-    padding-top: 80px;
-}
-
-input[class="form-control mb-5"] {
-  width: 50%;
-  margin-top: 1em;
-margin-bottom: 1em;
-}
-
-input[class="form-control mb-6"] {
-  margin-left: 1em;
-    width: 50%;
-}
-
-ul {
-   padding: 11px 21px;
-   list-style-type: none;
-}
-
-ul li {
-  margin: 5px;
-}
 
 div.gallery {
   margin: 5px;

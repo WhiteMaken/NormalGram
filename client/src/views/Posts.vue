@@ -108,6 +108,8 @@ margin-right: 3em;
 
 img {
 border: 3px groove rgb(26, 0, 143);
+    max-width:100%;
+    height:auto;
 }
 
 .blue_box{

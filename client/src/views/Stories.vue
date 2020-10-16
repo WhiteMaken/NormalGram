@@ -71,10 +71,6 @@ export default {
 
 <style>
 
-body {
-  background-color: lightblue;
-}
-
 input[class="form-control mb-5"] {
   width: 50%;
   margin-top: 1em;

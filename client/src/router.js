@@ -47,7 +47,7 @@ const routes = [
   {
     path: '/posts',
     name: 'posts',
-    component: () => import('../src/views/PostsBrowser.vue')
+    component: () => import('../src/views/Posts.vue')
   }
 
 ]
