@@ -1,5 +1,5 @@
 <template>
-  <span>{{formatDate}}</span>
+  <span class=date>{{formatDate}}</span>
 </template>
 
 <script>

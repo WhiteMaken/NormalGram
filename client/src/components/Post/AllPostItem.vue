@@ -9,25 +9,10 @@
           <img :src="post.post.picture"  width="1200" height="800"/>
         </a>
         <div class="desc">{{post.post.text}}</div>
-        <div class="page">
-          <label class="field field_v1">
-            <input class="field__input" placeholder="e.g. I'm happy" required
-                v-model="postmodifier.text" :key="postmodifier._id">
-            <span class="field__label-wrap">
-              <span class="field__label">Enter new text</span>
-            </span>
-          </label>
-        </div>
-        <div>
+        <div class="desc2">{{post.post.owner.username}}</div>
         <div class="button_cont"><a class="example_c"  target="_blank"
-          to @click="patchPost(post.post._id)">Edit Text</a></div>
-        </div>
-      <div>
-        <div class="button_cont"><a class="example_c"  target="_blank"
-          to @click="deletePost(post.post._id)">Delete Post</a>
-        </div>
-      </div>
-    </div>
+    to @click="patchPost(post.post._id)"><span class= heart></span></a></div>
+</div>
 </template>
 
 <script>
@@ -38,9 +23,6 @@ import VueJwtDecode from 'vue-jwt-decode'
 export default {
   data() {
     return {
-      postmodifier: {
-        text: ''
-      }
     }
   },
   props: ['post'],
@@ -58,17 +40,17 @@ export default {
       const decoded = VueJwtDecode.decode(token)
       this.user = decoded
     },
-    async deletePost(id) {
-      this.$emit('delete-new', id)
-      const path2 = '/posts/' + id
-      Api.delete(path2)
-    },
 
     async patchPost(id) {
-      this.$emit('patch-new', { id: this.post.post._id, text: this.postmodifier.text })
-      const path = '/posts/' + id
-      Api.patch(path, this.postmodifier)
-      this.postmodifier.text = ''
+      if (this.post.post.likes >= 50) {
+        this.$emit('delete-popular-new', id)
+        const path = '/posts/' + id
+        Api.delete(path)
+      } else {
+        this.$emit('like-new', id)
+        const path = '/posts/' + id + '/pluslikes/'
+        Api.patch(path)
+      }
     }
   }
 
@@ -76,6 +58,12 @@ export default {
 </script>
 
 <style>
+
+.heart:before {
+  content: '\2665';
+  color: red;
+
+}
 
 div.gallery {
   margin: 5px;
@@ -98,6 +86,11 @@ div.desc {
   padding: 15px;
   text-align: center;
   font-weight: bolder;
+}
+
+div.desc2{
+    text-align: end;
+    font-weight: lighter;
 }
 
 .example_c {
@@ -307,5 +300,48 @@ LEVEL 4. SETTINGS
 .field{
   --fieldBorderColor: #D1C4E9;
   --fieldBorderColorActive: #673AB7;
+}
+
+.like-content {
+    display: inline-block;
+    width: 100%;
+    margin: 40px 0 0;
+    padding: 40px 0 0;
+    font-size: 18px;
+    border-top: 10px dashed #eee;
+    text-align: center;
+}
+.like-content .btn-secondary {
+display: block;
+margin: 40px auto 0px;
+    text-align: center;
+    background: #ed2553;
+    border-radius: 3px;
+    box-shadow: 0 10px 20px -8px rgb(240, 75, 113);
+    padding: 10px 17px;
+    font-size: 18px;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    color: #ffffff;
+    text-decoration: none;
+    -webkit-transition: 0.3s ease;
+    transition: 0.3s ease;
+}
+.like-content .btn-secondary:hover {
+transform: translateY(-3px);
+}
+.like-content .btn-secondary .fa {
+ margin-right: 5px;
+}
+.animate-like {
+animation-name: likeAnimation;
+animation-iteration-count: 1;
+animation-fill-mode: forwards;
+animation-duration: 0.65s;
+}
+@keyframes likeAnimation {
+  0%   { transform: scale(30); }
+  100% { transform: scale(1); }
 }
 </style>

@@ -3,7 +3,8 @@
     <div class="max_width">
       <div class="nav_content">
         <router-link to="/home">
-          <span style="color: #fff">NormalGram</span>
+        <img src="../assets/normalgram.png" alt="logo">
+          <span style="color: #fff"> NormalGram</span>
         </router-link>
         <div class="nav_links">
           <a v-if="!loggedIn" href="#recent_posts">Discover</a>
@@ -53,7 +54,7 @@ export default {
     align-items: center;
   }
   header .nav_content .nav_links > a {
-    color: #fff;
+    color: rgb(255, 255, 255);
   }
   header .nav_content .nav_links > a:nth-child(n + 1) {
     margin-right: 30px;
