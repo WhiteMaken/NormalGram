@@ -3,7 +3,7 @@
         <ul id="example-1">
   <li v-for="story in stories.docs" :key="story._id">
       <div>
-      {{story._id}}
+      <img v-bind:src="'data:image/jpeg;base64,'+story.image" />
       </div>
       <div>
       {{story.likes}}
@@ -27,6 +27,7 @@
         <input
             type="file"
             ref="file"
+            accept="image/*"
             @change="selectFile"
             />
     </div>
@@ -35,7 +36,6 @@
       <button class="button is-info">Send</button>
     </div>
        </form>
-
     <b-button href ='/home' type="home" variant="secondary">Home</b-button>
     </div>
 </template>
@@ -45,12 +45,17 @@ import { Api } from '@/Api'
 export default {
   data() {
     return {
-      stories: [],
+      stories: {},
       storymodifier: {
         likes: '',
         lifespan: '2023-09-10T18:25:43.511Z'
       },
       file: ''
+    }
+  },
+  computed: {
+    myImage() {
+      return `data:image/png;base64, ${this.stories}`
     }
   },
   methods: {
@@ -77,7 +82,7 @@ export default {
         await Api.post('/stories', formData)
       } catch (err) {
         console.log(err)
-      }
+      } finally { window.location.reload() }
     },
 
     async putStory(id) {
@@ -87,6 +92,13 @@ export default {
 
     reloadPage() {
       window.location.reload()
+    },
+    loadImage() {
+      Api.get('/stories').then(({ result }) => {
+        console.log(result)
+        this.stories = result
+      })
+        .catch((err) => console.error(err))
     }
   },
 
