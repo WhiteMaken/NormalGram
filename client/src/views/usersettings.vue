@@ -4,8 +4,10 @@
       <b-container >
         <b-row align-h="center" align-v="center" class="mt-4">
           <b-col cols="8" >
-            <b-card class="p-1">
-              <div class="usersettings"/>
+            <b-card id="p-1">
+              <div id="usersettings"/>
+              <!-- An element with a unique id -->
+              <h1 id="myHeader">Settings</h1>
                <usersettings />
             </b-card>
           </b-col>
@@ -34,6 +36,11 @@ export default {
   }
 body {
   background-color: lightblue
+}
+/* Style the element with the id "myHeader" */
+#myHeader{
+  color: white;
+  background-color: #2F303A;
 }
 .action {
     display: flex;
