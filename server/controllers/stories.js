@@ -1,26 +1,12 @@
 const Story = require('../models/Story');
 
 //get all stories 
-const getAllStories = (req, res) => {
-    const options = {
-        sort: { published: -1 },
-        page: req.query.page === 'undefined' ? 1 : req.query.page,
-        limit:
-      typeof req.query.limit === 'undefined' || req.query.limit === 'undefined'
-          ? 9
-          : req.query.limit
-    };
-    Story.paginate({}, options)
-        .then(result => {
-            if (!result.totalDocs) throw 404;
-            res.status(200).json({
-                ...result
-            });
-        })
-        .catch(error => {
-            if (error === 404) res.status(404).json({ error: 'No stories found.' });
-            else res.status(500).json({ error: error });
-        });
+//get all posts
+const getAllStories = (req, res, next) => {
+    Story.find(function(err, stories) {
+        if (err) {return next(err); }
+        res.json({'stories': stories});
+    });
 };
 
 

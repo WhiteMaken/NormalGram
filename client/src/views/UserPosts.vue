@@ -20,6 +20,7 @@
             required
           />
         </div>
+        {{post}}
         <div>
         <b-button to @click="addPost(); reloadPage()" variant=success>Add Post</b-button>
         </div>
@@ -52,6 +53,7 @@
     </div>
     <div>
     <b-button to @click="deletePost(post._id); reloadPage()" variant=danger>Delete Post</b-button>
+    {{posts}}
 </div>
   </li>
 </ul>

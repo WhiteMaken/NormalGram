@@ -25,7 +25,6 @@ router.get('/:id', StoriesController.getStoryById);
 router.post('/', upload.single('file'),(req, res) => {
     var img = fs.readFileSync(req.file.path);
     var encode_image = img.toString('base64');
-    
     var story = { 
         contentType:req.file.mimetype,
         path:req.file.path,

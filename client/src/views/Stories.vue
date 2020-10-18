@@ -1,29 +1,26 @@
 <template>
-    <div id="app">
-        <ul id="example-1">
-  <li v-for="story in stories.docs" :key="story._id">
-      <div>
-      <img v-bind:src="'data:image/jpeg;base64,'+story.image" />
-      </div>
-      <div>
-      {{story.likes}}
-      </div>
-      <input
-            type="newPicture"
-            id="input"
-            class="form-control mb-5"
-            placeholder="Enter new number of likes"
-            v-model="storymodifier.likes"
-            required
-          />
-          <b-button to @click="putStory(story._id); reloadPage()" variant=warning>Put Story</b-button>
-  </li>
-</ul>
-<b-button to @click="deleteStories(); reloadPage()" variant=danger>Delete All Stories</b-button>
-        <form @submit.prevent="sendFile"  enctype="multipart/form-data">
+   <div>
+  <b-carousel
+      id="carousel-1"
+      v-model="slide"
+      :interval="5000"
+      controls
+      indicators
+      background="#ababab"
+      style="text-shadow: 1px 1px 2px #333;"
+      @sliding-start="onSlideStart"
+      @sliding-end="onSlideEnd"
+  >      <b-carousel-slide
+            v-for="image in stories.stories"
+            :key="image"
+            :img-src="'data:image/jpeg;base64,'+image.image"
+          >
+      </b-carousel-slide>
+      </b-carousel>
 
+<form @submit.prevent="sendFile"  enctype="multipart/form-data">
     <div class="field">
-        <label for="file" class="label">Upload File</label>
+        <label for="file" class="label">Upload picture</label>
         <input
             type="file"
             ref="file"
@@ -31,26 +28,28 @@
             @change="selectFile"
             />
     </div>
-
     <div class="field">
       <button class="button is-info">Send</button>
     </div>
        </form>
-    <b-button href ='/home' type="home" variant="secondary">Home</b-button>
-    </div>
-</template>
+       <b-button to @click="deleteStories(); reloadPage()" variant=danger>Delete All Stories</b-button>
+</div>
 
+</template>
 <script>
 import { Api } from '@/Api'
 export default {
   data() {
     return {
-      stories: {},
-      storymodifier: {
-        likes: '',
-        lifespan: '2023-09-10T18:25:43.511Z'
-      },
-      file: ''
+      stories: [],
+      slide: 0,
+      sliding: null,
+      file: '',
+      story: {
+        contentType: '',
+        image: '',
+        path: ''
+      }
     }
   },
   computed: {
@@ -59,18 +58,12 @@ export default {
     }
   },
   methods: {
-
     read() {
       Api.get('/stories').then(({ data }) => {
         console.log(data)
         this.stories = data
       })
         .catch((err) => console.error(err))
-    },
-
-    async deleteStories() {
-      const path = '/stories/'
-      Api.delete(path)
     },
     selectFile() {
       this.file = this.$refs.file.files[0]
@@ -84,14 +77,18 @@ export default {
         console.log(err)
       } finally { window.location.reload() }
     },
-
-    async putStory(id) {
-      const path = '/stories/' + id
-      Api.put(path, this.storymodifier)
-    },
-
     reloadPage() {
       window.location.reload()
+    },
+    async deleteStories() {
+      const path = '/stories/'
+      Api.delete(path)
+    },
+    onSlideStart(slide) {
+      this.sliding = true
+    },
+    onSlideEnd(slide) {
+      this.sliding = false
     },
     loadImage() {
       Api.get('/stories').then(({ result }) => {
@@ -101,34 +98,14 @@ export default {
         .catch((err) => console.error(err))
     }
   },
-
   mounted() {
     this.read()
   }
-
 }
 </script>
-
-<style>
-
-body {
-  background-color: lightblue;
-}
-
-input[class="form-control mb-5"] {
-  width: 50%;
-  margin-top: 1em;
-margin-bottom: 1em;
-background-color: aliceblue;
-}
-
-button{
-margin-top: 1em;
-margin-bottom: 1em;
-margin-right: 3em;
-}
-
-img {
-border: 3px groove rgb(26, 0, 143);
+<style scoped>
+.carousel .responsive{
+  width:250px;
+  height:360px;
 }
 </style>
