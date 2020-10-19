@@ -1,5 +1,7 @@
 <template>
-   <div>
+  <div class="container">
+  <b-container>
+      <b-row align-h="center" align-v="center" class="mt-3">
   <b-carousel
       id="carousel-1"
       v-model="slide"
@@ -17,7 +19,8 @@
           >
       </b-carousel-slide>
       </b-carousel>
-
+          </b-row>
+    </b-container>
 <form @submit.prevent="sendFile"  enctype="multipart/form-data">
     <div class="field">
         <label for="file" class="label">Upload picture</label>
@@ -33,8 +36,7 @@
     </div>
        </form>
        <b-button to @click="deleteStories(); reloadPage()" variant=danger>Delete All Stories</b-button>
-</div>
-
+  </div>
 </template>
 <script>
 import { Api } from '@/Api'

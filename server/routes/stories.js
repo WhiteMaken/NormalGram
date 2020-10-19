@@ -4,6 +4,7 @@ const multer = require ('multer');
 const path = require('path');
 const fs = require('fs');
 const Story = require('../models/Story');
+const StoriesController = require('../controllers/stories');
 
 const storage = multer.diskStorage({
     destination:function (req, file, cb){
@@ -16,8 +17,6 @@ const storage = multer.diskStorage({
 
 var upload = multer({storage:storage});
 
-const StoriesController = require('../controllers/stories');
-
 router.get('/', StoriesController.getAllStories);
 
 router.get('/:id', StoriesController.getStoryById);
@@ -28,13 +27,11 @@ router.post('/', upload.single('file'),(req, res) => {
     var story = { 
         contentType:req.file.mimetype,
         path:req.file.path,
-        image:new Buffer.from(encode_image, 'base64')
+        image:new Buffer.from(encode_image, 'base64'),
     };
-    
     Story.collection.insertOne(story,(err, result) => {
         console.log(result);
         if(err) {return console.log(err);}
-    
         console.log('Saved to database');
         res.contentType(story.contentType);
         res.send(story.image);

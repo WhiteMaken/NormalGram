@@ -104,25 +104,22 @@ const updateStoryById = (req, res) => {
         });
 };
 //to delete all stories 
+//Delete all users
 const deleteStory = (req, res) => {
-    const id = req.params.id;
     Story.deleteMany()
         .exec()
         .then(result => {
-            if (!result ) ;
+            if (result.deletedCount === 0) throw 404;
+  
             res.status(200).json({
-                message: 'all stories deleted',
-                request: {
-                    type:'STORY',
-                    url:'http://localhost:3000/api/stories',
-                    data:{}
-                }
-            })
-                .catch(error => {
-                    if (error === 404)
-                        res.status(404).json({error: 'No stories found.' });
-                    else res.status(500).json({ error: error });
-                });
+                message: 'All stories deleted.',
+                deletedCount: result.deletedCount
+            });
+        })
+        .catch(error => {
+            if (error === 404)
+                res.status(404).json({ error: 'No stories found.' });
+            else res.status(500).json({ error: error });
         });
 };
 //to delete story with an ID
