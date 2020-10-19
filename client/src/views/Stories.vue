@@ -13,7 +13,7 @@
       @sliding-start="onSlideStart"
       @sliding-end="onSlideEnd"
   >      <b-carousel-slide
-            v-for="image in stories.stories"
+            v-for="image in stories"
             :key="image"
             :img-src="'data:image/jpeg;base64,'+image.image"
           >
@@ -40,9 +40,11 @@
 </template>
 <script>
 import { Api } from '@/Api'
+import VueJwtDecode from 'vue-jwt-decode'
 export default {
   data() {
     return {
+      users: {},
       stories: [],
       slide: 0,
       sliding: null,
@@ -54,14 +56,10 @@ export default {
       }
     }
   },
-  computed: {
-    myImage() {
-      return `data:image/png;base64, ${this.stories}`
-    }
-  },
+
   methods: {
     read() {
-      Api.get('/stories').then(({ data }) => {
+      Api.get('/stories/' + this.user._id).then(({ data }) => {
         console.log(data)
         this.stories = data
       })
@@ -70,11 +68,16 @@ export default {
     selectFile() {
       this.file = this.$refs.file.files[0]
     },
+    getUserId() {
+      const token = localStorage.getItem('jwt')
+      const decoded = VueJwtDecode.decode(token)
+      this.user = decoded
+    },
     async sendFile() {
       const formData = new FormData()
       formData.append('file', this.file)
       try {
-        await Api.post('/stories', formData)
+        await Api.post('/stories/' + this.user._id, formData)
       } catch (err) {
         console.log(err)
       } finally { window.location.reload() }
@@ -83,7 +86,7 @@ export default {
       window.location.reload()
     },
     async deleteStories() {
-      const path = '/stories/'
+      const path = '/stories/' + this.user._id
       Api.delete(path)
     },
     onSlideStart(slide) {
@@ -91,16 +94,10 @@ export default {
     },
     onSlideEnd(slide) {
       this.sliding = false
-    },
-    loadImage() {
-      Api.get('/stories').then(({ result }) => {
-        console.log(result)
-        this.stories = result
-      })
-        .catch((err) => console.error(err))
     }
   },
   mounted() {
+    this.getUserId()
     this.read()
   }
 }

@@ -21,10 +21,11 @@ router.get('/', StoriesController.getAllStories);
 
 router.get('/:id', StoriesController.getStoryById);
 
-router.post('/', upload.single('file'),(req, res) => {
+router.post('/:id', upload.single('file'),(req, res) => {
     var img = fs.readFileSync(req.file.path);
     var encode_image = img.toString('base64');
     var story = { 
+        user:req.params,
         contentType:req.file.mimetype,
         path:req.file.path,
         image:new Buffer.from(encode_image, 'base64'),
@@ -38,11 +39,7 @@ router.post('/', upload.single('file'),(req, res) => {
     });
 });
 
-router.delete('/', StoriesController.deleteStory);//
-
 router.delete('/:id', StoriesController.deleteStoryWithId);//
-
-router.put('/:id', StoriesController.putStoryWithId);//
 
 router.patch('/:id', StoriesController.updateStoryById);//
 

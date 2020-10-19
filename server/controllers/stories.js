@@ -1,7 +1,6 @@
 const Story = require('../models/Story');
 
 //get all stories 
-//get all posts
 const getAllStories = (req, res, next) => {
     Story.find(function(err, stories) {
         if (err) {return next(err); }
@@ -19,68 +18,7 @@ const createStory = (req, res, next) => {
     });
 };
 
-//get stories of a user with his ID
-const getStoryById = (req, res) => {
-    const id = req.params.id;
-    Story.findById(id)
-        .select('-__v')//version key
-        .populate('user').exec().then(doc =>{ 
-            if (!doc) ;
-            res.status(200).json({
-                id: doc.id,
-                unique_views:doc.unique_views,
-                lifespan:doc.lifespan,
-                upload_date: doc.upload_date,
-                likes: doc.likes,
-                request: [
-                    {
-                        type: 'GET',
-                        url: 'http://localhost:3000/api/stories'
-                    },
-                    {
-                        type: 'GET',
-                        url: `http://localhost:3000/api/users/${doc.user}`
-                    }
-                ]
-            }).catch(error=>{
-                if (error === 404)
-                    res.status(404).json({error:'Story of the user not found.' });
-                else res.status(500).json({ error: error });
-            });
-        });
-};
-//to replace earlier story with new story
-const putStoryWithId = (req, res) => {
-    const id = req.params.id;
-    /* This didn't work
-    Story.findOneAndReplace(id).exec().then(result=>{
-        if (err) { return next(err); }
-        res.status(200).json({
-            message: 'Story replaced.'
-          });
-    }).catch(error => {
-        if (error === 404)
-          res.status(404).json({ error: `Story with Id: ${id} not found.` });
-        else res.status(500).json({ error: error });
-      });
-    }
-    */
-    Story.findById(id, function(err, story){
-        if(err){
-            return next(err);
-        }
-        if(story == null){
-            return res.status(404).json({'message': 'Story not found'});
-        }
-        story.unique_views = req.body.unique_views || story.unique_views;
-        story.lifespan = req.body.lifespan|| story.lifepsan;
-        story.upload_date = req.body.upload_date || story.upload_date;
-        story.likes = req.body.likes || story.likes;
-        story.story_owner = req.body.story_owner|| story.story_owner;
-        story.save();
-        res.json(story);
-    });
-};
+
 
 //to update stories by id
 const updateStoryById = (req, res) => {
@@ -103,54 +41,36 @@ const updateStoryById = (req, res) => {
             else res.status(500).json({ error: error });
         });
 };
-//to delete all stories 
-//Delete all users
-const deleteStory = (req, res) => {
-    Story.deleteMany()
-        .exec()
-        .then(result => {
-            if (result.deletedCount === 0) throw 404;
-  
-            res.status(200).json({
-                message: 'All stories deleted.',
-                deletedCount: result.deletedCount
-            });
-        })
-        .catch(error => {
-            if (error === 404)
-                res.status(404).json({ error: 'No stories found.' });
-            else res.status(500).json({ error: error });
-        });
+
+//return all posts of a user
+const getStoryById = (req, res, next) => {
+    var id = req.params;
+    Story.find({user:id}, function(err, story) {
+        if (err) { return next(err); }
+        if (story == null) {
+            return res.status(404).json({'message': 'User not found'});
+        }
+        console.log('lol');
+        res.json(story);
+    });
 };
-//to delete story with an ID
-const deleteStoryWithId = (req, res) => {
-    const id = req.params.id;
-    Story.findOneAndDelete({ _id: id })
-        .exec().then(result=> {
-            if (!result) throw 404;
-            res.status(200).json({
-                message: 'story deleted.',
-                ...result._doc,
-                request: {
-                    type: 'STORY',
-                    url: 'http://localhost:3000/api/stories',
-                    data: {}
-                }
-            })
-                .catch(error => {
-                    if (error === 404)
-                        res.status(404).json({ error: `Story with Id: ${id} not found.` });
-                    else res.status(500).json({ error: error });
-                });
-        });
+
+// Delete all stories by a user
+const deleteStoryWithId = (req, res, next) =>{
+    var id = req.params;
+    Story.findOneAndDelete({user: id}, function(err, story) {
+        if (err) { return next(err); }
+        if (story == null) {
+            return res.status(404).json({'message': 'User not found'});
+        }
+        console.log('deleted');
+    });
 };
 
 module.exports = {
     getAllStories,
     createStory,
     getStoryById, 
-    putStoryWithId,
     updateStoryById,
-    deleteStory,
     deleteStoryWithId,
 };
