@@ -32,15 +32,18 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
 div.gallery {
   margin: 5px;
-  border: 1px solid #ccc;
+  border: 4px solid #494949;
+  border-radius: 25px;
+  padding: 5px;
 }
 
 div.gallery:hover {
-  border: 1px solid #777;
+  border: 4px solid #000000;
+  border-radius: 25px;
 }
 
 div.gallery img {

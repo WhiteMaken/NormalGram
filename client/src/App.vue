@@ -28,8 +28,7 @@ export default {
   data() {
     return {
       login: false,
-      loggedIn: false,
-      mod: false
+      loggedIn: false
     }
   },
   components: {
@@ -55,7 +54,7 @@ export default {
     },
     setLoggedIn(response) {
       this.loggedIn = response.data.user.loggedIn
-      location.href = /home/
+      location.href = /myposts/
     },
     signOut() {
       this.login = true

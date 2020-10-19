@@ -2,7 +2,7 @@
 <div>
     <div class="border">
     <date v-if="comment.comment" :date="comment.comment.upload_date"/>
-        <div class="desc">{{comment.comment.text}}</div>
+        <div class="desc3">{{comment.comment.text}}</div>
         </div>
         <div class="page">
           <label class="field field_v1">
@@ -72,9 +72,16 @@ export default {
 
 <style>
 
+.desc3{
+  text-align: left;
+  font-weight: bold;
+}
+
 .border{
     border: 4px solid;
    border-color: #000000 !important;
+   border-radius: 10px;
+   padding: 5px;
 }
 
 .example_c {

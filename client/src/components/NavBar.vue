@@ -7,13 +7,13 @@
           <span style="color: #fff"> NormalGram</span>
         </router-link>
         <div class="nav_links">
-          <a v-if="!loggedIn" href="#recent_posts">Discover</a>
           <a href="#" v-if="!loggedIn && !login" @click="$emit('move-to-login')">Sign in</a>
           <a href="#" v-if="login" @click="$emit('move-to-reg')">Register</a>
-          <router-link v-if="loggedIn" to="/home">Main page</router-link>
           <router-link v-if="loggedIn" to="/myposts">My Wall</router-link>
           <router-link v-if="loggedIn" to="/posts">Posts</router-link>
           <router-link v-if="loggedIn" to="/stories">Stories</router-link>
+          <router-link v-if="loggedIn" to="/userlist">Users</router-link>
+          <router-link v-if="loggedIn" to="/home">Settings</router-link>
           <a href="#" v-if="loggedIn" @click="$emit('sign-out')">Sign out</a>
         </div>
       </div>

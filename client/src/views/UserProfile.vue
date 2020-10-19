@@ -1,11 +1,17 @@
 <template>
     <div id="app">
+        <div class="button_cont"><a class="example_c"  target="_blank" color="red"
+          to @click="goBack()">Back</a>
+        </div>
         <div class="responsive">
 <div class="gallery">
         <a target="_blank" :href="this.user.name">
           <img :src="this.user.name"  width="1200" height="800"/>
         </a>
         <div class="desc">{{this.user.username}}</div>
+        <div class="desc3">Name: {{this.user.name}}</div>
+        <div class="desc3">Email: {{this.user.email}}</div>
+        <div class="desc3">Posts: {{this.user.posts.length}}</div>
         <AddCommentItem v-bind:user={user} v-on:add-new="reupdateByAdd"/>
         <ul>
         <li v-for="comment in comments" :key="comment._id">
@@ -49,6 +55,11 @@ export default {
       this.comments[index].text = obj.text
     },
 
+    goBack() {
+      const path = '/userlist'
+      this.$router.push(path)
+    },
+
     getUserId() {
       const path = '/users/my/' + this.$route.params.id
       Api.get(path).then(({ data }) => {
@@ -77,7 +88,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
 body {
     padding-top: 80px;
@@ -94,11 +105,14 @@ ul li {
 
 div.gallery {
   margin: 5px;
-  border: 1px solid #ccc;
+  border: 4px solid #494949;
+  border-radius: 25px;
+  padding: 5px;
 }
 
 div.gallery:hover {
-  border: 1px solid #777;
+  border: 4px solid #000000;
+  border-radius: 25px;
 }
 
 div.gallery img {
@@ -125,7 +139,7 @@ div.desc2{
 .responsive {
   padding: 0 6px;
   float: left;
-  width: 49.99999%;
+  width: 99.99999%;
 }
 
 @media only screen and (max-width: 700px) {
@@ -145,5 +159,33 @@ div.desc2{
   content: "";
   display: table;
   clear: both;
+}
+
+.example_c {
+margin-top: 1em;
+margin-bottom: 1em;
+margin-right: 3em;
+margin-left: 1em;
+color: #000000 !important;
+text-decoration: none;
+background: #ff0000;
+padding: 10px;
+border: 4px solid #494949 !important;
+display: inline-block;
+transition: all 0.4s ease 0s;
+border-radius: 20px;
+}
+
+.example_c:hover {
+color: #000000 !important;
+background: #ad0505;
+border-color: #000000 !important;
+transition: all 0.4s ease 0s;
+}
+
+.example_c:active{
+  background:black;
+  color:white !important;
+  transition: all 0.1s ease 0s;
 }
 </style>

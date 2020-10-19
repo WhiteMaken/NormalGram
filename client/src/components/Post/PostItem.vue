@@ -1,4 +1,5 @@
 <template>
+<div class="responsive">
 <div class="gallery">
     <date v-if="post.post" :date="post.post.upload_date"/>
     <div>
@@ -27,6 +28,7 @@
           to @click="deletePost(post.post._id)">Delete Post</a>
         </div>
       </div>
+    </div>
     </div>
 </template>
 
@@ -79,11 +81,14 @@ export default {
 
 div.gallery {
   margin: 5px;
-  border: 1px solid #ccc;
+  border: 4px solid #494949;
+  border-radius: 25px;
+  padding: 5px;
 }
 
 div.gallery:hover {
-  border: 1px solid #777;
+  border: 4px solid #000000;
+  border-radius: 25px;
 }
 
 div.gallery img {
@@ -125,7 +130,6 @@ div.desc2{
     width: 100%;
   }
 }
-
 .clearfix:after {
   content: "";
   display: table;
