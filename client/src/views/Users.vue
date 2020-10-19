@@ -41,7 +41,8 @@ export default {
     },
 
     checkUser(id) {
-      this.$router.push('/myposts')
+      const path = '/userprofile/' + id
+      this.$router.push(path)
     }
 
   },

@@ -19,7 +19,7 @@
   </label>
   </div>
 <div class="button_cont"><a class="example_c"  target="_blank"
-to @click="addPost(); emit()">Add post</a>
+to @click="addPost()">Add post</a>
 </div>
 </div>
 </template>
