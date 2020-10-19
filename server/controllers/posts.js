@@ -25,7 +25,7 @@ const getPostById = (req, res, next) => {
 
 //get all posts
 const getAllPosts = (req, res, next) => {
-    Post.find().populate('owner').sort({likes: 1}).exec(function(err, posts) {
+    Post.find().populate('owner').sort({likes: -1}).exec(function(err, posts) {
         if (err) {return next(err); }
         res.json(posts);
     });

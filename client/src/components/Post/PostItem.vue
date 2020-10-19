@@ -80,8 +80,6 @@ export default {
 div.gallery {
   margin: 5px;
   border: 1px solid #ccc;
-  float: left;
-  width: 560px;
 }
 
 div.gallery:hover {
@@ -98,6 +96,40 @@ div.desc {
   padding: 15px;
   text-align: center;
   font-weight: bolder;
+}
+
+div.desc2{
+    text-align: end;
+    font-weight: lighter;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.responsive {
+  padding: 0 6px;
+  float: left;
+  width: 49.99999%;
+}
+
+@media only screen and (max-width: 700px) {
+  .responsive {
+    width: 49.99999%;
+    margin: 6px 0;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .responsive {
+    width: 100%;
+  }
+}
+
+.clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
 }
 
 .example_c {
