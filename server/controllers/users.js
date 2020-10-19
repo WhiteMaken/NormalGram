@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const Post = require('../models/Post');
+const Comment = require('../models/Comment');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -17,7 +18,7 @@ const createUser = (req, res, next) =>{
 const getAllUsers = (req, res, next) => {
     User.find(function(err, users) {
         if (err) { return next(err); }
-        res.json({'users': users});
+        res.json(users);
     });
 };
 
@@ -52,6 +53,23 @@ const addPostToUser = (req, res, next) =>{
     });
 };
 
+// add a comment to user
+const addCommentToUser = (req, res, next) =>{
+    var id = req.params.id;
+    User.findById(id, function(err, user) {
+        if (err) { return next(err); }
+        if (user == null) {
+            return res.status(404).json(
+                {'message': 'User not found'});
+        }
+        var comment = new Comment(req.body);
+        comment.save();
+        user.comments.push(comment);
+        user.save();
+        res.json(comment);
+    });
+};
+
 //return all posts of a user
 const getPostsOfUser = (req, res, next) =>{
     var id = req.params.id;
@@ -62,6 +80,19 @@ const getPostsOfUser = (req, res, next) =>{
                 {'message': 'User not found'});
         } else if (!user.posts) {return res.status(404).json({'message':'User has no posts'});}
         res.json(user.posts);
+    });
+};
+
+// get comments of user
+const getCommentsOfUser = (req, res, next) =>{
+    var id = req.params.id;
+    User.findById(id).populate('comments').exec(function(err, user) {
+        if (err) { return next(err); }
+        if (user == null) {
+            return res.status(404).json(
+                {'message': 'User not found'});
+        } else if (!user.comments) {return res.status(404).json({'message':'User has no comments'});}
+        res.json(user.comments);
     });
 };
 
@@ -88,6 +119,7 @@ const getSpecificPostOfUser = (req, res, next) =>{
     });
 };
 
+// Delete a  specfic post of a user
 const deleteSpecificPostOfUser = (req, res, next) =>{
     var user_id = req.params.user_id;
     var post_id = req.params.post_id;
@@ -107,6 +139,31 @@ const deleteSpecificPostOfUser = (req, res, next) =>{
                 return res.status(404).json({'message': 'Post not found'});
             }
             res.json(post);
+        });
+    });
+};
+
+
+//Delete a specific comment of user
+const deleteSpecificCommentOfUser = (req, res, next) =>{
+    var user_id = req.params.user_id;
+    var comment_id = req.params.comment_id;
+    
+    User.findById(user_id, function(err, user){
+        if(err){
+            return next(err);
+        }
+        if(user === null){
+            return res.status(404).json({'Message':'User not found'});
+        }
+        Comment.findOneAndDelete(comment_id, function(err, comment){
+            if(err){
+                return next(err);
+            }
+            if(!comment){
+                return res.status(404).json({'message': 'Comment not found'});
+            }
+            res.json(comment);
         });
     });
 };
@@ -213,5 +270,8 @@ module.exports = {
     deleteAllUsers,
     loginUser,
     registerNewUser,
-    getUserDetails  
+    getUserDetails ,
+    addCommentToUser,
+    getCommentsOfUser,
+    deleteSpecificCommentOfUser
 };

@@ -23,6 +23,8 @@ const UserModel = new Schema({
         maxlength: 50},
     
     posts:[{type: Schema.Types.ObjectId, ref:'Post'}],
+
+    comments:[{type: Schema.Types.ObjectId, ref:'Comment'}],
     
     tokens: [
         {
