@@ -1,101 +1,159 @@
 <template>
-<div class="responsive">
-<div class="gallery">
-        <a target="_blank" :href="user.user.avatar">
-          <img :src="user.user.avatar"  width="600" height="400"/>
-        </a>
-        <div class="desc">{{user.user.username}}</div>
-        <div class="button_cont"><a class="example_c"  target="_blank"
-    to @click="checkProfile(user.user._id)">Check Profile</a></div>
-</div>
-</div>
+  <div>
+    <div class="button_cont"><a class="example_c"  target="_blank" color="red"
+          to @click="goBack()">Back</a></div>
+    <b-form @submit="onSubmit">
+    <b-card bg-variant="light">
+    <b-form-group
+      label-cols-lg="3"
+      label="Profile update"
+      label-size="lg"
+      label-class="font-weight-bold pt-0"
+      class="mb-0"
+      v-row align="center"
+      justify="center"
+    >
+      <b-form-group
+        label-cols-sm="3"
+        label="Name:"
+        label-align-sm="right"
+        label-for="nested-street"
+      >
+        <b-form-input
+          id="input-1"
+          v-model="form.name"
+          required
+          type="username"
+          placeholder="Enter new user name"
+        ></b-form-input>
+      </b-form-group>
+
+      <b-form-group
+        label-cols-sm="3"
+        label="Email:"
+        label-align-sm="right"
+        label-for="nested-city"
+      >
+        <b-form-input
+          id="input-2"
+          v-model="form.email"
+          type="email"
+          required
+          placeholder="Enter new email address"
+        ></b-form-input>
+      </b-form-group>
+
+      <b-form-group
+        label-cols-sm="3"
+        label="Password:"
+        label-align-sm="right"
+        label-for="nested-state"
+      >
+        <b-form-input
+          id="input-3"
+          v-model="form.password"
+          type="password"
+          required
+          placeholder="Enter password"
+        ></b-form-input>
+      </b-form-group>
+        <b-button type="submit">Save Update</b-button>
+        <b-button v-on:click= "deleteUser"  variant="danger"  >Delete Account</b-button>
+    </b-form-group>
+  </b-card>
+  </b-form>
+  </div>
 </template>
 
 <script>
-
+import VueJwtDecode from 'vue-jwt-decode'
+import { Api } from '@/Api'
+import swal from 'sweetalert'
+// import Notification from 'client/src/components/Notification.vue'
 export default {
   data() {
     return {
+      user: {},
+      form: {
+        name: ' ',
+        email: ' ',
+        password: ' '
+      },
+      show: true
     }
-  },
-  props: ['user'],
-  mounted() {
-    console.log('User:' + this.user.user)
   },
   methods: {
 
-    async checkProfile(id) {
-      this.$emit('check-profile', id)
-    }
-  }
+    goBack() {
+      const path = '/home'
+      this.$router.push(path)
+    },
 
+    changePassword() {
+      try {
+        Api.patch('/users/' + this.user._id, this.form)
+        swal('Success', 'Password changed', 'Error')
+      } catch (err) {
+        console.log(err.response)
+        swal('Error', 'Something Went Wrong', 'error')
+      }
+    },
+    changeName() {
+      try {
+        Api.patch('/users/' + this.user._id, this.name)
+        swal('Success', 'Password changed', 'Error')
+      } catch (err) {
+        console.log(err.response)
+        swal('Error', 'Something Went Wrong', 'error')
+      }
+    },
+    changeEmail() {
+      try {
+        Api.patch('/users/' + this.user._id, this.email)
+        swal('Success', 'Password changed', 'Error')
+      } catch (err) {
+        console.log(err.response)
+        swal('Error', 'Something Went Wrong', 'error')
+      }
+    },
+    deleteUser() {
+      Api.delete('/users/' + this.user._id)
+      this.$router.push('/')
+    },
+    read() {
+      const token = localStorage.getItem('jwt')
+      const decoded = VueJwtDecode.decode(token)
+      this.user = decoded
+    },
+    onSubmit() {
+      this.changePassword()
+      this.changeEmail()
+      this.changeName()
+    }
+  },
+  mounted() {
+    this.read()
+  }
 }
 </script>
+<style>
 
-<style scoped>
-
-div.gallery {
-  margin: 5px;
-  border: 4px solid #494949;
-  border-radius: 25px;
-  padding: 5px;
+body {
+    padding-top: 80px;
 }
 
-div.gallery:hover {
-  border: 4px solid #000000;
-  border-radius: 25px;
+ul {
+   padding: 11px 21px;
+   list-style-type: none;
+}
+.action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
 }
 
-div.gallery img {
-  width: auto;
-  height: 100%;
-  border: 2px groove black;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-div.desc {
-  padding: 15px;
-  text-align: center;
-  font-weight: bolder;
-}
-
-div.desc2{
-    text-align: end;
-    font-weight: lighter;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-.responsive {
-  padding: 0 6px;
-  float: left;
-  width: 49.99999%;
-}
-
-@media only screen and (max-width: 700px) {
-  .responsive {
-    width: 49.99999%;
-    margin: 6px 0;
-  }
-}
-
-@media only screen and (max-width: 500px) {
-  .responsive {
-    width: 100%;
-  }
-}
-
-.clearfix:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-.example_c {
+.b-button {
 margin-top: 1em;
 margin-bottom: 1em;
 margin-right: 3em;
@@ -113,24 +171,18 @@ justify-content: center;
 align-items: center;
 }
 
-.example_c:hover {
+.b-button:hover {
 color: #000000 !important;
 background: #ffffff;
 border-color: #000000 !important;
 transition: all 0.4s ease 0s;
 }
 
-.example_c:active{
+.b-button:active{
   background:black;
   color:white !important;
   transition: all 0.1s ease 0s;
 }
-
-/*
-=====
-RESET STYLES
-=====
-*/
 
 .field__input{
   --uiFieldPlaceholderColor: var(--fieldPlaceholderColor, #767676);
@@ -305,48 +357,5 @@ LEVEL 4. SETTINGS
 .field{
   --fieldBorderColor: #D1C4E9;
   --fieldBorderColorActive: #673AB7;
-}
-
-.like-content {
-    display: inline-block;
-    width: 100%;
-    margin: 40px 0 0;
-    padding: 40px 0 0;
-    font-size: 18px;
-    border-top: 10px dashed #eee;
-    text-align: center;
-}
-.like-content .btn-secondary {
-display: block;
-margin: 40px auto 0px;
-    text-align: center;
-    background: #ed2553;
-    border-radius: 3px;
-    box-shadow: 0 10px 20px -8px rgb(240, 75, 113);
-    padding: 10px 17px;
-    font-size: 18px;
-    cursor: pointer;
-    border: none;
-    outline: none;
-    color: #ffffff;
-    text-decoration: none;
-    -webkit-transition: 0.3s ease;
-    transition: 0.3s ease;
-}
-.like-content .btn-secondary:hover {
-transform: translateY(-3px);
-}
-.like-content .btn-secondary .fa {
- margin-right: 5px;
-}
-.animate-like {
-animation-name: likeAnimation;
-animation-iteration-count: 1;
-animation-fill-mode: forwards;
-animation-duration: 0.65s;
-}
-@keyframes likeAnimation {
-  0%   { transform: scale(30); }
-  100% { transform: scale(1); }
 }
 </style>

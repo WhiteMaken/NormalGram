@@ -1,39 +1,5 @@
 <template>
   <div>
-    <nav class="navbar navbar-expand-lg navbar-light bg-lightblue">
-      <div class="container">
-        <a class="navbar-brand" href="#">Navbar</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <a href='/pictures'>Pictures</a>
-        <a href='/users/settings'>Settings</a>
-        <a href='/myposts'>My Posts</a>
-        <a href='/stories'>Story</a>
-        <a href='/posts'>All Posts</a>
-
-        <div
-          class="collapse navbar-collapse justify-content-end"
-          id="navbarNav"
-        >
-          <ul class="navbar-nav">
-            <li class="nav-item active">
-              <a class="nav-link" @click="logUserOut"> Logout</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div>
-      </div>
-    </nav>
     <b-container>
       <b-row align-h="center" align-v="center" class="mt-3">
         <b-col cols="10">
@@ -43,6 +9,8 @@
             <li class="list-group-item">Email : {{ user.email }}</li>
             <li class="list-group-item">Username : {{ user.username }}</li>
             <usersettings />
+            <div class="button_cont"><a class="example_c"  target="_blank"
+    to @click="changeParameters()">Change Information</a></div>
           </b-card>
         </b-col>
       </b-row>
@@ -63,9 +31,8 @@ export default {
       const decoded = VueJwtDecode.decode(token)
       this.user = decoded
     },
-    logUserOut() {
-      localStorage.removeItem('jwt')
-      this.$router.push('/')
+    changeParameters() {
+      this.$router.push('/users/settings')
     }
   },
   created() {
@@ -73,8 +40,54 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style>
+
+body {
+    padding-top: 80px;
+}
+
+ul {
+   padding: 11px 21px;
+   list-style-type: none;
+}
+
+ul li {
+  margin: 5px;
+}
+
 a {
   margin: 5px;
 }
+
+.example_c {
+margin-top: 1em;
+margin-bottom: 1em;
+margin-right: 3em;
+margin-left: 1em;
+color: #000000 !important;
+text-decoration: none;
+background: #ffffff;
+padding: 10px;
+border: 4px solid #494949 !important;
+display: inline-block;
+transition: all 0.4s ease 0s;
+border-radius: 25px;
+display:flex;
+justify-content: center;
+align-items: center;
+}
+
+.example_c:hover {
+color: #000000 !important;
+background: #ffffff;
+border-color: #000000 !important;
+transition: all 0.4s ease 0s;
+}
+
+.example_c:active{
+  background:black;
+  color:white !important;
+  transition: all 0.1s ease 0s;
+}
+
 </style>

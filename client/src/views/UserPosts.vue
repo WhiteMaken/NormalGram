@@ -2,7 +2,6 @@
     <div id="app">
 
   <AddPostItem v-on:add-new="reupdateByAdd"/>
- <!-- id selector-->
   <ul id="example-1">
     <li v-for="post in posts" :key="post._id">
       <PostItem v-bind:post={post} v-on:patch-new="reupdateByPatch" v-on:delete-new="reupdateByDelete" />
@@ -78,14 +77,10 @@ ul {
    padding: 11px 21px;
    list-style-type: none;
 }
-/* Style the element with the id "example-1 " */
-#example-1 {
-  background-color: BLACK;
-  color: black;
-  padding: 5px;
-  text-align: center;
-}
+
 ul li {
   margin: 5px;
+  list-style-type: none;
 }
+
 </style>

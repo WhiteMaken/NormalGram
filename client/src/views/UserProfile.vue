@@ -5,13 +5,14 @@
         </div>
         <div class="responsive">
 <div class="gallery">
-        <a target="_blank" :href="this.user.name">
-          <img :src="this.user.name"  width="1200" height="800"/>
+        <a target="_blank" :href="this.user.avatar">
+          <img :src="this.user.avatar"  width="1200" height="800"/>
         </a>
         <div class="desc">{{this.user.username}}</div>
         <div class="desc3">Name: {{this.user.name}}</div>
         <div class="desc3">Email: {{this.user.email}}</div>
         <div class="desc3">Posts: {{this.user.posts.length}}</div>
+        <div id="Ilovemymom"/>
         <AddCommentItem v-bind:user={user} v-on:add-new="reupdateByAdd"/>
         <ul>
         <li v-for="comment in comments" :key="comment._id">
@@ -90,6 +91,13 @@ export default {
 
 <style scoped>
 
+#Ilovemymom {
+  background-color: BLACK;
+  color: black;
+  padding: 5px;
+  text-align: center;
+}
+
 body {
     padding-top: 80px;
 }
@@ -116,9 +124,12 @@ div.gallery:hover {
 }
 
 div.gallery img {
-  width: 100%;
-  height: auto;
+  width: auto;
+  height: 100%;
   border: 2px groove black;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 div.desc {

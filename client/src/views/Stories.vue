@@ -36,7 +36,8 @@
       <button class="button is-info">Send</button>
     </div>
        </form>
-       <b-button to @click="deleteStories(); reloadPage()" variant=danger>Delete All Stories</b-button>
+       <div class="button_cont"><a class="example_c"  target="_blank" color="red"
+          to @click="deleteStories(); reloadPage()">Delete oldest story</a></div>
         <b-container>
       <b-row align-h="center" align-v="center" class="mt-3">
         <h>Other's stories</h>
@@ -155,9 +156,50 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style>
 .carousel .responsive{
   width:250px;
   height:360px;
+}
+
+body {
+    padding-top: 80px;
+}
+
+ul {
+   padding: 11px 21px;
+   list-style-type: none;
+}
+
+ul li {
+  margin: 5px;
+}
+
+.example_c {
+margin-top: 1em;
+margin-bottom: 1em;
+margin-right: 3em;
+margin-left: 1em;
+color: #000000 !important;
+text-decoration: none;
+background: #ffffff;
+padding: 10px;
+border: 4px solid #494949 !important;
+display: inline-block;
+transition: all 0.4s ease 0s;
+border-radius: 25px;
+}
+
+.example_c:hover {
+color: #000000 !important;
+background: #ffffff;
+border-color: #000000 !important;
+transition: all 0.4s ease 0s;
+}
+
+.example_c:active{
+  background:black;
+  color:white !important;
+  transition: all 0.1s ease 0s;
 }
 </style>
