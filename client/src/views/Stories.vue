@@ -1,90 +1,163 @@
 <template>
-    <div id="app">
-        <ul id="example-1">
-  <li v-for="story in stories.docs" :key="story._id">
-      <div>
-      {{story._id}}
-      </div>
-      <div>
-      {{story.likes}}
-      </div>
-      <input
-            type="newPicture"
-            id="input"
-            class="form-control mb-5"
-            placeholder="Enter new number of likes"
-            v-model="storymodifier.likes"
-            required
-          />
-          <b-button to @click="putStory(story._id); reloadPage()" variant=warning>Put Story</b-button>
-  </li>
-</ul>
-<b-button to @click="deleteStories(); reloadPage()" variant=danger>Delete All Stories</b-button>
-
-    <b-button href ='/home' type="home" variant="secondary">Home</b-button>
+  <div class="container">
+  <b-container>
+      <b-row align-h="center" align-v="center" class="mt-3">
+  <h>My stories</h>
+  <b-carousel
+      id="carousel-1"
+      v-model="slide"
+      :interval="5000"
+      controls
+      indicators
+      background="#ababab"
+      style="text-shadow: 1px 1px 2px #333;"
+      @sliding-start="onSlideStart"
+      @sliding-end="onSlideEnd"
+  >      <b-carousel-slide
+            v-for="image in stories"
+            :key="image"
+            :img-src="'data:image/jpeg;base64,'+image.image"
+          >
+      </b-carousel-slide>
+      </b-carousel>
+          </b-row>
+    </b-container>
+<form @submit.prevent="sendFile"  enctype="multipart/form-data">
+    <div class="field">
+        <label for="file" class="label">Upload picture</label>
+        <input
+            type="file"
+            ref="file"
+            accept="image/*"
+            @change="selectFile"
+            />
     </div>
+    <div class="field">
+      <button class="button is-info">Send</button>
+    </div>
+       </form>
+       <b-button to @click="deleteStories(); reloadPage()" variant=danger>Delete All Stories</b-button>
+        <b-container>
+      <b-row align-h="center" align-v="center" class="mt-3">
+        <h>Other's stories</h>
+  <b-carousel
+      id="carousel-2"
+      v-model="slide2"
+      :interval="5000"
+      controls
+      indicators
+      background="#ababab"
+      style="text-shadow: 1px 1px 2px #333;"
+      @sliding-start="onSlideTwoStart"
+      @sliding-end="onSlideTwoEnd"
+  >      <b-carousel-slide
+            v-for="image in allStories.stories"
+            :key="image"
+            :img-src="'data:image/jpeg;base64,'+image.image"
+          >
+      </b-carousel-slide>
+      </b-carousel>
+          </b-row>
+    </b-container>
+  </div>
+
 </template>
 
 <script>
 import { Api } from '@/Api'
+import VueJwtDecode from 'vue-jwt-decode'
 export default {
   data() {
     return {
+      users: [],
       stories: [],
-      storymodifier: {
-        likes: '',
-        lifespan: '2023-09-10T18:25:43.511Z'
+      slide: 0,
+      sliding: null,
+      slide2: 0,
+      sliding2: null,
+      file: '',
+      allStories: [],
+      story: {
+        contentType: '',
+        image: '',
+        path: ''
       }
     }
   },
-  methods: {
 
+  methods: {
     read() {
-      Api.get('/stories').then(({ data }) => {
+      Api.get('/stories/' + this.user._id).then(({ data }) => {
         console.log(data)
         this.stories = data
       })
         .catch((err) => console.error(err))
     },
-
-    async deleteStories() {
-      const path = '/stories/'
-      Api.delete(path)
+    selectFile() {
+      this.file = this.$refs.file.files[0]
     },
-
-    async putStory(id) {
-      const path = '/stories/' + id
-      Api.put(path, this.storymodifier)
+    getUserId() {
+      const token = localStorage.getItem('jwt')
+      const decoded = VueJwtDecode.decode(token)
+      this.user = decoded
     },
-
+    async sendFile() {
+      const formData = new FormData()
+      formData.append('file', this.file)
+      try {
+        await Api.post('/stories/' + this.user._id, formData)
+      } catch (err) {
+        console.log(err)
+      } finally { window.location.reload() }
+    },
+    getAllStories() {
+      const path = '/stories'
+      Api.get(path).then(({ data }) => {
+        console.log(data)
+        this.allStories = data
+      })
+        .catch((err) => console.error(err))
+    },
     reloadPage() {
       window.location.reload()
+    },
+    async deleteStories() {
+      const path = '/stories/' + this.user._id
+      Api.delete(path)
+    },
+    onSlideStart(slide) {
+      this.sliding = true
+    },
+    onSlideTwoStart(slide2) {
+      this.sliding2 = true
+    },
+    getAllUser() {
+      const path = '/users'
+      Api.get(path).then(({ data }) => {
+        console.log(data)
+        this.users = data
+      })
+        .catch((err) => console.error(err))
+    },
+    onSlideEnd(slide) {
+      this.sliding = false
+    },
+    onSlideTwoEnd(slide2) {
+      this.sliding2 = false
     }
+
   },
-
   mounted() {
+    this.getAllUser()
+    this.getUserId()
     this.read()
+    this.getAllStories()
   }
-
 }
 </script>
-
-<style>
-
-input[class="form-control mb-5"] {
-  width: 50%;
-  margin-top: 1em;
-margin-bottom: 1em;
-background-color: aliceblue;
-}
-
-button{
-margin-top: 1em;
-margin-bottom: 1em;
-margin-right: 3em;
-}
-
-img {
-border: 3px groove rgb(26, 0, 143);
+<style scoped>
+.carousel .responsive{
+  width:250px;
+  height:360px;
 }
 </style>
