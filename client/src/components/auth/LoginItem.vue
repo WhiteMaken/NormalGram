@@ -67,6 +67,7 @@ export default {
         if (token) {
           swal('Success', 'Login Successful', 'Error')
           this.$router.push('/home')
+          this.$emit('sign-in', true)
         }
       } catch (err) {
         swal('Error', 'Something Went Wrong', 'error')

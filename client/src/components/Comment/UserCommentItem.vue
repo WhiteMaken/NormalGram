@@ -1,19 +1,13 @@
 <template>
-<div class="responsive">
-<div class="gallery">
-    <date v-if="post.post" :date="post.post.upload_date"/>
-    <div>
-    {{post.post.likes}}
-    <span>&#10084;</span>
-    </div>
-        <a target="_blank" :href="post.post.picture">
-          <img :src="post.post.picture"  width="1200" height="800"/>
-        </a>
-        <div class="desc">{{post.post.text}}</div>
+<div>
+    <div class="border">
+    <date v-if="comment.comment" :date="comment.comment.upload_date"/>
+        <div class="desc3">{{comment.comment.text}}</div>
+        </div>
         <div class="page">
           <label class="field field_v1">
-            <input class="field__input" placeholder="e.g. I'm happy" required
-                v-model="postmodifier.text" :key="postmodifier._id">
+            <input class="field__input" placeholder="e.g. I'm sad" required
+                v-model="commentmodifier.text" :key="commentmodifier._id">
             <span class="field__label-wrap">
               <span class="field__label">Enter new text</span>
             </span>
@@ -21,14 +15,13 @@
         </div>
         <div>
         <div class="button_cont"><a class="example_c"  target="_blank"
-          to @click="patchPost(post.post._id)">Edit Text</a></div>
+          to @click="patchComment(comment.comment._id)">Edit Text</a></div>
         </div>
       <div>
         <div class="button_cont"><a class="example_c"  target="_blank"
-          to @click="deletePost(post.post._id)">Delete Post</a>
+          to @click="deleteComment(comment.comment._id)">Delete Comment</a>
         </div>
       </div>
-    </div>
     </div>
 </template>
 
@@ -40,17 +33,17 @@ import VueJwtDecode from 'vue-jwt-decode'
 export default {
   data() {
     return {
-      postmodifier: {
+      commentmodifier: {
         text: ''
       }
     }
   },
-  props: ['post'],
+  props: ['comment'],
   components: {
     Date
   },
   mounted() {
-    console.log(this.post.post)
+    console.log(this.comment.comment)
     this.getUserId()
   },
   methods: {
@@ -60,17 +53,17 @@ export default {
       const decoded = VueJwtDecode.decode(token)
       this.user = decoded
     },
-    async deletePost(id) {
+    async deleteComment(id) {
       this.$emit('delete-new', id)
-      const path2 = '/posts/' + id
+      const path2 = '/comments/' + id
       Api.delete(path2)
     },
 
-    async patchPost(id) {
-      this.$emit('patch-new', { id: this.post.post._id, text: this.postmodifier.text })
-      const path = '/posts/' + id
-      Api.patch(path, this.postmodifier)
-      this.postmodifier.text = ''
+    async patchComment(id) {
+      this.$emit('patch-new', { id: this.comment.comment._id, text: this.commentmodifier.text })
+      const path = '/comments/' + id
+      Api.patch(path, this.commentmodifier)
+      this.commentmodifier.text = ''
     }
   }
 
@@ -79,61 +72,16 @@ export default {
 
 <style>
 
-div.gallery {
-  margin: 5px;
-  border: 4px solid #494949;
-  border-radius: 25px;
-  padding: 5px;
+.desc3{
+  text-align: left;
+  font-weight: bold;
 }
 
-div.gallery:hover {
-  border: 4px solid #000000;
-  border-radius: 25px;
-}
-
-div.gallery img {
-  width: 100%;
-  height: auto;
-  border: 2px groove black;
-}
-
-div.desc {
-  padding: 15px;
-  text-align: center;
-  font-weight: bolder;
-}
-
-div.desc2{
-    text-align: end;
-    font-weight: lighter;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-.responsive {
-  padding: 0 6px;
-  float: left;
-  width: 49.99999%;
-}
-
-@media only screen and (max-width: 700px) {
-  .responsive {
-    width: 49.99999%;
-    margin: 6px 0;
-  }
-}
-
-@media only screen and (max-width: 500px) {
-  .responsive {
-    width: 100%;
-  }
-}
-.clearfix:after {
-  content: "";
-  display: table;
-  clear: both;
+.border{
+    border: 4px solid;
+   border-color: #000000 !important;
+   border-radius: 10px;
+   padding: 5px;
 }
 
 .example_c {

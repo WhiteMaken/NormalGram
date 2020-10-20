@@ -3,8 +3,6 @@
     <nav-bar
       :login="login"
       :logged-in="loggedIn"
-      @move-to-login="moveToLogin"
-      @move-to-reg="moveToReg"
       @sign-out="signOut"
     />
     <div class="content_wrapper">
@@ -21,15 +19,13 @@
 
 <script>
 import NavBar from './components/NavBar'
-import VueJwtDecode from 'vue-jwt-decode'
 
 export default {
   name: 'home',
   data() {
     return {
       login: false,
-      loggedIn: false,
-      mod: false
+      loggedIn: false
     }
   },
   components: {
@@ -37,9 +33,8 @@ export default {
   },
   created() {
     const token = localStorage.getItem('jwt')
-    const decoded = VueJwtDecode.decode(token)
 
-    if (decoded != null) {
+    if (token != null) {
       this.loggedIn = true
     } else {
       this.login = false
@@ -47,19 +42,16 @@ export default {
     }
   },
   methods: {
-    moveToLogin() {
-      this.login = true
-    },
-    moveToReg() {
-      this.login = false
-    },
     setLoggedIn(response) {
-      this.loggedIn = response.data.user.loggedIn
-      location.href = /home/
+      this.login = response
+      this.loggedIn = response
+      // this.loggedIn = response.data.user.loggedIn
+    //  location.href = /myposts/
     },
     signOut() {
-      this.login = true
+      this.login = false
       this.loggedIn = false
+      localStorage.removeItem('jwt')
 
       location.href = '/'
     }

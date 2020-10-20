@@ -1,83 +1,38 @@
 <template>
 <div class="responsive">
 <div class="gallery">
-    <date v-if="post.post" :date="post.post.upload_date"/>
-    <div>
-    {{post.post.likes}}
-    <span>&#10084;</span>
-    </div>
-        <a target="_blank" :href="post.post.picture">
-          <img :src="post.post.picture"  width="1200" height="800"/>
+        <a target="_blank" :href="user.user.name">
+          <img :src="user.user.name"  width="1200" height="800"/>
         </a>
-        <div class="desc">{{post.post.text}}</div>
-        <div class="page">
-          <label class="field field_v1">
-            <input class="field__input" placeholder="e.g. I'm happy" required
-                v-model="postmodifier.text" :key="postmodifier._id">
-            <span class="field__label-wrap">
-              <span class="field__label">Enter new text</span>
-            </span>
-          </label>
-        </div>
-        <div>
+        <div class="desc">{{user.user.username}}</div>
         <div class="button_cont"><a class="example_c"  target="_blank"
-          to @click="patchPost(post.post._id)">Edit Text</a></div>
-        </div>
-      <div>
-        <div class="button_cont"><a class="example_c"  target="_blank"
-          to @click="deletePost(post.post._id)">Delete Post</a>
-        </div>
-      </div>
-    </div>
-    </div>
+    to @click="checkProfile(user.user._id)">Check Profile</a></div>
+</div>
+</div>
 </template>
 
 <script>
-import Date from '../../components/shared/Date'
-import { Api } from '@/Api'
-import VueJwtDecode from 'vue-jwt-decode'
 
 export default {
   data() {
     return {
-      postmodifier: {
-        text: ''
-      }
     }
   },
-  props: ['post'],
-  components: {
-    Date
-  },
+  props: ['user'],
   mounted() {
-    console.log(this.post.post)
-    this.getUserId()
+    console.log('User:' + this.user.user)
   },
   methods: {
 
-    getUserId() {
-      const token = localStorage.getItem('jwt')
-      const decoded = VueJwtDecode.decode(token)
-      this.user = decoded
-    },
-    async deletePost(id) {
-      this.$emit('delete-new', id)
-      const path2 = '/posts/' + id
-      Api.delete(path2)
-    },
-
-    async patchPost(id) {
-      this.$emit('patch-new', { id: this.post.post._id, text: this.postmodifier.text })
-      const path = '/posts/' + id
-      Api.patch(path, this.postmodifier)
-      this.postmodifier.text = ''
+    async checkProfile(id) {
+      this.$emit('check-profile', id)
     }
   }
 
 }
 </script>
 
-<style>
+<style scoped>
 
 div.gallery {
   margin: 5px;
@@ -130,6 +85,7 @@ div.desc2{
     width: 100%;
   }
 }
+
 .clearfix:after {
   content: "";
   display: table;
@@ -149,6 +105,9 @@ border: 4px solid #494949 !important;
 display: inline-block;
 transition: all 0.4s ease 0s;
 border-radius: 25px;
+display:flex;
+justify-content: center;
+align-items: center;
 }
 
 .example_c:hover {
@@ -343,5 +302,48 @@ LEVEL 4. SETTINGS
 .field{
   --fieldBorderColor: #D1C4E9;
   --fieldBorderColorActive: #673AB7;
+}
+
+.like-content {
+    display: inline-block;
+    width: 100%;
+    margin: 40px 0 0;
+    padding: 40px 0 0;
+    font-size: 18px;
+    border-top: 10px dashed #eee;
+    text-align: center;
+}
+.like-content .btn-secondary {
+display: block;
+margin: 40px auto 0px;
+    text-align: center;
+    background: #ed2553;
+    border-radius: 3px;
+    box-shadow: 0 10px 20px -8px rgb(240, 75, 113);
+    padding: 10px 17px;
+    font-size: 18px;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    color: #ffffff;
+    text-decoration: none;
+    -webkit-transition: 0.3s ease;
+    transition: 0.3s ease;
+}
+.like-content .btn-secondary:hover {
+transform: translateY(-3px);
+}
+.like-content .btn-secondary .fa {
+ margin-right: 5px;
+}
+.animate-like {
+animation-name: likeAnimation;
+animation-iteration-count: 1;
+animation-fill-mode: forwards;
+animation-duration: 0.65s;
+}
+@keyframes likeAnimation {
+  0%   { transform: scale(30); }
+  100% { transform: scale(1); }
 }
 </style>
