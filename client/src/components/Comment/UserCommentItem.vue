@@ -61,7 +61,7 @@ export default {
 
     async patchComment(id) {
       this.$emit('patch-new', { id: this.comment.comment._id, text: this.commentmodifier.text })
-      const path = '/comment/' + id
+      const path = '/comments/' + id
       Api.patch(path, this.commentmodifier)
       this.commentmodifier.text = ''
     }

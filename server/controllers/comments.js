@@ -34,26 +34,25 @@ const deleteCommentById = (req, res, next) => {
 // Patch a specific picture (PATCH)
 const patchSpecificComment = (req, res, next) =>{
     var id = req.params.id;
-    Comment.findById(id, function(err, comment) {
+    Comment.updateOne({_id:id}, {$set : req.body}, function(err, updatedComment) {
         if (err) { return next(err); }
-        if (comment == null) {
+        if (updatedComment == null) {
             return res.status(404).json({'message': 'Comment not found'});
         }
-        comment.text = (req.body.text|| comment.text);
-        comment.save();
-        res.json(comment);
+        
+        res.status(200).json(updatedComment);
     });
 };
 
 const getAllComments = (req, res, next) => {
-    Comments.find(function(err, comments) {
+    Comment.find(function(err, comments) {
         if (err) {return next(err); }
         res.json({comments});
     });
 };
 
 const deleteAllComments = (req, res) => {
-    Comments.deleteMany()
+    Comment.deleteMany()
         .exec()
         .then(result => {
             if (result.deletedCount <= 0) {throw 404;}
