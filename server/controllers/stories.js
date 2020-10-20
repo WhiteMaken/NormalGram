@@ -8,7 +8,6 @@ const getAllStories = (req, res, next) => {
     });
 };
 
-
 //create a story by the user
 const createStory = (req, res, next) => {
     var story = new Story(req.body);
@@ -17,8 +16,6 @@ const createStory = (req, res, next) => {
         res.status(201).json(story);
     });
 };
-
-
 
 //to update stories by id
 const updateStoryById = (req, res) => {
@@ -42,7 +39,7 @@ const updateStoryById = (req, res) => {
         });
 };
 
-//return all posts of a user
+//return all stories of a user
 const getStoryById = (req, res, next) => {
     var id = req.params;
     Story.find({user:id}, function(err, story) {
@@ -50,12 +47,11 @@ const getStoryById = (req, res, next) => {
         if (story == null) {
             return res.status(404).json({'message': 'User not found'});
         }
-        console.log('lol');
         res.json(story);
     });
 };
 
-// Delete all stories by a user
+// Delete one picture of the story by a user
 const deleteStoryWithId = (req, res, next) =>{
     var id = req.params;
     Story.findOneAndDelete({user: id}, function(err, story) {

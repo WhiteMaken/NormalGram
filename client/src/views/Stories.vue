@@ -2,6 +2,7 @@
   <div class="container">
   <b-container>
       <b-row align-h="center" align-v="center" class="mt-3">
+  <h>My stories</h>
   <b-carousel
       id="carousel-1"
       v-model="slide"
@@ -36,19 +37,46 @@
     </div>
        </form>
        <b-button to @click="deleteStories(); reloadPage()" variant=danger>Delete All Stories</b-button>
+        <b-container>
+      <b-row align-h="center" align-v="center" class="mt-3">
+        <h>Other's stories</h>
+  <b-carousel
+      id="carousel-2"
+      v-model="slide2"
+      :interval="5000"
+      controls
+      indicators
+      background="#ababab"
+      style="text-shadow: 1px 1px 2px #333;"
+      @sliding-start="onSlideTwoStart"
+      @sliding-end="onSlideTwoEnd"
+  >      <b-carousel-slide
+            v-for="image in allStories.stories"
+            :key="image"
+            :img-src="'data:image/jpeg;base64,'+image.image"
+          >
+      </b-carousel-slide>
+      </b-carousel>
+          </b-row>
+    </b-container>
   </div>
+
 </template>
+
 <script>
 import { Api } from '@/Api'
 import VueJwtDecode from 'vue-jwt-decode'
 export default {
   data() {
     return {
-      users: {},
+      users: [],
       stories: [],
       slide: 0,
       sliding: null,
+      slide2: 0,
+      sliding2: null,
       file: '',
+      allStories: [],
       story: {
         contentType: '',
         image: '',
@@ -82,6 +110,14 @@ export default {
         console.log(err)
       } finally { window.location.reload() }
     },
+    getAllStories() {
+      const path = '/stories'
+      Api.get(path).then(({ data }) => {
+        console.log(data)
+        this.allStories = data
+      })
+        .catch((err) => console.error(err))
+    },
     reloadPage() {
       window.location.reload()
     },
@@ -92,13 +128,30 @@ export default {
     onSlideStart(slide) {
       this.sliding = true
     },
+    onSlideTwoStart(slide2) {
+      this.sliding2 = true
+    },
+    getAllUser() {
+      const path = '/users'
+      Api.get(path).then(({ data }) => {
+        console.log(data)
+        this.users = data
+      })
+        .catch((err) => console.error(err))
+    },
     onSlideEnd(slide) {
       this.sliding = false
+    },
+    onSlideTwoEnd(slide2) {
+      this.sliding2 = false
     }
+
   },
   mounted() {
+    this.getAllUser()
     this.getUserId()
     this.read()
+    this.getAllStories()
   }
 }
 </script>
