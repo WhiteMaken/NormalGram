@@ -958,59 +958,6 @@
 			"response": []
 		},
 		{
-			"name": "Put story",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "a564d8f5-ffa7-41ff-9992-5c9773fc58b2",
-						"exec": [
-							"pm.test(\"response is CREATED\", function () {\r",
-							"pm.expect(pm.response.code).to.be.oneOf([200]);\r",
-							"});\r",
-							"\r",
-							"pm.test(\"response should have valid JSON data\", function () {\r",
-							"var jsonData = pm.response.json();\r",
-							"});\r",
-							"\r",
-							"pm.test(\"Response should have expected data\", function () {\r",
-							"var jsonData = pm.response.json();\r",
-							"pm.expect(jsonData.lifespan).to.eql('2023-09-10T18:25:43.511Z');\r",
-							"pm.expect(jsonData.likes).to.eql(5);\r",
-							"pm.expect(jsonData.unique_views).to.eql(5);\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"unique_views\": \"5\",\r\n\r\n    \"lifespan\": \"2023-09-10T18:25:43.511Z\",\r\n\r\n    \"likes\": \"5\"\r\n\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{host}}/api/stories/{{story_id}}",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"stories",
-						"{{story_id}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "Patch user",
 			"event": [
 				{
@@ -1106,59 +1053,6 @@
 						"api",
 						"users",
 						"{{user_id}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Patch story",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "2097b3a4-5598-449f-a51e-8b93c35e132f",
-						"exec": [
-							"pm.test(\"response is CREATED\", function () {\r",
-							"pm.expect(pm.response.code).to.be.oneOf([200]);\r",
-							"});\r",
-							"\r",
-							"pm.test(\"response should have valid JSON data\", function () {\r",
-							"var jsonData = pm.response.json();\r",
-							"});\r",
-							"\r",
-							"pm.test(\"Response should have expected data\", function () {\r",
-							"var jsonData = pm.response.json();\r",
-							"pm.expect(jsonData.lifespan).to.eql('2023-09-10T18:25:43.511Z');\r",
-							"pm.expect(jsonData.likes).to.eql(4);\r",
-							"pm.expect(jsonData.unique_views).to.eql(4);\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "PATCH",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"unique_views\": \"4\",\r\n\r\n    \"lifespan\": \"2023-09-10T18:25:43.511Z\",\r\n\r\n    \"likes\": \"4\"\r\n\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{host}}/api/stories/{{story_id}}",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"stories",
-						"{{story_id}}"
 					]
 				}
 			},
