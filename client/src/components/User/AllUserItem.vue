@@ -47,9 +47,12 @@ div.gallery:hover {
 }
 
 div.gallery img {
-  width: 100%;
-  height: auto;
+  width: auto;
+  height: 100%;
   border: 2px groove black;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 div.desc {
