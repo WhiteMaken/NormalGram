@@ -2,9 +2,6 @@
 const User = require('../models/User');
 const Post = require('../models/Post');
 const Comment = require('../models/Comment');
-const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 
 //Create a new user
 const createUser = (req, res, next) =>{
@@ -22,7 +19,6 @@ const getAllUsers = (req, res, next) => {
         res.json(users);
     });
 };
-
 
 //Return the user with a given id
 const getSpecificUser = (req, res, next) =>{

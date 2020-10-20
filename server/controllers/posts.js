@@ -63,7 +63,6 @@ const deletePostById = (req, res, next) => {
 };
 
 //update post with put request
-
 const putPost = (req, res, next) => {
     var id = req.params.id;
     Post.findById(id, function(err, post){
