@@ -7,8 +7,6 @@
           <span style="color: #fff"> NormalGram</span>
         </router-link>
         <div class="nav_links">
-          <a href="#" v-if="!loggedIn && !login" @click="$emit('move-to-login')">Sign in</a>
-          <a href="#" v-if="login" @click="$emit('move-to-reg')">Register</a>
           <router-link v-if="loggedIn" to="/myposts">My Wall</router-link>
           <router-link v-if="loggedIn" to="/posts">Posts</router-link>
           <router-link v-if="loggedIn" to="/stories">Stories</router-link>

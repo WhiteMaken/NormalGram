@@ -68,8 +68,4 @@ const deleteAllComments = (req, res) => {
         });
 };
 
-
-
-
-
 module.exports = {creatingComment, getCommentById,deleteCommentById, patchSpecificComment, getAllComments, deleteAllComments };

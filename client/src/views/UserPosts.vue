@@ -47,6 +47,7 @@ export default {
       const path = '/users/' + this.user._id + '/posts'
       Api.get(path).then(({ data }) => {
         this.posts = data
+        this.posts.reverse()
         console.log(this.posts)
       })
         .catch((err) => console.error(err))

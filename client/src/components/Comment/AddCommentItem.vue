@@ -24,7 +24,8 @@ export default {
       newComment: {
         text: '',
         owner: ''
-      }
+      },
+      currentUser: {}
     }
   },
   props: ['user'],
@@ -43,6 +44,7 @@ export default {
       Api.post(path, this.newComment)
         .then(({ data }) => {
           this.$emit('add-new', data)
+          console.log(this.newComment)
           this.newComment.text = ''
         })
         .catch((err) => console.error(err))

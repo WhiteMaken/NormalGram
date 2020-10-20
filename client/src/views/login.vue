@@ -1,13 +1,25 @@
 <template>
-  <div class="login">
-    <login />
-  </div>
+<div id="app">
+  <LoginItem v-on:sign-in="reupdateByTrue"/>
+</div>
 </template>
+
 <script>
-import login from '../components/auth/login'
+import LoginItem from '../components/auth/LoginItem'
 export default {
+  data() {
+    return {
+    }
+  },
+  props: ['login', 'loggedIn'],
   components: {
-    login
+    LoginItem
+  },
+  methods: {
+
+    reupdateByTrue(response) {
+      this.$emit('set-logged-in', response)
+    }
   }
 }
 </script>
