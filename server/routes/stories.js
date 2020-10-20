@@ -39,8 +39,6 @@ router.post('/:id', upload.single('file'),(req, res) => {
     });
 });
 
-router.delete('/:id', StoriesController.deleteStoryWithId);//
-
-router.patch('/:id', StoriesController.updateStoryById);//
+router.delete('/:id', StoriesController.deleteStoryWithId);
 
 module.exports = router;

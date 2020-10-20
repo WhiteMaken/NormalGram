@@ -8,7 +8,6 @@ var history = require('connect-history-api-fallback');
 
 const postsController = require('./routes/posts');
 const usersController = require('./routes/users');
-const picturesController = require('./routes/pictures');
 const storiesController = require('./routes/stories');
 const commentsController = require('./routes/comments');
 
@@ -46,7 +45,6 @@ app.get('/api', function(req, res) {
 
 app.use('/api/users', usersController);
 app.use('/api/posts', postsController);
-app.use('/api/pictures', picturesController);
 app.use('/api/stories', storiesController);
 app.use('/api/comments', commentsController);
 
