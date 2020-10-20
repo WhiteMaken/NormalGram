@@ -416,95 +416,6 @@
 			"response": []
 		},
 		{
-			"name": "Create story",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "29a76024-6d90-4ac7-8994-b70c586d4719",
-						"exec": [
-							"pm.test(\"response is CREATED\", function () {\r",
-							"pm.expect(pm.response.code).to.be.oneOf([201]);\r",
-							"});\r",
-							"\r",
-							"var jsonData = JSON.parse(responseBody);\r",
-							"postman.setEnvironmentVariable( \"story_id\", jsonData._id );"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{host}}/api/stories",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"stories"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Create story Second way",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "dd1c5407-63c0-49f3-9863-cd8d78a9a81f",
-						"exec": [
-							"pm.test(\"response is CREATED\", function () {\r",
-							"pm.expect(pm.response.code).to.be.oneOf([201]);\r",
-							"});\r",
-							"\r",
-							"var jsonData = JSON.parse(responseBody);\r",
-							"postman.setEnvironmentVariable( \"story_id\", jsonData._id );"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n\r\n\"user\": {{user_id}}\r\n\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{host}}/api/stories/{{user_id}}",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"stories",
-						"{{user_id}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "Check users",
 			"event": [
 				{
@@ -880,7 +791,7 @@
 							"\r",
 							"pm.test(\"Response should have expected picture_id\", function () {\r",
 							"var jsonData = pm.response.json();\r",
-							"pm.expect(jsonData.picture_url).to.eql('imguristrash');\r",
+							"pm.expect(jsonData.text).to.eql('Stay Gold');\r",
 							"});\r",
 							"\r",
 							""
@@ -1421,7 +1332,7 @@
 							"pm.test(\"Response should have expected data\", function () {\r",
 							"var jsonData = pm.response.json();\r",
 							"pm.expect(jsonData.message).to.eql('All posts has been deleted.');\r",
-							"pm.expect(jsonData.deletedCount).to.eql(2);\r",
+							"pm.expect(jsonData.deletedCount).to.eql(3);\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -1500,7 +1411,7 @@
 							"\r",
 							"pm.test(\"Response should have expected data\", function () {\r",
 							"var jsonData = pm.response.json();\r",
-							"pm.expect(jsonData.message).to.eql('All comments has been deleted');\r",
+							"pm.expect(jsonData.message).to.eql('All comments has been deleted.');\r",
 							"});"
 						],
 						"type": "text/javascript"
