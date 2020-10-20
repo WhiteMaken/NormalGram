@@ -15,11 +15,7 @@ router.post('/:id/comments', UserController.addCommentToUser);
 
 router.get('/:id/comments', UserController.getCommentsOfUser);
 
-router.delete('/:user_id/comments/:comment_id', UserController.deleteSpecificCommentOfUser);
-
 router.get('/:user_id/posts/:post_id', UserController.getSpecificPostOfUser);
-
-router.delete('/:user_id/posts/:post_id', UserController.deleteSpecificPostOfUser);
 
 router.post('/',UserController.createUser);
 
