@@ -863,44 +863,6 @@
 			"response": []
 		},
 		{
-			"name": "Get storyById",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "2c2ac6ff-78ae-4d99-8604-8c313fcebb34",
-						"exec": [
-							"pm.test(\"response is CREATED\", function () {\r",
-							"pm.expect(pm.response.code).to.be.oneOf([200]);\r",
-							"});\r",
-							"\r",
-							"pm.test(\"response should have valid JSON data\", function () {\r",
-							"var jsonData = pm.response.json();\r",
-							"});\r",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{host}}/api/stories/{{user_id}}",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"stories",
-						"{{user_id}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "Get a specific comment",
 			"event": [
 				{
@@ -1621,44 +1583,6 @@
 						"api",
 						"comments",
 						"{{singlecomment_id}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Delete specific story",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "07367890-3ef1-4952-9b26-31cd0c7b9904",
-						"exec": [
-							"pm.test(\"response is CREATED\", function () {\r",
-							"pm.expect(pm.response.code).to.be.oneOf([200]);\r",
-							"});\r",
-							"\r",
-							"pm.test(\"response should have valid JSON data\", function () {\r",
-							"var jsonData = pm.response.json();\r",
-							"});\r",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "{{host}}/api/stories/{{user_id}}",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"stories",
-						"{{user_id}}"
 					]
 				}
 			},
