@@ -12,6 +12,7 @@
         <div class="desc3">Name: {{this.user.name}}</div>
         <div class="desc3">Email: {{this.user.email}}</div>
         <div class="desc3">Posts: {{this.user.posts.length}}</div>
+        <div id="Ilovemymom"/>
         <AddCommentItem v-bind:user={user} v-on:add-new="reupdateByAdd"/>
         <ul>
         <li v-for="comment in comments" :key="comment._id">
@@ -89,6 +90,13 @@ export default {
 </script>
 
 <style scoped>
+
+#Ilovemymom {
+  background-color: BLACK;
+  color: black;
+  padding: 5px;
+  text-align: center;
+}
 
 body {
     padding-top: 80px;

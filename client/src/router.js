@@ -29,11 +29,6 @@ const routes = [
     component: () => import('../src/views/register.vue')
   },
   {
-    path: '/pictures',
-    name: 'pictures',
-    component: () => import('../src/views/Pictures.vue')
-  },
-  {
     path: '/myposts',
     name: 'myposts',
     component: () => import('../src/views/UserPosts.vue')

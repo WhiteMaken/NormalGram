@@ -416,6 +416,55 @@
 			"response": []
 		},
 		{
+			"name": "Post a story",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "fcb851d1-e11b-4640-b5f0-1689cdf9cdbc",
+						"exec": [
+							"pm.test(\"response is CREATED\", function () {\r",
+							"pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/maxim/OneDrive/Pictures/87908c361bbc5f0cdad267d071ddfa70.jpg"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/stories/{{user_id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"stories",
+						"{{user_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Check users",
 			"event": [
 				{
@@ -530,6 +579,45 @@
 					"path": [
 						"api",
 						"posts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get stories",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "72b61fbf-6c44-4b9a-9e7b-9a4b082d0c68",
+						"exec": [
+							"pm.test(\"response is CREATED\", function () {\r",
+							"pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"response should have valid JSON data\", function () {\r",
+							"var jsonData = pm.response.json();\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/stories/{{user_id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"stories",
+						"{{user_id}}"
 					]
 				}
 			},
@@ -1350,6 +1438,43 @@
 					"path": [
 						"api",
 						"posts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete oldest story",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c53f5fe6-04aa-4063-aa66-0c1a67251211",
+						"exec": [
+							"pm.test(\"response is CREATED\", function () {\r",
+							"pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"response should have valid JSON data\", function () {\r",
+							"var jsonData = pm.response.json();\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/stories/{{user_id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"stories",
+						"{{user_id}}"
 					]
 				}
 			},
