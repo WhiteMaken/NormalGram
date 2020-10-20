@@ -116,55 +116,6 @@ const getSpecificPostOfUser = (req, res, next) =>{
     });
 };
 
-// Delete a  specfic post of a user
-const deleteSpecificPostOfUser = (req, res, next) =>{
-    var user_id = req.params.user_id;
-    var post_id = req.params.post_id;
-    
-    User.findById(user_id, function(err, user){
-        if(err){
-            return next(err);
-        }
-        if(user === null){
-            return res.status(404).json({'Message':'User not found'});
-        }
-        Post.findOneAndDelete(post_id, function(err, post){
-            if(err){
-                return next(err);
-            }
-            if(!post){
-                return res.status(404).json({'message': 'Post not found'});
-            }
-            res.json(post);
-        });
-    });
-};
-
-
-//Delete a specific comment of user
-const deleteSpecificCommentOfUser = (req, res, next) =>{
-    var user_id = req.params.user_id;
-    var comment_id = req.params.comment_id;
-    
-    User.findById(user_id, function(err, user){
-        if(err){
-            return next(err);
-        }
-        if(user === null){
-            return res.status(404).json({'Message':'User not found'});
-        }
-        Comment.findOneAndDelete(comment_id, function(err, comment){
-            if(err){
-                return next(err);
-            }
-            if(!comment){
-                return res.status(404).json({'message': 'Comment not found'});
-            }
-            res.json(comment);
-        });
-    });
-};
-
 // Patch a specific user
 const patchSpecificUser = (req, res, next) =>{
     var id = req.params.id;
@@ -261,7 +212,6 @@ module.exports = {
     addPostToUser,
     getPostsOfUser,
     getSpecificPostOfUser,
-    deleteSpecificPostOfUser,
     patchSpecificUser,
     deleteSpecificUser,
     deleteAllUsers,
@@ -270,5 +220,4 @@ module.exports = {
     getUserDetails ,
     addCommentToUser,
     getCommentsOfUser,
-    deleteSpecificCommentOfUser
 };

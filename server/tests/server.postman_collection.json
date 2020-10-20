@@ -188,6 +188,61 @@
 			"response": []
 		},
 		{
+			"name": "Add comment to user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a52118f2-bd31-4b53-9d9a-7a631fdff984",
+						"exec": [
+							"pm.test(\"response is CREATED\", function () {\r",
+							"pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"response should have valid JSON data\", function () {\r",
+							"var jsonData = pm.response.json();\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response should have expected data\", function () {\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.expect(jsonData.text).to.eql('I love you');\r",
+							"});\r",
+							"\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"postman.setEnvironmentVariable( \"comment_id\", jsonData._id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"text\" : \"I love you\",\r\n   \r\n   \"owner\" : \"{{user_id}}\"\r\n }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/users/{{user_id}}/comments",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"{{user_id}}",
+						"comments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Add post",
 			"event": [
 				{
@@ -317,7 +372,7 @@
 			"response": []
 		},
 		{
-			"name": "Post picture",
+			"name": "Post comment",
 			"event": [
 				{
 					"listen": "test",
@@ -329,7 +384,7 @@
 							"});\r",
 							"\r",
 							"var jsonData = JSON.parse(responseBody);\r",
-							"postman.setEnvironmentVariable( \"picture_id\", jsonData._id );"
+							"postman.setEnvironmentVariable( \"singlecomment_id\", jsonData._id );"
 						],
 						"type": "text/javascript"
 					}
@@ -340,7 +395,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"picture_url\" : \"imguristrash\"\r\n}",
+					"raw": "{\r\n    \"text\" : \"Stay Gold\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -348,57 +403,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{host}}/api/pictures",
+					"raw": "{{host}}/api/comments",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
 						"api",
-						"pictures"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Create story",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "29a76024-6d90-4ac7-8994-b70c586d4719",
-						"exec": [
-							"pm.test(\"response is CREATED\", function () {\r",
-							"pm.expect(pm.response.code).to.be.oneOf([201]);\r",
-							"});\r",
-							"\r",
-							"var jsonData = JSON.parse(responseBody);\r",
-							"postman.setEnvironmentVariable( \"story_id\", jsonData._id );"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"lifespan\": \"2021-09-10T18:25:43.511Z\",\r\n\r\n    \"story_owner\":  \"{{user_id}}\"\r\n\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{host}}/api/stories",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"stories"
+						"comments"
 					]
 				}
 			},
@@ -557,6 +568,44 @@
 						"users",
 						"{{user_id}}",
 						"posts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check comments of specific user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "53d23cf0-0bd9-4b21-8400-21cca9785603",
+						"exec": [
+							"pm.test(\"response is CREATED\", function () {\r",
+							"pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"response should have valid JSON data\", function () {\r",
+							"var jsonData = pm.response.json();\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/users/{{user_id}}/comments",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"{{user_id}}",
+						"comments"
 					]
 				}
 			},
@@ -725,7 +774,7 @@
 			"response": []
 		},
 		{
-			"name": "Get a specific picture",
+			"name": "Get a specific comment",
 			"event": [
 				{
 					"listen": "test",
@@ -742,7 +791,7 @@
 							"\r",
 							"pm.test(\"Response should have expected picture_id\", function () {\r",
 							"var jsonData = pm.response.json();\r",
-							"pm.expect(jsonData.picture_url).to.eql('imguristrash');\r",
+							"pm.expect(jsonData.text).to.eql('Stay Gold');\r",
 							"});\r",
 							"\r",
 							""
@@ -755,56 +804,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{host}}/api/pictures/{{picture_id}}",
+					"raw": "{{host}}/api/comments/{{singlecomment_id}}",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
 						"api",
-						"pictures",
-						"{{picture_id}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get specific story",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "8834dc4f-0d40-4cc7-980b-fb79a556a545",
-						"exec": [
-							"pm.test(\"response is CREATED\", function () {\r",
-							"pm.expect(pm.response.code).to.be.oneOf([200]);\r",
-							"});\r",
-							"\r",
-							"pm.test(\"response should have valid JSON data\", function () {\r",
-							"var jsonData = pm.response.json();\r",
-							"});\r",
-							"\r",
-							"pm.test(\"Response should have expected lifespan\", function () {\r",
-							"var jsonData = pm.response.json();\r",
-							"pm.expect(jsonData.lifespan).to.eql('2021-09-10T18:25:43.511Z');\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{host}}/api/stories/{{story_id}}",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"stories",
-						"{{story_id}}"
+						"comments",
+						"{{singlecomment_id}}"
 					]
 				}
 			},
@@ -856,59 +863,6 @@
 						"api",
 						"posts",
 						"{{singlepost_id}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Put story",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "a564d8f5-ffa7-41ff-9992-5c9773fc58b2",
-						"exec": [
-							"pm.test(\"response is CREATED\", function () {\r",
-							"pm.expect(pm.response.code).to.be.oneOf([200]);\r",
-							"});\r",
-							"\r",
-							"pm.test(\"response should have valid JSON data\", function () {\r",
-							"var jsonData = pm.response.json();\r",
-							"});\r",
-							"\r",
-							"pm.test(\"Response should have expected data\", function () {\r",
-							"var jsonData = pm.response.json();\r",
-							"pm.expect(jsonData.lifespan).to.eql('2023-09-10T18:25:43.511Z');\r",
-							"pm.expect(jsonData.likes).to.eql(5);\r",
-							"pm.expect(jsonData.unique_views).to.eql(5);\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"unique_views\": \"5\",\r\n\r\n    \"lifespan\": \"2023-09-10T18:25:43.511Z\",\r\n\r\n    \"likes\": \"5\"\r\n\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{host}}/api/stories/{{story_id}}",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"stories",
-						"{{story_id}}"
 					]
 				}
 			},
@@ -1016,60 +970,7 @@
 			"response": []
 		},
 		{
-			"name": "Patch story",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "2097b3a4-5598-449f-a51e-8b93c35e132f",
-						"exec": [
-							"pm.test(\"response is CREATED\", function () {\r",
-							"pm.expect(pm.response.code).to.be.oneOf([200]);\r",
-							"});\r",
-							"\r",
-							"pm.test(\"response should have valid JSON data\", function () {\r",
-							"var jsonData = pm.response.json();\r",
-							"});\r",
-							"\r",
-							"pm.test(\"Response should have expected data\", function () {\r",
-							"var jsonData = pm.response.json();\r",
-							"pm.expect(jsonData.lifespan).to.eql('2023-09-10T18:25:43.511Z');\r",
-							"pm.expect(jsonData.likes).to.eql(4);\r",
-							"pm.expect(jsonData.unique_views).to.eql(4);\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "PATCH",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"unique_views\": \"4\",\r\n\r\n    \"lifespan\": \"2023-09-10T18:25:43.511Z\",\r\n\r\n    \"likes\": \"4\"\r\n\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{host}}/api/stories/{{story_id}}",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"stories",
-						"{{story_id}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Patch picture",
+			"name": "Patch comment",
 			"event": [
 				{
 					"listen": "test",
@@ -1083,10 +984,57 @@
 							"pm.test(\"response should have valid JSON data\", function () {\r",
 							"var jsonData = pm.response.json();\r",
 							"});\r",
+							";"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"text\": \"Stay Silver\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/comments/{{singlecomment_id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"comments",
+						"{{singlecomment_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Patch post",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4e3f27e9-d2fb-48a4-9c98-29b3ad9e6920",
+						"exec": [
+							"pm.test(\"response is CREATED\", function () {\r",
+							"pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"response should have valid JSON data\", function () {\r",
+							"var jsonData = pm.response.json();\r",
+							"});\r",
 							"\r",
 							"pm.test(\"Response should have expected data\", function () {\r",
 							"var jsonData = pm.response.json();\r",
-							"pm.expect(jsonData.picture_url).to.eql('imguristhebest');\r",
+							"pm.expect(jsonData.text).to.eql('Spring Day');\r",
 							";\r",
 							"});"
 						],
@@ -1099,7 +1047,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"picture_url\": \"imguristhebest\"\r\n}",
+					"raw": "{\r\n    \"text\": \"Spring Day\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -1107,14 +1055,67 @@
 					}
 				},
 				"url": {
-					"raw": "{{host}}/api/pictures/{{picture_id}}",
+					"raw": "{{host}}/api/posts/{{singlepost_id}}",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
 						"api",
-						"pictures",
-						"{{picture_id}}"
+						"posts",
+						"{{singlepost_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add 1 like to post",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0d1cb338-2281-4cf7-ac62-823bbbc2fc92",
+						"exec": [
+							"pm.test(\"response is CREATED\", function () {\r",
+							"pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"response should have valid JSON data\", function () {\r",
+							"var jsonData = pm.response.json();\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response should have expected data\", function () {\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.expect(jsonData.likes).to.eql(1);\r",
+							";\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/posts/{{singlepost_id}}/pluslikes",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"posts",
+						"{{singlepost_id}}",
+						"pluslikes"
 					]
 				}
 			},
@@ -1153,50 +1154,6 @@
 						"api",
 						"posts",
 						"{{singlepost_id}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Delete specific post",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "0dd78737-1aed-4612-ac81-366e842d844f",
-						"exec": [
-							"pm.test(\"response is CREATED\", function () {\r",
-							"pm.expect(pm.response.code).to.be.oneOf([200]);\r",
-							"});\r",
-							"\r",
-							"pm.test(\"response should have valid JSON data\", function () {\r",
-							"var jsonData = pm.response.json();\r",
-							"});\r",
-							"\r",
-							"pm.test(\"Response should have expected text\", function () {\r",
-							"var jsonData = pm.response.json();\r",
-							"pm.expect(jsonData.text).to.eql('I love you');\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "{{host}}/api/users/{{user_id}}/posts/{{post_id}}",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"users",
-						"{{user_id}}",
-						"posts",
-						"{{post_id}}"
 					]
 				}
 			},
@@ -1375,7 +1332,7 @@
 							"pm.test(\"Response should have expected data\", function () {\r",
 							"var jsonData = pm.response.json();\r",
 							"pm.expect(jsonData.message).to.eql('All posts has been deleted.');\r",
-							"pm.expect(jsonData.deletedCount).to.eql(2);\r",
+							"pm.expect(jsonData.deletedCount).to.eql(3);\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -1399,7 +1356,7 @@
 			"response": []
 		},
 		{
-			"name": "Delete single picture",
+			"name": "Delete single comment",
 			"event": [
 				{
 					"listen": "test",
@@ -1423,26 +1380,26 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{host}}/api/pictures/{{picture_id}}",
+					"raw": "{{host}}/api/comments/{{singlecomment_id}}",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
 						"api",
-						"pictures",
-						"{{picture_id}}"
+						"comments",
+						"{{singlecomment_id}}"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "Delete specific story",
+			"name": "Delete all comments",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "07367890-3ef1-4952-9b26-31cd0c7b9904",
+						"id": "8d39811a-3192-4523-ade4-1d03048eb19a",
 						"exec": [
 							"pm.test(\"response is CREATED\", function () {\r",
 							"pm.expect(pm.response.code).to.be.oneOf([200]);\r",
@@ -1454,8 +1411,7 @@
 							"\r",
 							"pm.test(\"Response should have expected data\", function () {\r",
 							"var jsonData = pm.response.json();\r",
-							"pm.expect(jsonData.message).to.eql('story deleted.');\r",
-							"pm.expect(jsonData.lifespan).to.eql('2023-09-10T18:25:43.511Z');\r",
+							"pm.expect(jsonData.message).to.eql('All comments has been deleted.');\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -1466,55 +1422,13 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{host}}/api/stories/{{story_id}}",
+					"raw": "{{host}}/api/comments",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
 						"api",
-						"stories",
-						"{{story_id}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Delete all stories",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "fb0a52f8-523e-4099-a184-e976438b69bd",
-						"exec": [
-							"pm.test(\"response is CREATED\", function () {\r",
-							"pm.expect(pm.response.code).to.be.oneOf([200]);\r",
-							"});\r",
-							"\r",
-							"pm.test(\"response should have valid JSON data\", function () {\r",
-							"var jsonData = pm.response.json();\r",
-							"});\r",
-							"\r",
-							"pm.test(\"Response should have expected data\", function () {\r",
-							"var jsonData = pm.response.json();\r",
-							"pm.expect(jsonData.message).to.eql('all stories deleted');\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "{{host}}/api/stories",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"stories"
+						"comments"
 					]
 				}
 			},
