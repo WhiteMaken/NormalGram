@@ -66,7 +66,7 @@ export default {
         localStorage.setItem('jwt', token)
         if (token) {
           swal('Success', 'Login Successful', 'Error')
-          this.$router.push('/home')
+          this.$router.push('/myposts')
           this.$emit('sign-in', true)
         }
       } catch (err) {
