@@ -21,6 +21,11 @@ const UserModel = new Schema({
         unique:true,
         required: true,
         maxlength: 50},
+
+    avatar:{
+        type: String,
+        default: "https://cloudcone.com/wp-content/uploads/2019/03/blank-avatar-300x300.jpg"
+    },
     
     posts:[{type: Schema.Types.ObjectId, ref:'Post'}],
 

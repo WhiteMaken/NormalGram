@@ -160,4 +160,17 @@ export default {
   width:250px;
   height:360px;
 }
+
+body {
+    padding-top: 80px;
+}
+
+ul {
+   padding: 11px 21px;
+   list-style-type: none;
+}
+
+ul li {
+  margin: 5px;
+}
 </style>

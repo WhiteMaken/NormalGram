@@ -78,14 +78,16 @@ ul {
    padding: 11px 21px;
    list-style-type: none;
 }
-/* Style the element with the id "example-1 " */
+/* Style the element with the id "example-1 "
 #example-1 {
   background-color: BLACK;
   color: black;
   padding: 5px;
   text-align: center;
-}
+}*/
 ul li {
   margin: 5px;
+  list-style-type: none;
 }
+
 </style>

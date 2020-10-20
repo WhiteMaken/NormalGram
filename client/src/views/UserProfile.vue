@@ -5,8 +5,8 @@
         </div>
         <div class="responsive">
 <div class="gallery">
-        <a target="_blank" :href="this.user.name">
-          <img :src="this.user.name"  width="1200" height="800"/>
+        <a target="_blank" :href="this.user.avatar">
+          <img :src="this.user.avatar"  width="1200" height="800"/>
         </a>
         <div class="desc">{{this.user.username}}</div>
         <div class="desc3">Name: {{this.user.name}}</div>
