@@ -3,17 +3,17 @@
     <div class="max_width">
   <nav role="navigation">
     <div id="menuToggle">
-      <input type="checkbox" />
+      <input type="checkbox"/>
       <span></span>
       <span></span>
       <span></span>
-      <ul id="menu">
-        <a href="/myposts"><li>My Wall</li></a>
-        <a href="posts"><li>Posts</li></a>
-        <a href="stories"><li>Stories</li></a>
-        <a href="userlist"><li>Users</li></a>
-        <a href="home" target="_blank"><li>Settings</li></a>
-        <a href="home" target="_blank" @click="$emit('sign-out')"><li>Sign out</li></a>
+      <ul id="menu" >
+        <a href="/myposts" v-if="loggedIn"><li>My Wall</li></a>
+        <a href="posts" v-if="loggedIn"><li>Posts</li></a>
+        <a href="stories" v-if="loggedIn"><li>Stories</li></a>
+        <a href="userlist" v-if="loggedIn"><li>Users</li></a>
+        <a href="home"  v-if="loggedIn"><li>Settings</li></a>
+        <a href="home" v-if="loggedIn" @click="$emit('sign-out')"><li>Sign out</li></a>
         </ul>
     </div>
 </nav>
